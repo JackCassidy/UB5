@@ -1,0 +1,21 @@
+<%= form_for(@peptide) do |f| %>
+  <% if @peptide.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@peptide.errors.count, "error") %> prohibited this peptide from being saved:</h2>
+
+      <ul>
+      <% @peptide.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :aseq %><br />
+    <%= f.text_field :aseq %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
