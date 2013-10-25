@@ -11,13 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131022225841) do
+ActiveRecord::Schema.define(:version => 20131024230903) do
+
+  create_table "datalines", :force => true do |t|
+    t.integer  "peptide_id"
+    t.text     "tsv_string"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "datalines", ["peptide_id"], :name => "index_datalines_on_peptide_id"
 
   create_table "peptides", :force => true do |t|
     t.string   "aseq"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "mod_loc"
+  end
+
+  create_table "proteins", :force => true do |t|
+    t.string   "sp_or_tr"
+    t.string   "accession"
+    t.string   "description"
+    t.text     "aa_sequence"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "rails_admin_histories", :force => true do |t|

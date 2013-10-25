@@ -1,4 +1,7 @@
 UB5::Application.routes.draw do
+  resources :proteins
+
+
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   resources :peptides

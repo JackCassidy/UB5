@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Sp or tr:</b>
+  <%= @protein.sp_or_tr %>
+</p>
+
+<p>
+  <b>Accession:</b>
+  <%= @protein.accession %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @protein.description %>
+</p>
+
+<p>
+  <b>Aa sequence:</b>
+  <%= @protein.aa_sequence %>
+</p>
+
+
+<%= link_to 'Edit', edit_protein_path(@protein) %> |
+<%= link_to 'Back', proteins_path %>
