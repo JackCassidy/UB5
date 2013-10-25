@@ -37,6 +37,7 @@ while !in_tiny.eof?
 
     @dataline = @peptide.datalines.new        # add the dataline
     @dataline.tsv_string = line
+    @peptide.datalines << @dataline
 
     @peptide.save           # saves them both
   end
