@@ -7,13 +7,17 @@ gem 'mysql2', '0.3.12b6'
 
 gem 'rails_admin', '0.1.2'
 gem 'devise'
+gem 'shoulda-matchers'
+gem 'rspec'
+
 
 gem 'OptionParser', '0.5.1'
 # gem 'spreadsheet', '0.8.8'     # can't handle large files, convert to TSV instead
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'
-  gem 'rspec-rails', '2.11.0'
+  gem 'rspec-rails'
+
 end
 
 group :development do
