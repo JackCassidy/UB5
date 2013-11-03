@@ -9,8 +9,6 @@ class Peptide < ActiveRecord::Base
 
   def self.parse_dataline (line)     # class method
 
-    puts "inside parse_dataline"
-
     # make sure line has at least 3 tabs
     line.chomp!
     sp = line.split("\t")

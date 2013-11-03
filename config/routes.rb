@@ -1,8 +1,14 @@
 UB5::Application.routes.draw do
+  devise_for :users
+
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+
   resources :proteins
 
 
-  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+  # trying to get rails_admin running
+  root :to => "peptides#index"
+  
 
   resources :peptides
 

@@ -1,0 +1,108 @@
+|ruby-2.0.0-p195@ub5| Bills-MacBook-Pro in ~/workspace/UB5
+±  |master ✗| → rails g rails_admin:install
+           -  Hello, RailsAdmin installer will help you sets things up!
+           -  I need to work with Devise, let's look at a few things first:
+           -  Checking for a current installation of devise...
+           -  Found it!
+           -  Looks like you don't have devise installed! We'll install it for you:
+    generate  devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root :to => "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+===============================================================================
+           ?  Where do you want to mount rails_admin? Press <enter> for [admin] >
+        gsub  config/routes.rb
+       route  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+           ?  What would you like the user model to be called? Press <enter> for [user] >
+           -  Now setting up devise with user model name 'user':
+    generate  devise
+      invoke  active_record
+      create    db/migrate/20131103182130_devise_create_users.rb
+      create    app/models/user.rb
+      invoke    rspec
+      create      spec/models/user_spec.rb
+      insert    app/models/user.rb
+       route  devise_for :users
+           -  Now you'll need an initializer...
+           -  You already have a config file. You're updating, heh? I'm generating a new 'rails_admin.rb.example' that you can review.
+      create  config/initializers/rails_admin.rb.example
+           -  current_user_method found and updated with 'current_user'
+        gsub  config/initializers/rails_admin.rb
+           -  Adding a migration...
+           -  Another migration is already named create_rails_admin_histories_table: /Users/billcassidy/workspace/UB5/db/migrate/20131022174546_create_rails_admin_histories_table.rb
+           -  Job's done: migrate, start your server and visit '/admin'!
+
+|ruby-2.0.0-p195@ub5| Bills-MacBook-Pro in ~/workspace/UB5
+±  |master ✗| → git config --local push.default simple
+
+|ruby-2.0.0-p195@ub5| Bills-MacBook-Pro in ~/workspace/UB5
+±  |master ✗| → rails g  rails g devise:views
+
+|ruby-2.0.0-p195@ub5| Bills-MacBook-Pro in ~/workspace/UB5
+±  |master ✗| →  rails g devise:views
+      invoke  Devise::Generators::SharedViewsGenerator
+      create    app/views/devise/shared
+      create    app/views/devise/shared/_links.erb
+      invoke  form_for
+      create    app/views/devise/confirmations
+      create    app/views/devise/confirmations/new.html.erb
+      create    app/views/devise/passwords
+      create    app/views/devise/passwords/edit.html.erb
+      create    app/views/devise/passwords/new.html.erb
+      create    app/views/devise/registrations
+      create    app/views/devise/registrations/edit.html.erb
+      create    app/views/devise/registrations/new.html.erb
+      create    app/views/devise/sessions
+      create    app/views/devise/sessions/new.html.erb
+      create    app/views/devise/unlocks
+      create    app/views/devise/unlocks/new.html.erb
+      invoke  erb
+      create    app/views/devise/mailer
+      create    app/views/devise/mailer/confirmation_instructions.html.erb
+      create    app/views/devise/mailer/reset_password_instructions.html.erb
+      create    app/views/devise/mailer/unlock_instructions.html.erb
+
+|ruby-2.0.0-p195@ub5| Bills-MacBook-Pro in ~/workspace/UB5
+±  |master ✗| → bundle exec rake db:migrate
+[RailsAdmin] RailsAdmin initialization disabled by default. Pass SKIP_RAILS_ADMIN_INITIALIZER=false if you need it.
+==  DeviseCreateUsers: migrating ==============================================
+-- create_table(:users)
+   -> 0.0066s
+-- add_index(:users, :email, {:unique=>true})
+   -> 0.0005s
+-- add_index(:users, :reset_password_token, {:unique=>true})
+   -> 0.0003s
+==  DeviseCreateUsers: migrated (0.0076s) =====================================
