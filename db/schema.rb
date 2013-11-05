@@ -11,13 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131103182130) do
+ActiveRecord::Schema.define(:version => 20131104235542) do
 
   create_table "datalines", :force => true do |t|
     t.integer  "peptide_id"
     t.text     "tsv_string"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.integer  "protein_modification_location"
+    t.integer  "protein_id"
   end
 
   add_index "datalines", ["peptide_id"], :name => "index_datalines_on_peptide_id"
