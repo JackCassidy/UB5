@@ -17,7 +17,9 @@ class Peptide < ActiveRecord::Base
   # First version assumes Carr lab format. Needs to change format
   # for other layouts.
   #
-  def self.parse_dataline (line)     # class method
+  def self.parse_dataline (dataline_in)     # class method
+
+    line = dataline_in.tsv_string
 
     # make sure line has at least 3 tabs
     line.chomp!
@@ -39,18 +41,15 @@ class Peptide < ActiveRecord::Base
     @peptide.mod_loc = ml
     @peptide.aseq = raw_pep.upcase
 
-    @dataline = Dataline.new
-    @dataline.tsv_string = line
-
     # check for peptide already in db
     old_p = Peptide.find_by_aseq(@peptide.aseq)
     if !old_p.nil? and old_p.mod_loc == ml
       # already exists, add dataline
-      old_p.datalines << @dataline
+      old_p.datalines << dataline_in
       old_p.save
     else
       # first time for this one
-      @peptide.datalines << @dataline
+      @peptide.datalines << dataline_in
       @peptide.save
     end
   end

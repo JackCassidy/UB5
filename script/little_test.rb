@@ -6,10 +6,7 @@
 ENV['RAILS_ENV'] = "development" # Set to your desired Rails environment name
 require '/Users/jack4janice/rails_projects/UB5/config/environment.rb'
 
-pep1 = Peptide.find(1)
-pep1.find_my_proteins
 
-pep2 = Peptide.find(2)
-pep2.find_my_proteins
+Infile.read_list_of_files('/Users/jack4janice/rails_projects/TinyData/seeds_input_list.txt')
 
 
