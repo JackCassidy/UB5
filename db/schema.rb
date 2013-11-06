@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131104235542) do
+ActiveRecord::Schema.define(:version => 20131106180032) do
 
   create_table "datalines", :force => true do |t|
     t.integer  "peptide_id"
@@ -20,9 +20,19 @@ ActiveRecord::Schema.define(:version => 20131104235542) do
     t.datetime "updated_at",                    :null => false
     t.integer  "protein_modification_location"
     t.integer  "protein_id"
+    t.integer  "infile_id"
   end
 
   add_index "datalines", ["peptide_id"], :name => "index_datalines_on_peptide_id"
+
+  create_table "infiles", :force => true do |t|
+    t.string   "file_name"
+    t.string   "parse_method"
+    t.integer  "file_size"
+    t.text     "first_line"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "peptides", :force => true do |t|
     t.string   "aseq"
