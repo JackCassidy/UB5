@@ -4,6 +4,7 @@
   <tr>
     <th>Aseq</th>
     <th>Mod-loc</th>
+    <th># Proteins</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,6 +14,7 @@
   <tr>
     <td><%= peptide.aseq %></td>
     <td><%= peptide.mod_loc %></td>
+    <td><%= peptide.proteins.count %></td>
     <td><%= link_to 'Show', peptide %></td>
     <td><%= link_to 'Edit', edit_peptide_path(peptide) %></td>
     <td><%= link_to 'Destroy', peptide, method: :delete, data: { confirm: 'Are you sure?' } %></td>
