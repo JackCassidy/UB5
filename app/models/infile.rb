@@ -15,6 +15,8 @@ class Infile < ActiveRecord::Base
 
     file_list.each_line do  |line|
       @file_name, @parse_method = line.split("\t")
+      @parse_method.chomp!      # get rid of trailing line feed
+
       a_file = File.new(@file_name, 'r')
 
       an_infile = Infile.new
@@ -24,13 +26,19 @@ class Infile < ActiveRecord::Base
       an_infile.file_size = File.size(@file_name)
       an_infile.first_line = a_file.readline.chomp
 
+      # choudhary has an extra line at start "All di-Gly-lysines"
+      if @parse_method == 'choudhary'
+        an_infile.first_line = a_file.readline.chomp
+      end
+
       while !a_file.eof?
         @dataline = Dataline.new
         @dataline.tsv_string = a_file.readline.chomp
         an_infile.datalines << @dataline
         @dataline.save
 
-        Peptide.parse_dataline(@dataline)
+        Peptide.parse_dataline(@dataline, @parse_method)
+
       end   # while
 
       an_infile.save

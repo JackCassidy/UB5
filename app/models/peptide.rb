@@ -17,29 +17,32 @@ class Peptide < ActiveRecord::Base
   # First version assumes Carr lab format. Needs to change format
   # for other layouts.
   #
-  def self.parse_dataline (dataline_in)     # class method
+  def self.parse_dataline (dataline_in, parse_method)     # class method
 
     line = dataline_in.tsv_string
+    parse_method.chomp!       # in case of trailing line feed
 
-    # make sure line has at least 3 tabs
+    pep_col = self.look_up_peptide_column(parse_method)
+
+    # make sure line has at enough tabs, retrieve raw peptide
     line.chomp!
     sp = line.split("\t")
-    if sp.length < 4
+    if sp.length < pep_col + 1    # invalid line
       return
     else
-      raw_pep = sp[3]
-      first_word = sp[0]
+      raw_pep = sp[pep_col]
     end
 
-    # check for header tab, not a peptide, or no lysine mod
-    return if first_word == 'Unmodified peptide'    # &&& diff formats
-    return if /[^a-zA-Z]/.match(raw_pep)   # peptide should be all alphabetic
-    ml = raw_pep.index('k')
-    return if ml.nil?
+    # parse the peptide, making it all cap letters, and giving mod loc
+    ml, final_pep = self.parse_peptide(raw_pep, parse_method)
+
+    # if nothing was found, skip this line
+    return if ml < 0
+
 
     @peptide = Peptide.new
     @peptide.mod_loc = ml
-    @peptide.aseq = raw_pep.upcase
+    @peptide.aseq = final_pep
 
     # check for peptide already in db
     old_p = Peptide.find_by_aseq(@peptide.aseq)
@@ -93,5 +96,61 @@ class Peptide < ActiveRecord::Base
     return pros.count
 
   end   # find_my_proteins
+
+
+  def self.look_up_peptide_column(parse_method)
+
+    if parse_method == 'carr'
+      return 3        # lower case k
+    elsif parse_method == 'bennett'
+      return 5        # middle character K
+    elsif parse_method == 'choudhary'
+      return 13       # K(1), a probability measure
+    else
+      abort("** Unrecognized parse method #{parse_method} **")
+    end
+
+  end  # look_up_peptide_column
+
+  #
+  # For a peptide from a data file, figure out where the modification
+  # (ubiquitin attachment) is. Only pay attention to modified lysine,
+  # and, for Choudhary, only those with a probability of 1.
+  #
+  # Return the modification location, and the peptide as a string
+  # of uppercase characters only.
+  #
+  def self.parse_peptide(raw_pep, parse_method)
+
+    # carr string looks like ABCDEkYZ, but may not have a 'k'
+    if parse_method == 'carr'
+      ml = raw_pep.index('k')
+      final_pep = raw_pep.upcase
+      return -1, 'INVALID_PEPTIDE_CARR' if ml.nil?
+      return ml, final_pep
+
+    # bennett string looks like ABCKXYZ, always K as middle character
+    elsif parse_method == 'bennett'
+      ml = raw_pep.length / 2
+      final_pep = raw_pep
+      return -1, 'INVALID_PEPTIDE_BENNETT' if final_pep[ml] != 'K'
+      return ml, final_pep
+
+    # choudhary string looks like ABCK(1)YZ, or ABCK(0.5)WXK(0.5)YZ
+    elsif parse_method == 'choudhary'
+      paren_at = raw_pep.index('(1)')
+      return -1, 'INVALID_PEPTIDE_CHOUDHARY' if paren_at.nil?
+      ml = paren_at - 1
+      return -1, 'INVALID_PEPTIDE_CHOUDHARY' if raw_pep[ml] != 'K'
+      final_pep = raw_pep[0..ml]
+      final_pep.concat(raw_pep[ml+4..-1])
+      return ml, final_pep
+
+    else
+      exit("** Unrecognized parse method #{parse_method} **")
+    end
+
+  end
+
 
 end   # class Peptide
