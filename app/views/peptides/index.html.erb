@@ -3,8 +3,8 @@
 <table>
   <tr>
     <th>Aseq</th>
-    <th>Mod-loc</th>
     <th># Proteins</th>
+    <th>Description</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,8 +13,8 @@
 <% @peptides.each do |peptide| %>
   <tr>
     <td><%= peptide.aseq %></td>
-    <td><%= peptide.mod_loc %></td>
     <td><%= peptide.proteins.count %></td>
+    <td><%= peptide.proteins[0].description if peptide.proteins.count > 0 %></td>
     <td><%= link_to 'Show', peptide %></td>
     <td><%= link_to 'Edit', edit_peptide_path(peptide) %></td>
     <td><%= link_to 'Destroy', peptide, method: :delete, data: { confirm: 'Are you sure?' } %></td>

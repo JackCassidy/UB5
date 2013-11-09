@@ -12,7 +12,7 @@ Protein.parse_fasta_file(in_fast)
 # Read data file and create peptides and datalines
 #
 puts "Reading experiment files"
-Infile.read_list_of_files('/Users/jack4janice/rails_projects/TinyData/seeds_input_list.txt')
+Infile.read_list_of_files('/Users/jack4janice/rails_projects/Data/seeds_input_list.txt')
 
 #
 # For each peptide, find the associated proteins
