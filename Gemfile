@@ -9,7 +9,8 @@ gem 'rails_admin', '0.1.2'
 gem 'devise'
 gem 'shoulda-matchers'
 gem 'rspec'
-
+gem 'resque_spec'
+gem 'webmock'
 
 gem 'OptionParser', '0.5.1'
 # gem 'spreadsheet', '0.8.8'     # can't handle large files, convert to TSV instead

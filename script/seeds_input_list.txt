@@ -1,3 +1,2 @@
-/Users/jack4janice/rails_projects/TinyData/tiny.tsv	carr
-/Users/jack4janice/rails_projects/TinyData/tiny_bennett.tsv	bennett
-/Users/jack4janice/rails_projects/TinyData/tiny_choudhary.tsv	choudhary
+./script/tiny_bennett.tsv	bennett
+./script/tiny_choudhary.tsv	choudhary
