@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.13'
 gem 'bootstrap-sass', '2.1'
 
-gem 'mysql2', '0.3.12b6'
+# pg is postgresql database gem
+gem 'pg'
 
 gem 'rails_admin', '0.1.2'
 gem 'devise'
@@ -16,7 +17,6 @@ gem 'OptionParser', '0.5.1'
 # gem 'spreadsheet', '0.8.8'     # can't handle large files, convert to TSV instead
 
 group :development, :test do
-  gem 'sqlite3', '1.3.5'
   gem 'rspec-rails'
 
 end

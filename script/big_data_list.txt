@@ -1,0 +1,3 @@
+../Data/Bennett_diGLY_dataset_1.tsv	bennett
+../Data/Carr_diGLY_dataset_3.tsv	carr
+../Data/Choudhary_diGLY_dataset_2.tsv	choudhary

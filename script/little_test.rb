@@ -8,6 +8,8 @@ ENV['RAILS_ENV'] = "development" # Set to your desired Rails environment name
 require_relative '../config/environment.rb'
 
 
-Infile.read_list_of_files('/Users/jack4janice/rails_projects/TinyData/seeds_input_list.txt')
 
+puts "Reading experiment files"
+Infile.read_list_of_files('same_dir_input_list.txt')
 
+#
