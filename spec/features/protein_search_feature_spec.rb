@@ -5,7 +5,7 @@ describe "Protein search page" do
   let(:protein) { create(:protein)  }
 
   it "shows a search box" do
-    visit proteins_path
+    visit proteins_search_path
     expect(page).to have_content "Enter word from protein description"
 
     fill_in "Protein description", with: "ENDOV"

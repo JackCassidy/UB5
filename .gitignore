@@ -52,3 +52,6 @@
 ehthumbs.db
 Thumbs.db
 .idea/
+
+# Ignore sqlite journal
+# sqlite3-journal
