@@ -26,6 +26,8 @@ class Infile < ActiveRecord::Base
       an_infile.file_size = File.size(@file_name)
       an_infile.first_line = a_file.readline.chomp
 
+      an_infile.save
+
       # choudhary has an extra line at start "All di-Gly-lysines"
       if @parse_method == 'choudhary'
         an_infile.first_line = a_file.readline.chomp
@@ -34,10 +36,21 @@ class Infile < ActiveRecord::Base
       while !a_file.eof?
         @dataline = Dataline.new
         @dataline.tsv_string = a_file.readline.chomp
+        @dataline.infile_id =  an_infile.id
         an_infile.datalines << @dataline
         @dataline.save
 
-        Peptide.parse_dataline(@dataline, @parse_method)
+        come_back = Peptide.parse_dataline(@dataline, @parse_method, 1)
+
+        if come_back
+          # make a duplicate dataline, and re-parse it
+          @dataline = Dataline.new
+          @dataline.tsv_string = a_file.readline.chomp
+          @dataline.infile_id = an_infile.id
+          an_infile.datalines << @dataline      # this will be an identical dataline
+          @dataline.save
+          Peptide.parse_dataline(@dataline, @parse_method, 2)
+        end
 
       end   # while
 
