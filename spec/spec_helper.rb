@@ -67,6 +67,7 @@ RSpec.configure do |config|
     #load Rails.root.join('db', 'app_setting_seeds.rb')
   end
 
+  config.include Capybara::DSL
 
 end
 
