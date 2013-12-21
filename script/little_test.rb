@@ -9,13 +9,32 @@ require_relative '../config/environment.rb'
 
 
 
-puts "Test funny dataline"
+puts "Read tiny files"
 
-dline = "16957	IPI:IPI00328298.6	1227	razor	1000	PKEIASKGLCxxx	Isoform 2 of Structural maintenance of chromosomes protein 4	SMC4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0IPI:IPI00328298.6_K1227, IPI:IPI00411559.2_K1285
-17026	IPI:IPI00024684.1	712	razor	1000	LCQFSSKEIHxxx	Interferon-induced GTP-binding protein Mx2	MX2	0IPI:IPI00024684.1_K712, IPI:IPI00790233.1_K186"
+# Read fasta file to create protein records
+#
+puts "Reading fasta file"
+in_fast = File.new('./tiny.fasta')
+Protein.parse_fasta_file(in_fast)
 
-# unaffiliated = Peptide.unaffiliated_peptides
 
+#
+# Read data file and create peptides and datalines
+#
+puts "Reading experiment files"
+Infile.read_list_of_files('./tiny_data_list.txt')
+
+#
+# For each peptide, find the associated proteins
+#
+puts "Matching peptides to proteins"
+Peptide.all.each do |pep|
+  pep.find_my_proteins
+end
+
+unaffiliated = Peptide.unaffiliated_peptides
+
+puts unaffiliated.to_s
 
 
 #

@@ -1,0 +1,3 @@
+./tiny_bennett.tsv	bennett
+./tiny_carr.tsv	carr
+./tiny_choudhary.tsv	choudhary
