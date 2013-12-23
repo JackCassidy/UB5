@@ -44,12 +44,10 @@ class Infile < ActiveRecord::Base
 
         if come_back
           # make a duplicate dataline, and re-parse it
-          @dataline = Dataline.new
-          @dataline.tsv_string = a_file.readline.chomp
-          @dataline.infile_id = an_infile.id
-          an_infile.datalines << @dataline      # this will be an identical dataline
-          @dataline.save
-          Peptide.parse_dataline(@dataline, @parse_method, 2)
+          @dup_data = @dataline.clone
+          an_infile.datalines << @dup_data    # an identical dataline
+          @dup_data.save
+          Peptide.parse_dataline(@dup_data, @parse_method, 2)
         end
 
       end   # while

@@ -9,7 +9,7 @@ require_relative '../config/environment.rb'
 
 
 
-puts "Looking for peptides"
+puts "Finding peptides with multiple proteins"
 
 pps = []
 Peptide.find_in_batches(:batch_size => 100) do |group|

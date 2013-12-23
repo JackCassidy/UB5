@@ -60,6 +60,9 @@ class Peptide < ActiveRecord::Base
       @peptide.datalines << dataline_in
       @peptide.save
     end
+
+    return b_two_sites
+
   end
 
 
@@ -168,12 +171,12 @@ class Peptide < ActiveRecord::Base
         if clean_pep.scan('(1)').count == 0
           return -1, 'INVALID_PEPTIDE_CHOUDHARY', come_back
 
-        elsif clean_pep.scan('(1)') == 2
+        elsif clean_pep.scan('(1)').count == 2
           come_back = true
           ml = clean_pep.index('(1)') - 1
           return -1, 'INVALID_PEPTIDE_CHOUDHARY', come_back if raw_pep[ml] != 'K'
-          final_pep.gsub!(/\(1\)/, '')    # get rid of both (1)s
-          return ml, final_pep, come_back
+          clean_pep.gsub!(/\(1\)/, '')    # get rid of all (1)'s
+          return ml, clean_pep, come_back
 
         else
           # just one (1)
@@ -189,7 +192,7 @@ class Peptide < ActiveRecord::Base
         ml = clean_pep.index('(1)') - 1
         clean_pep = clean_pep[0..ml].concat(clean_pep[ml+4..-1])   # get rid of first (1)
         ml = clean_pep.index('(1)') - 1
-        return -1, 'INVALID_PEPTIDE_CHOUDHARY', false if raw_pep[ml] != 'K'
+        return -1, 'INVALID_PEPTIDE_CHOUDHARY', false if clean_pep[ml] != 'K'
         final_pep = clean_pep[0..ml].concat(clean_pep[ml+4..-1])   # get rid of second (1)
         return ml, final_pep, come_back
 
@@ -218,14 +221,18 @@ class Peptide < ActiveRecord::Base
     Peptide.all.each do |pep|
 
       if pep.proteins.count == 0
-        in_index = pep.datalines[0].infile_id - 1
-        in_name = infile_names[in_index]
-        full_string = pep.datalines[0].tsv_string
-        first_ipi_at = full_string.index('IPI')
-        suffix = full_string[first_ipi_at..-1]
-        ipi_string = suffix.split[0]
+        if pep.datalines[0]
+          in_index = pep.datalines[0].infile_id - 1
+          in_name = infile_names[in_index]
+          full_string = pep.datalines[0].tsv_string
+          first_ipi_at = full_string.index('IPI')
+          suffix = full_string[first_ipi_at..-1]
+          ipi_string = suffix.split[0]
+          triple = [in_name, ipi_string, pep.aseq]
+        else
+          triple = ['unk', 'unk', pep.aseq]
+        end   # if dataline
 
-        triple = [in_name, ipi_string, pep.aseq]
         unaffiliated << triple
       end  # if
 
