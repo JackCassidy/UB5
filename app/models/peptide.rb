@@ -1,7 +1,7 @@
 class Peptide < ActiveRecord::Base
-  attr_accessible :aseq, :mod_loc
+  attr_accessible :aseq, :mod_loc, :nth, :searched, :dataline_id
 
-  has_many :datalines
+  belongs_to :dataline
   has_many :proteins, through: :datalines
 
   validates :aseq, length: { in: 3..255 }
@@ -10,60 +10,88 @@ class Peptide < ActiveRecord::Base
 
 
   #
-  # this function takes one line of spreadsheet input
-  # it finds the peptide, and the location of the lysine that
-  # is modified with ubiquitin
+  # make_new_peptide
+  # We've parsed out the modified lysine, and converted the peptide
+  # string into all capital letter aa's.
+  # Now create a new peptide for the database.
   #
-  # Method may be called multiple times, to parse the first or second
-  # site.
-  # Choudhary can have two sites, with a peptide that looks like VVQKLGFPAK(1)FLDFK(1)GVTIA
-  # Choudhary can also have sites to ignore, if the probability is less than 1, eg
-  # ATK(1)VQDIK(0.942)NNLK   In this case, use the first site, ignore the second.
+  def self.make_new_peptide(final_pep, ml, dataline, nth)
+
+    @pep = Peptide.new
+    @pep.aseq = final_pep
+    @pep.mod_loc = ml
+    @pep.nth = nth
+    @pep.dataline_id = dataline.id
+
+    @pep.save if @pep.valid?  # put this in db
+
+  end   # make_new_peptide
+
   #
-  def self.parse_dataline (dataline_in, parse_method, nth)     # class method
+  # one_raw_peptide
+  # Parse the peptide according to parse method.
+  # Create new peptide(s) for database.
+  #
+  # The K (lysine) that we find, is where the ubiquitination
+  # occurs in the peptide.
+  #
+  def self.one_raw_peptide(parse_method, raw_pep, dataline)
 
-    b_two_sites = false
+    # carr string has a lowercase k, like ABCDkEFG, but sometimes nothing
+    if parse_method == 'carr'
+      @ml = raw_pep.index('k')
+      return -1, 'INVALID_PEPTIDE_CARR' if @ml.nil?
+      @final_pep = raw_pep.upcase
+      Peptide.make_new_peptide(@final_pep, @ml, dataline, 1)
 
-    line = dataline_in.tsv_string
-    parse_method.chomp!       # in case of trailing line feed
 
-    pep_col = self.look_up_peptide_column(parse_method)
+    # bennett string has K in the middle
+    # but might have leading or trailing x's
+    elsif parse_method == 'bennett'
+      @ml = raw_pep.length / 2
+      return -1, 'INVALID_PEPTIDE_BENNETT' if raw_pep[@ml] != 'K'
+      @final_pep = raw_pep
 
-    # make sure line has at enough tabs, retrieve raw peptide
-    line.chomp!
-    sp = line.split("\t")
-    if sp.length < pep_col + 1    # invalid line
-      return b_two_sites
+      # get rid of x's at beginning, if any
+      while @final_pep[0] == 'x' do
+        @final_pep = @final_pep[1..-1]
+        @ml = @ml - 1
+      end
+      # get rid of x's at end, if any
+      @final_pep.gsub!(/x/, '')
+
+      Peptide.make_new_peptide(@final_pep, @ml, dataline, 1)
+
+
+    # choudhary has zero or more K(1)'s
+    # may have some less than 1's to ignore
+    # example: ABCK(1)DEF(0.947)HIJK(1)LMN
+    elsif parse_method == 'choudhary'
+
+      # remove non-certainty, less than 1 items
+      @work_pep = raw_pep.gsub(/\(0.*?\)/, '')
+
+      # may be multiple K(1)'s
+      @nth = 0
+      while @work_pep.index('(1)')
+        @ml = @work_pep.index('(1)')
+        @ml = @ml - 1       # K comes right before (1)
+        @work_pep = @work_pep[0..@ml].concat(@work_pep[@ml+4..-1]) # eliminate one (1)
+        @final_pep = @work_pep.gsub(/\(1\)/, '')    # get rid of all (1)'s
+        @nth += 1
+        Peptide.make_new_peptide(@final_pep, @ml, dataline, @nth)
+      end
+
+
     else
-      raw_pep = sp[pep_col]
-    end
+      # this shouldn't happen, if it does, we want to know
+      puts dataline.file_order.to_s
+      puts dataline
+      exit("** Unrecognized parse method #{parse_method} **")
 
-    # parse the peptide, making it all cap letters, and giving mod loc
-    ml, final_pep, b_two_sites = self.parse_peptide(raw_pep, parse_method, nth)
+    end  # if parse_method
 
-    # if nothing was found, skip this line
-    return b_two_sites if ml < 0
-
-
-    @peptide = Peptide.new
-    @peptide.mod_loc = ml
-    @peptide.aseq = final_pep
-
-    # check for peptide already in db
-    old_p = Peptide.find_by_aseq(@peptide.aseq)
-    if !old_p.nil? and old_p.mod_loc == ml
-      # already exists, add dataline
-      old_p.datalines << dataline_in
-      old_p.save
-    else
-      # first time for this one
-      @peptide.datalines << dataline_in
-      @peptide.save
-    end
-
-    return b_two_sites
-
-  end
+  end   # one_raw_peptide
 
 
   #
@@ -105,104 +133,6 @@ class Peptide < ActiveRecord::Base
 
   end   # find_my_proteins
 
-
-  def self.look_up_peptide_column(parse_method)
-
-    if parse_method == 'carr'
-      return 3        # lower case k
-    elsif parse_method == 'bennett'
-      return 5        # middle character K
-    elsif parse_method == 'choudhary'
-      return 13       # K(1), a probability measure
-    else
-      abort("** Unrecognized parse method #{parse_method} **")
-    end
-
-  end  # look_up_peptide_column
-
-  #
-  # For a peptide from a data file, figure out where the modification
-  # (ubiquitin attachment) is. Only pay attention to modified lysine,
-  # and, for Choudhary, only those with a probability of 1.
-  #
-  # Return the modification location, and the peptide as a string
-  # of uppercase characters only.
-  #
-  def self.parse_peptide(raw_pep, parse_method, nth)
-
-    come_back = false
-
-    # carr string looks like ABCDEkYZ, but may not have a 'k'
-    if parse_method == 'carr'
-      ml = raw_pep.index('k')
-      final_pep = raw_pep.upcase
-      return -1, 'INVALID_PEPTIDE_CARR' if ml.nil?
-      return ml, final_pep, come_back
-
-    # bennett string looks like ABCKXYZ, always K as middle character
-    # bennett string may have some number of 'x' at start or end
-    elsif parse_method == 'bennett'
-      ml = raw_pep.length / 2
-      return -1, 'INVALID_PEPTIDE_BENNETT', come_back if raw_pep[ml] != 'K'
-      final_pep = raw_pep
-
-      # get rid of x's at beginning, if any
-      while final_pep[0] == 'x' do
-        final_pep = final_pep[1..-1]
-        ml = ml - 1
-      end
-      # get rid of x's at end, if any
-      final_pep.gsub!(/x/, '')
-
-      return ml, final_pep, come_back
-
-    # choudhary string looks like ABCK(1)YZ, or ABCK(1)WXK(1)YZ
-    # or ABCK(0.947)WXK(1)YZ
-    # we only want the K(1) sites
-    # Note: this code assumes no more than two sites
-    #
-    elsif parse_method == 'choudhary'
-
-      # get rid of non-certain percents, eg (0.947)
-      clean_pep = raw_pep.gsub(/\(0.*\)/, '')
-
-      if nth == 1
-        # count (1)'s for reset flag, and find the first (1)
-        if clean_pep.scan('(1)').count == 0
-          return -1, 'INVALID_PEPTIDE_CHOUDHARY', come_back
-
-        elsif clean_pep.scan('(1)').count == 2
-          come_back = true
-          ml = clean_pep.index('(1)') - 1
-          return -1, 'INVALID_PEPTIDE_CHOUDHARY', come_back if raw_pep[ml] != 'K'
-          clean_pep.gsub!(/\(1\)/, '')    # get rid of all (1)'s
-          return ml, clean_pep, come_back
-
-        else
-          # just one (1)
-          ml = clean_pep.index('(1)') - 1
-          return -1, 'INVALID_PEPTIDE_CHOUDHARY', false if raw_pep[ml] != 'K'
-          final_pep = clean_pep[0..ml].concat(clean_pep[ml+4..-1])  # get rid of only (1)
-          return ml, final_pep, come_back
-        end
-
-      else    # nth == 2
-        # we came back for second (1)
-        come_back = false
-        ml = clean_pep.index('(1)') - 1
-        clean_pep = clean_pep[0..ml].concat(clean_pep[ml+4..-1])   # get rid of first (1)
-        ml = clean_pep.index('(1)') - 1
-        return -1, 'INVALID_PEPTIDE_CHOUDHARY', false if clean_pep[ml] != 'K'
-        final_pep = clean_pep[0..ml].concat(clean_pep[ml+4..-1])   # get rid of second (1)
-        return ml, final_pep, come_back
-
-      end   # nth = 1 or 2
-
-    else
-      exit("** Unrecognized parse method #{parse_method} **")
-    end
-
-  end
 
 
   # this function finds and returns all the peptides that

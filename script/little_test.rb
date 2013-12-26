@@ -3,7 +3,7 @@
 
 # first set up the rails environment
 
-ENV['RAILS_ENV'] = "development" # Set to your desired Rails environment name
+ENV['RAILS_ENV'] = "test" # Set to your desired Rails environment name
 #require '/Users/jack4janice/rails_projects/UB5/config/environment.rb'
 require_relative '../config/environment.rb'
 
@@ -23,6 +23,18 @@ Protein.parse_fasta_file(in_fast)
 #
 puts "Reading experiment files"
 Infile.read_list_of_files('./tiny_data_list.txt')
+
+#
+# Parse peptide strings out of datalines
+#
+puts "Parsing peptides"
+Infile.all.each do |inf|
+  @parse_method = inf.parse_method
+  @pep_col = Dataline.look_up_peptide_column(@parse_method)
+  inf.datalines.all.each do |dat|
+    dat.parse_peptides(@parse_method, @pep_col)
+  end
+end
 
 #
 # For each peptide, find the associated proteins

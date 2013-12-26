@@ -11,19 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131106180032) do
+ActiveRecord::Schema.define(:version => 20131225173418) do
 
   create_table "datalines", :force => true do |t|
-    t.integer  "peptide_id"
     t.text     "tsv_string"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-    t.integer  "protein_modification_location"
-    t.integer  "protein_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "infile_id"
+    t.integer  "file_order"
   end
-
-  add_index "datalines", ["peptide_id"], :name => "index_datalines_on_peptide_id"
 
   create_table "infiles", :force => true do |t|
     t.string   "file_name"
@@ -36,10 +32,15 @@ ActiveRecord::Schema.define(:version => 20131106180032) do
 
   create_table "peptides", :force => true do |t|
     t.string   "aseq"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "mod_loc"
+    t.integer  "nth"
+    t.boolean  "searched"
+    t.integer  "dataline_id"
   end
+
+  add_index "peptides", ["dataline_id"], :name => "index_peptides_on_dataline_id"
 
   create_table "proteins", :force => true do |t|
     t.string   "sp_or_tr"

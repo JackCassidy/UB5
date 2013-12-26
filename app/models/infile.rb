@@ -26,30 +26,23 @@ class Infile < ActiveRecord::Base
       an_infile.file_size = File.size(@file_name)
       an_infile.first_line = a_file.readline.chomp
 
-      an_infile.save
-
       # choudhary has an extra line at start "All di-Gly-lysines"
       if @parse_method == 'choudhary'
         an_infile.first_line = a_file.readline.chomp
       end
 
+      an_infile.save
+
+      @file_order = 0
+
       while !a_file.eof?
         @dataline = Dataline.new
         @dataline.tsv_string = a_file.readline.chomp
         @dataline.infile_id =  an_infile.id
+        @file_order += 1
+        @dataline.file_order = @file_order
         an_infile.datalines << @dataline
         @dataline.save
-
-        come_back = Peptide.parse_dataline(@dataline, @parse_method, 1)
-
-        if come_back
-          # make a duplicate dataline, and re-parse it
-          @dup_data = @dataline.clone
-          an_infile.datalines << @dup_data    # an identical dataline
-          @dup_data.save
-          Peptide.parse_dataline(@dup_data, @parse_method, 2)
-        end
-
       end   # while
 
       an_infile.save
@@ -58,4 +51,6 @@ class Infile < ActiveRecord::Base
 
   end  # read_list_of_files
 
-end
+
+
+end   # Class Infile
