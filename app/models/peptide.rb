@@ -2,7 +2,6 @@ class Peptide < ActiveRecord::Base
   attr_accessible :aseq, :mod_loc, :nth, :searched, :dataline_id
 
   belongs_to :dataline
-  has_many :proteins, through: :datalines
 
   validates :aseq, length: { in: 3..255 }
   validates_presence_of :aseq
@@ -16,6 +15,9 @@ class Peptide < ActiveRecord::Base
   # Now create a new peptide for the database.
   #
   def self.make_new_peptide(final_pep, ml, dataline, nth)
+
+    return if /[^A-Z]/.match(final_pep)
+    return unless final_pep[ml] == 'K'
 
     @pep = Peptide.new
     @pep.aseq = final_pep
