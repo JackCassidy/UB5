@@ -1,8 +1,8 @@
 class Protein < ActiveRecord::Base
   attr_accessible :aa_sequence, :accession, :description, :sp_or_tr
 
-  has_many :datalines
-  has_many :peptides, through: :datalines
+  has_many :peptide_proteins
+  has_many :peptides, through: :peptide_proteins
 
   validates :sp_or_tr, :presence => true
   validates :accession, :presence => true

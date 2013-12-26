@@ -2,6 +2,8 @@ class Peptide < ActiveRecord::Base
   attr_accessible :aseq, :mod_loc, :nth, :searched, :dataline_id
 
   belongs_to :dataline
+  has_many :peptide_proteins
+  has_many :proteins, through: :peptide_proteins
 
   validates :aseq, length: { in: 3..255 }
   validates_presence_of :aseq

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131225173418) do
+ActiveRecord::Schema.define(:version => 20131226225617) do
 
   create_table "datalines", :force => true do |t|
     t.text     "tsv_string"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(:version => 20131225173418) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
+
+  create_table "peptide_proteins", :force => true do |t|
+    t.integer  "peptide_id"
+    t.integer  "protein_id"
+    t.integer  "protein_mod_site"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "peptide_proteins", ["peptide_id"], :name => "index_peptide_proteins_on_peptide_id"
+  add_index "peptide_proteins", ["protein_id"], :name => "index_peptide_proteins_on_protein_id"
 
   create_table "peptides", :force => true do |t|
     t.string   "aseq"

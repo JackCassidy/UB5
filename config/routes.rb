@@ -1,6 +1,9 @@
 UB5::Application.routes.draw do
 
 
+  resources :peptide_proteins
+
+
   get "static_pages/home"
 
   get "static_pages/help"

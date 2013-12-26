@@ -1,0 +1,27 @@
+<h1>Listing peptide_proteins</h1>
+
+<table>
+  <tr>
+    <th>Peptide</th>
+    <th>Protein</th>
+    <th>Protein mod site</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @peptide_proteins.each do |peptide_protein| %>
+  <tr>
+    <td><%= peptide_protein.peptide_id %></td>
+    <td><%= peptide_protein.protein_id %></td>
+    <td><%= peptide_protein.protein_mod_site %></td>
+    <td><%= link_to 'Show', peptide_protein %></td>
+    <td><%= link_to 'Edit', edit_peptide_protein_path(peptide_protein) %></td>
+    <td><%= link_to 'Destroy', peptide_protein, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Peptide protein', new_peptide_protein_path %>

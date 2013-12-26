@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Peptide:</b>
+  <%= @peptide_protein.peptide_id %>
+</p>
+
+<p>
+  <b>Protein:</b>
+  <%= @peptide_protein.protein_id %>
+</p>
+
+<p>
+  <b>Protein mod site:</b>
+  <%= @peptide_protein.protein_mod_site %>
+</p>
+
+
+<%= link_to 'Edit', edit_peptide_protein_path(@peptide_protein) %> |
+<%= link_to 'Back', peptide_proteins_path %>
