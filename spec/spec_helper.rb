@@ -1,4 +1,5 @@
 require 'rubygems'
+require File.expand_path('../support/log_in_support.rb', __FILE__)
 
 rubymine = "/Applications/Rubymine.app"
 if File.exist?(rubymine)
