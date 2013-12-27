@@ -25,6 +25,7 @@ class Peptide < ActiveRecord::Base
     @pep.aseq = final_pep
     @pep.mod_loc = ml
     @pep.nth = nth
+    @pep.searched = false
     @pep.dataline_id = dataline.id
 
     @pep.save if @pep.valid?  # put this in db
@@ -111,6 +112,8 @@ class Peptide < ActiveRecord::Base
 
   def find_my_proteins
 
+    return -1 if self.searched  # don't re-do what we've done
+
     #
     # SQL query to find matching proteins
     pros = Protein.where("aa_sequence LIKE '%#{self.aseq}%'")
@@ -122,15 +125,19 @@ class Peptide < ActiveRecord::Base
     #
     pros.all.each do |pro|
 
-      # the peptide can have multiple datalines, differing
-      # in the peptide mod_loc
-      # each dataline gives a protein modification location and
-      # should document a peptide/protein relationship
-      self.datalines.each do |dat|
-        first_loc = pro.aa_sequence.index(self.aseq)
-        dat.protein_modification_location = first_loc + self.mod_loc
-        pro.datalines << dat
-      end   # each dataline
+      @pp = PeptideProtein.new
+
+      @pp.peptide_id = self.id
+      @pp.protein_id = pro.id
+
+      first_loc = pro.aa_sequence.index(self.aseq)
+      @pp.protein_mod_site = first_loc + self.mod_loc
+
+      @pp.save if @pp.valid?
+
+      pro.peptide_proteins << @pp
+      self.peptide_proteins << @pp
+
     end   # each protein found
 
     return pros.count
@@ -151,14 +158,15 @@ class Peptide < ActiveRecord::Base
 
     infile_names = ['bennett', 'carr', 'choudhary']
 
-    unaffiliated = []
+    @unaffiliated = []
     Peptide.all.each do |pep|
 
       if pep.proteins.count == 0
-        if pep.datalines[0]
-          in_index = pep.datalines[0].infile_id - 1
+        if pep.dataline_id
+          @dat = Dataline.find(pep.dataline_id)
+          in_index = @dat.infile_id - 1
           in_name = infile_names[in_index]
-          full_string = pep.datalines[0].tsv_string
+          full_string = @dat.tsv_string
           first_ipi_at = full_string.index('IPI')
           suffix = full_string[first_ipi_at..-1]
           ipi_string = suffix.split[0]
@@ -167,14 +175,14 @@ class Peptide < ActiveRecord::Base
           triple = ['unk', 'unk', pep.aseq]
         end   # if dataline
 
-        unaffiliated << triple
+        @unaffiliated << triple
       end  # if
 
     end  # each
 
-    unaffiliated    # return value
+    return @unaffiliated
 
-  end
+  end  # unaffiliated_peptides
 
 
 end   # class Peptide

@@ -8,7 +8,6 @@ ENV['RAILS_ENV'] = "test" # Set to your desired Rails environment name
 require_relative '../config/environment.rb'
 
 
-
 puts "Read tiny files"
 
 # Read fasta file to create protein records
@@ -44,9 +43,13 @@ Peptide.all.each do |pep|
   pep.find_my_proteins
 end
 
+puts "finding unaffiliated"
 unaffiliated = Peptide.unaffiliated_peptides
 
-puts unaffiliated.to_s
+unaffiliated.each do |ua|
+  puts ua.to_s
+end
+
 
 
 #
