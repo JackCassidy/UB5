@@ -1,0 +1,3 @@
+../fixtures/tiny_bennett.tsv	bennett
+../fixtures/tiny_carr.tsv	carr
+../fixtures/tiny_choudhary.tsv	choudhary
