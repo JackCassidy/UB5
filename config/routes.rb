@@ -14,6 +14,8 @@ UB5::Application.routes.draw do
 
   resources :proteins
 
+  get 'proteins/load', to: 'proteins#load_proteins'
+
 
   # trying to get rails_admin running
   root :to => "peptides#index"

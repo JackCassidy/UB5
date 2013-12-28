@@ -1,6 +1,10 @@
 class ProteinsController < ApplicationController
   # GET /proteins
   # GET /proteins.json
+  def load_proteins
+      puts "got here"
+  end
+
   def index
     @proteins = Protein.all
 
