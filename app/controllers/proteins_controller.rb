@@ -1,8 +1,16 @@
 class ProteinsController < ApplicationController
   # GET /proteins
   # GET /proteins.json
+  def select_file
+    @params = params
+    @stuff = 'aoeuaeu'
+    render :load_proteins
+  end
+
   def load_proteins
-      puts "got here"
+    @params = params
+    @stuff = 'aoeuaeu'
+    render :load_proteins
   end
 
   def index

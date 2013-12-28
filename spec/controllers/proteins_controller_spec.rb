@@ -35,10 +35,19 @@ describe ProteinsController do
   end
 
   describe "GET load proteins page" do
-    xit "renders the load proteins template" do
+    it "renders the load proteins template" do
       get :load_proteins
       expect(response.status).to eq(200)
       expect(response).to render_template('load_proteins')
+    end
+  end
+
+  describe "POST load proteins page" do
+    xit "loads the data and displays the result page" do
+      expect(Protein.count).to eq(0)
+      post :load_proteins
+      expect(response.status).to eq(200)
+      expect(Protein.count).to eq(1)
     end
   end
 

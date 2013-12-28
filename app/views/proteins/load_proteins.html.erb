@@ -1,0 +1,13 @@
+<h1>Load a list of proteins from a file!</h1>
+
+-----------
+<%= 'aaa' "#{@params.inspect}" 'aaa' "#{@stuff}" 'aaa'%>
+------------
+
+<%= form_tag do %>
+    <%= label_tag :file_path, 'path to file with fasta data' %> </p>
+    <%= file_field_tag :file_path %> </p>
+    <%= submit_tag 'Upload file' %> </p>
+
+
+<% end %>

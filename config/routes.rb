@@ -11,10 +11,11 @@ UB5::Application.routes.draw do
   devise_for :users
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
-
+  get '/proteins/load', to: 'proteins#select_file'
+  post '/proteins/load', to: 'proteins#load_proteins'
   resources :proteins
 
-  get 'proteins/load', to: 'proteins#load_proteins'
+
 
 
   # trying to get rails_admin running
