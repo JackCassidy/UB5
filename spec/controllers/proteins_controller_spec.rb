@@ -56,115 +56,115 @@ describe ProteinsController do
   end
 
   describe "GET index" do
-    xit "assigns all proteins as @proteins" do
-      protein = Protein.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:proteins).should eq([protein])
-    end
+    #xit "assigns all proteins as @proteins" do
+    #  protein = Protein.create! valid_attributes
+    #  get :index, {}, valid_session
+    #  assigns(:proteins).should eq([protein])
+    #end
   end
 
   describe "GET show" do
-    xit "assigns the requested protein as @protein" do
-      protein = Protein.create! valid_attributes
-      get :show, {:id => protein.to_param}, valid_session
-      assigns(:protein).should eq(protein)
-    end
-  end
-
-  describe "GET new" do
-    xit "assigns a new protein as @protein" do
-      get :new, {}, valid_session
-      assigns(:protein).should be_a_new(Protein)
-    end
-  end
-
-  describe "GET edit" do
-    xit "assigns the requested protein as @protein" do
-      protein = Protein.create! valid_attributes
-      get :edit, {:id => protein.to_param}, valid_session
-      assigns(:protein).should eq(protein)
-    end
+  #  xit "assigns the requested protein as @protein" do
+  #    protein = Protein.create! valid_attributes
+  #    get :show, {:id => protein.to_param}, valid_session
+  #    assigns(:protein).should eq(protein)
+  #  end
+  #end
+  #
+  #describe "GET new" do
+  #  xit "assigns a new protein as @protein" do
+  #    get :new, {}, valid_session
+  #    assigns(:protein).should be_a_new(Protein)
+  #  end
+  #end
+  #
+  #describe "GET edit" do
+  #  xit "assigns the requested protein as @protein" do
+  #    protein = Protein.create! valid_attributes
+  #    get :edit, {:id => protein.to_param}, valid_session
+  #    assigns(:protein).should eq(protein)
+  #  end
   end
 
   describe "POST create" do
     describe "with valid params" do
-      xit "creates a new Protein" do
-        expect {
-          post :create, {:protein => valid_attributes}, valid_session
-        }.to change(Protein, :count).by(1)
-      end
-
-      xit "assigns a newly created protein as @protein" do
-        post :create, {:protein => valid_attributes}, valid_session
-        assigns(:protein).should be_a(Protein)
-        assigns(:protein).should be_persisted
-      end
-
-      xit "redirects to the created protein" do
-        post :create, {:protein => valid_attributes}, valid_session
-        response.should redirect_to(Protein.last)
-      end
+      #xit "creates a new Protein" do
+      #  expect {
+      #    post :create, {:protein => valid_attributes}, valid_session
+      #  }.to change(Protein, :count).by(1)
+      #end
+      #
+      #xit "assigns a newly created protein as @protein" do
+      #  post :create, {:protein => valid_attributes}, valid_session
+      #  assigns(:protein).should be_a(Protein)
+      #  assigns(:protein).should be_persisted
+      #end
+      #
+      #xit "redirects to the created protein" do
+      #  post :create, {:protein => valid_attributes}, valid_session
+      #  response.should redirect_to(Protein.last)
+      #end
     end
 
-    describe "with invalid params" do
-      xit "assigns a newly created but unsaved protein as @protein" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Protein.any_instance.stub(:save).and_return(false)
-        post :create, {:protein => {}}, valid_session
-        assigns(:protein).should be_a_new(Protein)
-      end
-
-      xit "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Protein.any_instance.stub(:save).and_return(false)
-        post :create, {:protein => {}}, valid_session
-        response.should render_template("new")
-      end
-    end
+    #describe "with invalid params" do
+    #  xit "assigns a newly created but unsaved protein as @protein" do
+    #    # Trigger the behavior that occurs when invalid params are submitted
+    #    Protein.any_instance.stub(:save).and_return(false)
+    #    post :create, {:protein => {}}, valid_session
+    #    assigns(:protein).should be_a_new(Protein)
+    #  end
+    #
+    #  xit "re-renders the 'new' template" do
+    #    # Trigger the behavior that occurs when invalid params are submitted
+    #    Protein.any_instance.stub(:save).and_return(false)
+    #    post :create, {:protein => {}}, valid_session
+    #    response.should render_template("new")
+    #  end
+    #end
   end
 
   describe "PUT update" do
-    describe "with valid params" do
-      xit "updates the requested protein" do
-        protein = Protein.create! valid_attributes
-        # Assuming there are no other proteins in the database, this
-        # specifies that the Protein created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Protein.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => protein.to_param, :protein => {'these' => 'params'}}, valid_session
-      end
+    #describe "with valid params" do
+    #  xit "updates the requested protein" do
+    #    protein = Protein.create! valid_attributes
+    #    # Assuming there are no other proteins in the database, this
+    #    # specifies that the Protein created on the previous line
+    #    # receives the :update_attributes message with whatever params are
+    #    # submitted in the request.
+    #    Protein.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+    #    put :update, {:id => protein.to_param, :protein => {'these' => 'params'}}, valid_session
+    #  end
+    #
+    #  xit "assigns the requested protein as @protein" do
+    #    protein = Protein.create! valid_attributes
+    #    put :update, {:id => protein.to_param, :protein => valid_attributes}, valid_session
+    #    assigns(:protein).should eq(protein)
+    #  end
+    #
+    #  xit "redirects to the protein" do
+    #    protein = Protein.create! valid_attributes
+    #    put :update, {:id => protein.to_param, :protein => valid_attributes}, valid_session
+    #    response.should redirect_to(protein)
+    #  end
+    #end
 
-      xit "assigns the requested protein as @protein" do
-        protein = Protein.create! valid_attributes
-        put :update, {:id => protein.to_param, :protein => valid_attributes}, valid_session
-        assigns(:protein).should eq(protein)
-      end
-
-      xit "redirects to the protein" do
-        protein = Protein.create! valid_attributes
-        put :update, {:id => protein.to_param, :protein => valid_attributes}, valid_session
-        response.should redirect_to(protein)
-      end
-    end
-
-    describe "with invalid params" do
-      xit "assigns the protein as @protein" do
-        protein = Protein.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Protein.any_instance.stub(:save).and_return(false)
-        put :update, {:id => protein.to_param, :protein => {}}, valid_session
-        assigns(:protein).should eq(protein)
-      end
-
-      xit "re-renders the 'edit' template" do
-        protein = Protein.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Protein.any_instance.stub(:save).and_return(false)
-        put :update, {:id => protein.to_param, :protein => {}}, valid_session
-        response.should render_template("edit")
-      end
-    end
+    #describe "with invalid params" do
+    #  xit "assigns the protein as @protein" do
+    #    protein = Protein.create! valid_attributes
+    #    # Trigger the behavior that occurs when invalid params are submitted
+    #    Protein.any_instance.stub(:save).and_return(false)
+    #    put :update, {:id => protein.to_param, :protein => {}}, valid_session
+    #    assigns(:protein).should eq(protein)
+    #  end
+    #
+    #  xit "re-renders the 'edit' template" do
+    #    protein = Protein.create! valid_attributes
+    #    # Trigger the behavior that occurs when invalid params are submitted
+    #    Protein.any_instance.stub(:save).and_return(false)
+    #    put :update, {:id => protein.to_param, :protein => {}}, valid_session
+    #    response.should render_template("edit")
+    #  end
+    #end
   end
 
   describe "DELETE destroy" do
