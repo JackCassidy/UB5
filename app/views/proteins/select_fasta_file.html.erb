@@ -1,0 +1,6 @@
+<h1>Load a list of proteins from a file</h1>
+<%= form_tag( {action: :upload}, multipart: true ) do %>
+    <%= label_tag :fasta_file, 'path to file with fasta data' %> </p>
+    <%= file_field_tag :fasta_file %> </p>
+    <%= submit_tag 'Upload file' %> </p>
+<% end %>

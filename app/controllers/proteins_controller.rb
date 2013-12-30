@@ -1,21 +1,17 @@
 class ProteinsController < ApplicationController
 
   def select_file
-    render :load_proteins
+    render :select_fasta_file
   end
 
   def load_proteins
-    @params = params
-    @stuff = 'aoeuaeu'
-    puts params.inspect
 
-    Protein.parse_fasta_file(params['upload'])
-
-    render :upload
   end
 
   def upload
-
+    Protein.parse_fasta_file(params[:fasta_file].tempfile)
+    @number_of_proteins = Protein.count
+    render :upload
   end
 
 

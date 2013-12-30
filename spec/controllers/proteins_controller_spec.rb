@@ -38,19 +38,19 @@ describe ProteinsController do
     it "renders the load proteins template" do
       get :select_file
       expect(response.status).to eq(200)
-      expect(response).to render_template('load_proteins')
+      expect(response).to render_template('select_fasta_file')
     end
   end
 
   describe "POST load proteins page" do
+    let!(:file) {ActionDispatch::Http::UploadedFile.new(:tempfile => 'spec/fixtures/tiny.fasta', :filename => 'tiny.fasta')   }
     before do
       Protein.stub(:parse_fasta_file)
-      @file = fixture_file_upload('/tiny.fasta')
     end
     it "calls parse_fasta_file with the contents of the file" do
       expect(Protein.count).to eq(0)
-      post :load_proteins, upload: @file
-      expect(Protein).to have_received(:parse_fasta_file).with(@file)
+      post :upload, :fasta_file => file
+      expect(Protein).to have_received(:parse_fasta_file).with(file.tempfile)
       expect(response).to render_template('upload')
     end
   end

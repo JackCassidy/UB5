@@ -12,7 +12,7 @@ UB5::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   get '/proteins/select_file', to: 'proteins#select_file'
-  post '/proteins/load', to: 'proteins#load_proteins'
+  post '/proteins/load', to: 'proteins#select_fasta_file'
   post '/proteins/upload', to: 'proteins#upload'
   resources :proteins
 
