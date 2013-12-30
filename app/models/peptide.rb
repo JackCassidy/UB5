@@ -1,4 +1,4 @@
- class Peptide < ActiveRecord::Base
+class Peptide < ActiveRecord::Base
   attr_accessible :aseq, :mod_loc, :nth, :searched, :dataline_id
 
   belongs_to :dataline
