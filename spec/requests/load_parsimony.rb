@@ -1,14 +1,19 @@
-# Read in data that is needed to start the databasee
-#
-# Small version - just read the few parsimony files, approx 10 proteins and peptides
 
-#
+# Little test - try out some things
+
+# first set up the rails environment
+
+ENV['RAILS_ENV'] = "test" # Set to your desired Rails environment name
+                          #require '/Users/jack4janice/rails_projects/UB5/config/environment.rb'
+require_relative '../../config/environment.rb'
+
+
 puts "Read parsimony files"
 
 # Read fasta file to create protein records
 #
 puts "Reading fasta file"
-in_fast = File.new('./spec/fixtures/proteins_for_parsimony.fasta')
+in_fast = File.new('../fixtures/proteins_for_parsimony.fasta')
 Protein.parse_fasta_file(in_fast)
 
 
@@ -16,7 +21,7 @@ Protein.parse_fasta_file(in_fast)
 # Read data file and create peptides and datalines
 #
 puts "Reading experiment files"
-Infile.read_list_of_files('./spec/fixtures/parsimony_data_list.txt')
+Infile.read_list_of_files('../fixtures/parsimony_data_list.txt')
 
 #
 # Parse peptide strings out of datalines
@@ -41,7 +46,3 @@ end
 
 
 #
-
-
-
-
