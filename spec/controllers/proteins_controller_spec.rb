@@ -24,7 +24,7 @@ describe ProteinsController do
   # Protein. As you add validations to Protein, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {sp_or_tr: 'sp', }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -56,11 +56,11 @@ describe ProteinsController do
   end
 
   describe "GET index" do
-    #xit "assigns all proteins as @proteins" do
-    #  protein = Protein.create! valid_attributes
-    #  get :index, {}, valid_session
-    #  assigns(:proteins).should eq([protein])
-    #end
+    xit "assigns all proteins as @proteins" do
+      protein = Protein.create! valid_attributes
+      get :index, {}, valid_session
+      assigns(:proteins).should eq([protein])
+    end
   end
 
   describe "GET show" do

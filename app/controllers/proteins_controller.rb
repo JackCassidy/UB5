@@ -5,7 +5,7 @@ class ProteinsController < ApplicationController
   end
 
   def load_proteins
-
+        # this is probably dead code
   end
 
   def upload

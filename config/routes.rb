@@ -14,7 +14,7 @@ UB5::Application.routes.draw do
   get '/proteins/select_file', to: 'proteins#select_file'
   post '/proteins/load', to: 'proteins#select_fasta_file'
   post '/proteins/upload', to: 'proteins#upload'
-  resources :proteins
+  resources :proteins #, only: [:get, :show]
 
 
 

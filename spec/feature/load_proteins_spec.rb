@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Load proteins from a file' do
 
-  it 'should load proteins' do
+  xit 'should load proteins' do
     visit proteins_select_file_path
 
     input_file_path = Rails.root.join('spec/fixtures/tiny.fasta')
