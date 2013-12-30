@@ -1,18 +1,26 @@
 class ProteinsController < ApplicationController
-  # GET /proteins
-  # GET /proteins.json
+
   def select_file
-    @params = params
-    @stuff = 'aoeuaeu'
     render :load_proteins
   end
 
   def load_proteins
     @params = params
     @stuff = 'aoeuaeu'
-    render :load_proteins
+    puts params.inspect
+
+    Protein.parse_fasta_file(params['upload'])
+
+    render :upload
   end
 
+  def upload
+
+  end
+
+
+  # GET /proteins
+  # GET /proteins.json
   def index
     @proteins = Protein.all
 
