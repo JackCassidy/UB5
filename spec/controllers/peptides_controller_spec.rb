@@ -35,6 +35,32 @@ describe PeptidesController do
     {}
   end
 
+
+  describe "GET load peptides page" do
+    it "renders the load peptides template" do
+      get :select_peptide_file
+      expect(response.status).to eq(200)
+      expect(response).to render_template('select_peptide_file')
+    end
+  end
+
+  describe "POST load peptides page" do
+    let!(:file) {ActionDispatch::Http::UploadedFile.new(:tempfile => 'spec/fixtures/tiny_carr.tsv', :filename => 'tiny_carr.tsv') }
+    before do
+      Peptide.stub(:parse_peptide_file)
+    end
+    it "calls parse_protein_file with the contents of the file" do
+      post :upload, :peptide_file => file
+      expect(Peptide).to have_received(:parse_peptide_file).with(file.tempfile)
+      expect(response).to render_template('upload')
+    end
+
+  end
+
+
+
+
+
   describe "GET index" do
     it "assigns all peptides as @peptides" do
       peptide = Peptide.create! valid_attributes

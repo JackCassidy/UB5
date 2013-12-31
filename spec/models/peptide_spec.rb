@@ -16,11 +16,22 @@ describe Peptide do
 end
 
 
+describe '#parse_peptide_file' do
+  it 'should add peptides to the database' do
+    expect(Peptide.count).to eq(0)
+    path = Rails.root.join('spec', 'fixtures', 'peptides_for_parsimony.tsv').to_s
+    @peptide_file = File.new(path)
+    puts "@peptide_file #{@peptide_file.inspect}"
+
+    @format = 'carr'
+    Peptide.new.parse_peptide_file()
+    expect(Peptide.count).to eq(9)
+  end
+end
+
+
 describe '#parse_dataline' do
   it 'should write one record for a valid input line' do
-
-    puts "Peptide.count before #{Peptide.count}"
-
     count_before = Peptide.count
     str1 = 'ASAK(1)SLDR_1	5	TRUE	ASAkSLDR	2903	2	502.26199	91.853	http://proteomics.broadinstitute.org/millscripts/viewfeed.pl?side=xl&fixedMods=iaaC+SILAC3RKmix+Acetyl&cycle=1&file=msdataSM/UdeshiMCP2012/cpick_in/K20110530_NU_Jurkat_rep2_KGG_SILAC_L-5uMMG132_M-no_H-5uMPR619_SCXFxn01.2903.2903.2.pkl&seq=ASAkSLDR	247	247	IPI00301434	0	0	BolA-like protein 2	Expt1Rep2	FALSE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	nd	nd	nd	nd	nd	nd	nd	nd'
     d1 = Dataline.new

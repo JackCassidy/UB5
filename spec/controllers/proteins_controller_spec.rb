@@ -51,12 +51,15 @@ describe ProteinsController do
       Protein.stub(:parse_fasta_file)
     end
     it "calls parse_fasta_file with the contents of the file" do
-      expect(Protein.count).to eq(0)
       post :upload, :fasta_file => file
       expect(Protein).to have_received(:parse_fasta_file).with(file.tempfile)
       expect(response).to render_template('upload')
     end
   end
+
+
+
+
 
   describe "GET index" do
     it "assigns all proteins as @proteins" do

@@ -1,6 +1,17 @@
 class PeptidesController < ApplicationController
   # GET /peptides
   # GET /peptides.json
+
+  def select_peptide_file
+    # don't need anything here, oddly
+  end
+
+  def upload
+    #@file = params[:carr_file].tempfile
+    Peptide.parse_peptide_file()
+
+  end
+
   def index
     @peptides = Peptide.all
 

@@ -1,0 +1,6 @@
+<h1>Load experimental peptide data from a file</h1>
+<%= form_tag( {action: :upload}, multipart: true ) do %>
+    <%= label_tag :carr_file, 'path to file with carr formatted data' %> </p>
+    <%= file_field_tag :carr_file %> </p>
+    <%= submit_tag 'Upload carr file' %> </p>
+<% end %>
