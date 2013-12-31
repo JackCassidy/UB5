@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Protein do
-  pending "add some examples to (or delete) #{__FILE__}"
+  pending "add some *** model validation *** and maybe some further test of the methode in #{__FILE__}"
 end
 
 describe "#parse_fasta_file" do
