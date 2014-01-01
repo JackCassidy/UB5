@@ -9,7 +9,7 @@ describe "#parse_fasta_file" do
     expect(Protein.count).to eq(0)
     path = Rails.root.join('spec', 'fixtures', 'tiny.fasta').to_s
     fasta_file = File.new(path)
-    Protein.parse_fasta_file(fasta_file)
+    Protein.new.parse_fasta_file(fasta_file)
     expect(Protein.count).to eq(10)
   end
 end

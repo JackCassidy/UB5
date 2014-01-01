@@ -5,11 +5,13 @@ class ProteinsController < ApplicationController
   end
 
   def load_proteins
-        # this is probably dead code
+    # this is probably dead code
   end
 
   def upload
-    Protein.parse_fasta_file(params[:fasta_file].tempfile)
+    protein = Protein.new
+    protein.fasta_file = (params[:fasta_file].tempfile)
+    protein.parse_fasta_file()
     @number_of_proteins = Protein.count
     render :upload
   end
