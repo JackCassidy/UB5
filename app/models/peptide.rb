@@ -11,6 +11,24 @@ class Peptide < ActiveRecord::Base
 
 
   #
+  # parse_peptide_file
+  # We have a file and a parse method.
+  # Read the file's datalines, and parse those datalines
+  #
+  def self.parse_peptide_file(peptide_file, format)
+    puts "Calling Infile.read_data_file"
+    pep_infile = Infile.read_data_file(peptide_file, format)
+    puts "Back from read_data_file"
+
+    peptide_col =  Dataline.look_up_peptide_column(format)
+    pep_infile.datalines.each do |dat|
+      dat.parse_peptides(format, peptide_col)
+    end
+
+  end
+
+
+  #
   # make_new_peptide
   # We've parsed out the modified lysine, and converted the peptide
   # string into all capital letter aa's.
