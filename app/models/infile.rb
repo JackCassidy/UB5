@@ -28,9 +28,9 @@ class Infile < ActiveRecord::Base
   def self.read_data_file(a_file, parse_method)
     an_infile = Infile.new
     an_infile.parse_method = parse_method
-    an_infile.file_name = a_file.basename
+    an_infile.file_name = File.basename(a_file.path)
 
-    an_infile.file_size = File.size(file_name)
+    an_infile.file_size = File.size(a_file)
     an_infile.first_line = a_file.readline.chomp
 
     # choudhary has an extra line at start "All di-Gly-lysines"

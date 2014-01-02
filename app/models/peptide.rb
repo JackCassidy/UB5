@@ -1,5 +1,6 @@
 class Peptide < ActiveRecord::Base
   attr_accessible :aseq, :mod_loc, :nth, :searched, :dataline_id
+  attr_accessor :peptide_file
 
   belongs_to :dataline
   has_many :peptide_proteins
@@ -15,10 +16,11 @@ class Peptide < ActiveRecord::Base
   # We have a file and a parse method.
   # Read the file's datalines, and parse those datalines
   #
-  def self.parse_peptide_file(peptide_file, format)
-    puts "Calling Infile.read_data_file"
+  def parse_peptide_file(peptide_file=nil, format=nil)
+    peptide_file = self.peptide_file if peptide_file.nil?
+    format = 'carr' if format.nil?
+
     pep_infile = Infile.read_data_file(peptide_file, format)
-    puts "Back from read_data_file"
 
     peptide_col =  Dataline.look_up_peptide_column(format)
     pep_infile.datalines.each do |dat|

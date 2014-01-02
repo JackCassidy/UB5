@@ -7,9 +7,11 @@ class PeptidesController < ApplicationController
   end
 
   def upload
-    file = params[:carr_file].tempfile
-    Peptide.parse_peptide_file(file, 'carr')
-
+    peptide = Peptide.new
+    peptide.peptide_file = (params[:peptide_file].tempfile)
+    peptide.parse_peptide_file()
+    @number_of_peptides = Peptide.count
+    render :upload
   end
 
   def index

@@ -45,14 +45,19 @@ describe PeptidesController do
   end
 
   describe "POST load peptides page" do
-    let!(:file) {ActionDispatch::Http::UploadedFile.new(:tempfile => 'spec/fixtures/tiny_carr.tsv', :filename => 'tiny_carr.tsv') }
+    let!(:file) {ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny_carr.tsv', 'text/xml'),
+                                                        :filename => 'tiny_carr.tsv') }
     before do
       Peptide.stub(:parse_peptide_file)
     end
     it "calls parse_protein_file with the contents of the file" do
       post :upload, :peptide_file => file
-      expect(Peptide).to have_received(:parse_peptide_file).with(file.tempfile,)
       expect(response).to render_template('upload')
+    end
+    it "updates the database with the peptides from the uploaded file" do
+      expect(Peptide.count).to eq(0)
+      post :upload, :peptide_file => file
+      expect(Peptide.count).to eq(8)
     end
 
   end

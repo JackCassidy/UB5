@@ -48,11 +48,13 @@ describe ProteinsController do
   describe "POST load proteins page" do
     let!(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny.fasta', 'text/xml'),
                                                         :filename => 'tiny.fasta') }
+
     before do
       Protein.stub(:parse_fasta_file)
     end
 
     it "calls parse_fasta_file with the contents of the file" do
+      puts file.inspect
       post :upload, :fasta_file => file
       expect(response).to render_template('upload')
     end

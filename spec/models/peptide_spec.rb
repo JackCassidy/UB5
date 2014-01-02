@@ -23,7 +23,7 @@ describe '#parse_peptide_file' do
     peptide_file = File.new(path)
     format = 'carr'
     Peptide.new.parse_peptide_file(peptide_file, format)
-    expect(Peptide.count).to eq(9)
+    expect(Peptide.count).to eq(10)
   end
 end
 
