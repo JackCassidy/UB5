@@ -51,7 +51,7 @@ describe PeptidesController do
     end
     it "calls parse_protein_file with the contents of the file" do
       post :upload, :peptide_file => file
-      expect(Peptide).to have_received(:parse_peptide_file).with(file.tempfile)
+      expect(Peptide).to have_received(:parse_peptide_file).with(file.tempfile,)
       expect(response).to render_template('upload')
     end
 

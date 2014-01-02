@@ -17,14 +17,12 @@ end
 
 
 describe '#parse_peptide_file' do
-  it 'should add peptides to the database' do
+  it 'stores data from the input file to the database' do
     expect(Peptide.count).to eq(0)
     path = Rails.root.join('spec', 'fixtures', 'peptides_for_parsimony.tsv').to_s
-    @peptide_file = File.new(path)
-    puts "@peptide_file #{@peptide_file.inspect}"
-
-    @format = 'carr'
-    Peptide.new.parse_peptide_file()
+    peptide_file = File.new(path)
+    format = 'carr'
+    Peptide.new.parse_peptide_file(peptide_file, format)
     expect(Peptide.count).to eq(9)
   end
 end
