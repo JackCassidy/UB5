@@ -7,8 +7,8 @@ class PeptidesController < ApplicationController
   end
 
   def upload
-    #@file = params[:carr_file].tempfile
-    Peptide.parse_peptide_file()
+    file = params[:carr_file].tempfile
+    Peptide.parse_peptide_file(file, 'carr')
 
   end
 

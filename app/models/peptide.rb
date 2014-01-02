@@ -15,7 +15,7 @@ class Peptide < ActiveRecord::Base
   # We have a file and a parse method.
   # Read the file's datalines, and parse those datalines
   #
-  def parse_peptide_file(peptide_file, format)
+  def self.parse_peptide_file(peptide_file, format)
     puts "Calling Infile.read_data_file"
     pep_infile = Infile.read_data_file(peptide_file, format)
     puts "Back from read_data_file"
