@@ -14,7 +14,7 @@ puts "Read tiny files"
 #
 puts "Reading fasta file"
 in_fast = File.new('../fixtures/tiny.fasta')
-Protein.parse_fasta_file(in_fast)
+Protein.new.parse_fasta_file(in_fast)
 
 
 #
