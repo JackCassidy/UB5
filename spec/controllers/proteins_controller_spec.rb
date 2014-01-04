@@ -54,7 +54,6 @@ describe ProteinsController do
     end
 
     it "calls parse_fasta_file with the contents of the file" do
-      puts file.inspect
       post :upload, :fasta_file => file
       expect(response).to render_template('upload')
     end

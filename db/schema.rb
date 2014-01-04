@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131226225617) do
+ActiveRecord::Schema.define(:version => 20140103170721) do
 
   create_table "datalines", :force => true do |t|
     t.text     "tsv_string"
@@ -26,8 +26,9 @@ ActiveRecord::Schema.define(:version => 20131226225617) do
     t.string   "parse_method"
     t.integer  "file_size"
     t.text     "first_line"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "peptide_column"
   end
 
   create_table "peptide_proteins", :force => true do |t|

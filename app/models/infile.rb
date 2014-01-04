@@ -1,7 +1,33 @@
 class Infile < ActiveRecord::Base
-  attr_accessible :file_name, :file_size, :first_line, :parse_method
+
+  attr_accessible :file_name, :file_size, :first_line, :parse_method, :peptide_column
 
   has_many :datalines
+
+
+  def post_initialize(up_file=nil)
+
+    if !up_file.nil?
+      self.file_name = up_file.original_filename
+      self.file_size = up_file.size
+      if self.file_name =~ /carr/
+        puts "setting parse method to carr"
+        self.parse_method = :carr
+        self.peptide_column = 3
+      end
+      if self.file_name =~ /choudhary/
+        self.parse_method = :choudhary
+        self.peptide_column = 13
+      end
+      if self.file_name =~ /bennett/
+        self.parse_method = :bennett
+        self.peptide_column = 5
+      end
+
+    end  # if up_file not nil
+
+  end   # initialize
+
 
   #
   # seeds.rb file gives a list of all the data files we want
