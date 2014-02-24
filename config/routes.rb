@@ -20,7 +20,7 @@ UB5::Application.routes.draw do
 
 
   # trying to get rails_admin running
-  root :to => "peptides#index"
+  root to:'static_pages#home'
   
   get '/peptides/select_peptide_file', to: 'peptides#select_peptide_file'
   post '/peptides/load', to: 'peptides#select_peptide_file'
