@@ -4,8 +4,12 @@ class ProteinsController < ApplicationController
     render :select_fasta_file
   end
 
-  def load_proteins
-    # this is probably dead code
+  def read_file
+    render :read_file
+  end
+
+  def delete_all
+    render :delete_proteins
   end
 
   def upload

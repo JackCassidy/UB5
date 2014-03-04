@@ -8,12 +8,15 @@ UB5::Application.routes.draw do
 
   get "static_pages/help"
 
+  get "static_pages/data_options"
+
   devise_for :users
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   get '/proteins/select_file', to: 'proteins#select_file'
-  post '/proteins/load', to: 'proteins#select_fasta_file'
+  post '/proteins/read', to: 'proteins#read_file'
   post '/proteins/upload', to: 'proteins#upload'
+  post '/proteins/delete_all', to: 'proteins#delete_all'
   resources :proteins #, only: [:get, :show]
 
 

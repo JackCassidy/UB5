@@ -20,4 +20,12 @@ describe "StaticPages" do
 
   end  # Help page
 
+  describe "Data options page" do
+
+    it "should have the content 'Delete all proteins'" do
+      visit '/static_pages/data_options'
+      expect(page).to have_content('Delete all proteins')
+    end
+  end
+
 end
