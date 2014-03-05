@@ -1,4 +1,9 @@
 class PeptideProteinsController < ApplicationController
+
+  def parsimony
+    render :parsimony
+  end
+
   # GET /peptide_proteins
   # GET /peptide_proteins.json
   def index

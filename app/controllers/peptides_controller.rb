@@ -7,6 +7,14 @@ class PeptidesController < ApplicationController
     render :delete_peptides
   end
 
+  def find_proteins
+    render :find_proteins
+  end
+
+  def read_file
+    render :read_file
+  end
+
   def select_peptide_file
     # don't need anything here, oddly
   end
