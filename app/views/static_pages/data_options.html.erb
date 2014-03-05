@@ -1,6 +1,10 @@
 
 <h1>Data options</h1>
 
-<%= button_to "Read protein file", proteins_read_path %>
+<%= button_to "Read protein file", proteins_read_file_path %>
 <%= button_to "Delete proteins",  proteins_delete_all_path %>
+<%= button_to "Read peptide file", peptides_read_file_path %>
+<%= button_to "Delete peptides", peptides_delete_all_path %>
+<%= button_to "Find peptides in proteins", peptides_find_proteins_path %>
+<%= button_to "Apply parsimony", peptide_protein_parsimony_path %>
 

@@ -2,6 +2,11 @@ class PeptidesController < ApplicationController
   # GET /peptides
   # GET /peptides.json
 
+
+  def delete_all
+    render :delete_peptides
+  end
+
   def select_peptide_file
     # don't need anything here, oddly
   end
