@@ -5,6 +5,7 @@ class ProteinsController < ApplicationController
   end
 
   def read_file
+    @infile = Infile.new
     render :read_file
   end
 

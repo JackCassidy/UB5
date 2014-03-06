@@ -1,0 +1,17 @@
+<%= form_for(@infile) do |f| %>
+  <% if @infile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@infile.errors.count, "error") %> prohibited this infile from being saved:</h2>
+
+      <ul>
+      <% @infile.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

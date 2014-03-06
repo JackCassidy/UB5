@@ -37,6 +37,8 @@ UB5::Application.routes.draw do
   post '/peptide_protein/parsimony', to: 'peptide_proteins#parsimony'
   resources :peptide_proteins
 
+  resources :infiles
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,0 +1,21 @@
+<h1>Listing infiles</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @infiles.each do |infile| %>
+  <tr>
+    <td><%= link_to 'Show', infile %></td>
+    <td><%= link_to 'Edit', edit_infile_path(infile) %></td>
+    <td><%= link_to 'Destroy', infile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Infile', new_infile_path %>
