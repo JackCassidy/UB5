@@ -22,9 +22,9 @@ describe "StaticPages" do
 
   describe "Data options page" do
 
-    it "should have the content 'Delete all proteins'" do
+    it "should have the content 'Delete proteins'" do
       visit '/static_pages/data_options'
-      expect(page).to have_content('Delete all proteins')
+      expect(page).to have_button('Delete proteins')
     end
   end
 

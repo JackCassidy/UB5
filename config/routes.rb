@@ -14,7 +14,6 @@ UB5::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   get '/proteins/select_file', to: 'proteins#select_file'
-  post '/proteins/read_file', to: 'proteins#read_file'
   post '/proteins/upload', to: 'proteins#upload'
   post '/proteins/delete_all', to: 'proteins#delete_all'
   resources :proteins #, only: [:get, :show]
@@ -38,6 +37,7 @@ UB5::Application.routes.draw do
   resources :peptide_proteins
 
   resources :infiles
+  post '/infiles/new_protein_file', to: 'infiles#new_protein_file'
 
 
   # The priority is based upon order of creation:

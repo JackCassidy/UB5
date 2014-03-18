@@ -1,4 +1,11 @@
 class InfilesController < ApplicationController
+
+
+  # POST new_protein_file
+  def new_protein_file
+    @infile = Infile.new()
+  end
+
   # GET /infiles
   # GET /infiles.json
   def index
