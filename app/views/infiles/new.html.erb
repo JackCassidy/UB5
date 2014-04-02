@@ -1,5 +1,11 @@
 <h1>New infile</h1>
 
-<%= render 'form' %>
 
-<%= link_to 'Back', infiles_path %>
+<%= form_for @infile do |f| %>
+
+    <%= f.label :file_name %>:
+    <%= f.text_field :file_name %>
+
+    <%= f.submit %>
+
+<% end %>

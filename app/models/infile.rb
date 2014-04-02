@@ -4,6 +4,8 @@ class Infile < ActiveRecord::Base
 
   has_many :datalines
 
+  validates_presence_of :file_name
+
 
   def post_initialize(up_file=nil)
 

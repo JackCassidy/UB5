@@ -4,7 +4,13 @@ class InfilesController < ApplicationController
   # POST new_protein_file
   def new_protein_file
     @infile = Infile.new()
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @infile }
+    end
   end
+
 
   # GET /infiles
   # GET /infiles.json
