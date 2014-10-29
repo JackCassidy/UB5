@@ -1,6 +1,7 @@
 UB5::Application.routes.draw do
 
 
+
   resources :peptide_proteins
 
 
@@ -23,7 +24,7 @@ UB5::Application.routes.draw do
 
   # trying to get rails_admin running
   root to:'static_pages#home'
-  
+
   get '/peptides/select_peptide_file', to: 'peptides#select_peptide_file'
   post '/peptides/load', to: 'peptides#select_peptide_file'
   post '/peptides/upload', to: 'peptides#upload'
@@ -38,7 +39,6 @@ UB5::Application.routes.draw do
 
   resources :infiles
   post '/infiles/new_protein_file', to: 'infiles#new_protein_file'
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

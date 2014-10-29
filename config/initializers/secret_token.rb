@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-UB5::Application.config.secret_token = '67cef5e4f189202d7b556797eb7dfde9120571a09c46cb8a62dfcc3534076af1193b1f033561d4ec8f309ac43826b6ef194e38d505732d03d27cf8afb66c3624'
+UB5::Application.config.secret_token = 'bb0c4e59c9136a651095003f7056cb6f6f06d8975f1986d55cef7039265a9b21f6fee2ee70f48360bb8412df47492590580d9d6c08b5e9d1d3bbb5e1c9087087'
