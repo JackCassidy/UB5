@@ -34,6 +34,7 @@ GEM
       rake
     arel (3.0.2)
     atomic (1.1.14)
+    awesome_print (1.1.0)
     bcrypt-ruby (3.1.2)
     bootstrap-sass (2.1.0.0)
     builder (3.0.4)
@@ -87,6 +88,8 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    launchy (2.4.2)
+      addressable (~> 2.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -230,12 +233,14 @@ PLATFORMS
 DEPENDENCIES
   OptionParser (= 0.5.1)
   annotate (= 2.5.0)
+  awesome_print
   bootstrap-sass (= 2.1)
   capybara (= 1.1.2)
   coffee-rails (= 3.2.2)
   devise
   factory_girl_rails (= 4.1.0)
   jquery-rails (= 2.0.2)
+  launchy
   pg
   rails (= 3.2.13)
   rails_12factor
