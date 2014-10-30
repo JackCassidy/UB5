@@ -4,6 +4,12 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
+/.rspec
+
+/public/assets
+/public/sprites
+/app/assets/generated
+
 # Ignore bundler config
 /.bundle
 

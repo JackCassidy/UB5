@@ -2,7 +2,11 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'rails', '~> 4.0'
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 3.3.0'
+gem 'sass-rails', '>= 3.2'
+gem 'autoprefixer-rails'
+
+
 gem 'protected_attributes'  #todo get rid of this by upgrading to the rails 4 way of protecting attributes
 
 # pg is postgresql database gem
@@ -32,7 +36,6 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
 end

@@ -30,7 +30,7 @@ describe Dataline, :type => :model do
     end
   end
 
-  describe 'other methodes' do
+  describe 'other methods' do
     pending 'add spec after changing test seed file into factories'
   end
 end
