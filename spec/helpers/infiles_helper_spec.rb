@@ -9,7 +9,7 @@ require 'spec_helper'
 #       expect(helper.concat_strings("this","that")).to eq("this that")
 #     end
 #   end
+# # end
+# describe InfilesHelper, :type => :helper do
+#   pending "add some examples to (or delete) #{__FILE__}"
 # end
-describe InfilesHelper, :type => :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
-end

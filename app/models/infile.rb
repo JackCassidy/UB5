@@ -13,7 +13,6 @@ class Infile < ActiveRecord::Base
       self.file_name = up_file.original_filename
       self.file_size = up_file.size
       if self.file_name =~ /carr/
-        puts "setting parse method to carr"
         self.parse_method = :carr
         self.peptide_column = 3
       end
