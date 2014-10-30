@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "peptide_proteins/new" do
+describe "peptide_proteins/new", :type => :view do
   before(:each) do
     assign(:peptide_protein, stub_model(PeptideProtein,
       :peptide_id => 1,

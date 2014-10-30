@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "peptides/edit" do
+describe "peptides/edit", :type => :view do
   before(:each) do
     @peptide = assign(:peptide, stub_model(Peptide,
       :aseq => "MyString"

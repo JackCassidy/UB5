@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'capybara/rails'
 
 
-describe "buttons on page" do
+describe "buttons on page", :type => :view do
 
   it "should have a 'Read protein file' button " do
     visit '/static_pages/data_options'

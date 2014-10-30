@@ -2,21 +2,21 @@ require 'spec_helper'
 require 'shoulda-matchers'
 require 'shoulda/matchers/integrations/rspec'
 
-describe Peptide do
+describe Peptide, :type => :model do
 
-  it { should belong_to(:dataline) }
+  it { is_expected.to belong_to(:dataline) }
 
-  it { should allow_mass_assignment_of(:aseq) }
-  it { should allow_mass_assignment_of(:mod_loc) }
+  it { is_expected.to allow_mass_assignment_of(:aseq) }
+  it { is_expected.to allow_mass_assignment_of(:mod_loc) }
 
-  it { should validate_presence_of :aseq }
-  it { should validate_presence_of :mod_loc }
+  it { is_expected.to validate_presence_of :aseq }
+  it { is_expected.to validate_presence_of :mod_loc }
 
 
 end
 
 
-describe '#parse_peptide_file' do
+describe '#parse_peptide_file', :type => :model do
   it 'stores data from the input file to the database' do
     expect(Peptide.count).to eq(0)
     path = Rails.root.join('spec', 'fixtures', 'peptides_for_parsimony.tsv').to_s
@@ -28,7 +28,7 @@ describe '#parse_peptide_file' do
 end
 
 
-describe '#parse_dataline' do
+describe '#parse_dataline', :type => :model do
   it 'should write one record for a valid input line' do
     count_before = Peptide.count
     str1 = 'ASAK(1)SLDR_1	5	TRUE	ASAkSLDR	2903	2	502.26199	91.853	http://proteomics.broadinstitute.org/millscripts/viewfeed.pl?side=xl&fixedMods=iaaC+SILAC3RKmix+Acetyl&cycle=1&file=msdataSM/UdeshiMCP2012/cpick_in/K20110530_NU_Jurkat_rep2_KGG_SILAC_L-5uMMG132_M-no_H-5uMPR619_SCXFxn01.2903.2903.2.pkl&seq=ASAkSLDR	247	247	IPI00301434	0	0	BolA-like protein 2	Expt1Rep2	FALSE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	nd	nd	nd	nd	nd	nd	nd	nd'
@@ -36,7 +36,7 @@ describe '#parse_dataline' do
     d1.tsv_string = str1
     Peptide.one_raw_peptide('carr', 'ASAkSLDR', d1)
 
-    Peptide.count.should eq(count_before + 1)
+    expect(Peptide.count).to eq(count_before + 1)
   end
 
   it 'should not write a record for the header line' do
@@ -46,7 +46,7 @@ describe '#parse_dataline' do
     d1.tsv_string = str_heading
     Peptide.one_raw_peptide('carr', 'Modified Peptide', d1)
 
-    Peptide.count.should == count_before
+    expect(Peptide.count).to eq(count_before)
   end
 
   it 'should not write a record if no modified lysine' do
@@ -56,7 +56,7 @@ describe '#parse_dataline' do
     d1.tsv_string = str_no_mod
     Peptide.one_raw_peptide('carr', 'AAEDDEDnDVDTKKQKTDEDD', d1)
 
-    Peptide.count.should == count_before
+    expect(Peptide.count).to eq(count_before)
   end
 
   it 'should not add a peptide if the string has non-alphabetic characters' do
@@ -66,12 +66,12 @@ describe '#parse_dataline' do
     d1.tsv_string = bad_dataline
     Peptide.one_raw_peptide('carr', 'ALEAAGG_PPEE*TLSLWkR', d1)
 
-    Peptide.count.should == count_before
+    expect(Peptide.count).to eq(count_before)
   end
 
 end
 
-describe "#make_new_peptide" do
+describe "#make_new_peptide", :type => :model do
 
   let(:bad_dataline) {'ALEAAGGPPEETLSLWK(1)R_1	18	TRUE	ALEAAGG_PPEETLSLWkR	13951	3	694.36025	93.823	http://proteomics.broadinstitute.org/millscripts/viewfeed.pl?side=xl&fixedMods=iaaC+SILAC3RKmix+Acetyl&cycle=1&file=msdataSM/UdeshiMCP2012/cpick_in/K20110530_NU_Jurkat_rep2_KGG_SILAC_L-5uMMG132_M-no_H-5uMPR619_SCXFxn01.13951.13951.3.pkl&seq=ALEAAGGPPEETLSLWkR	259	259	IPI00167531	0	Putative endonuclease FLJ39025	Isoform 1 of Putative endonuclease FLJ39025;Isoform 3 of Putative endonuclease FLJ39025;Isoform 2 of Putative endonuclease FLJ39025	Q8N8Q3-1;Q8N8Q3;Q8N8Q3-3;Q8N8Q3;Q8N8Q3-2;Q8N8Q3	Expt1Rep2	FALSE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	nd	4.60	nd	4.33	nd	nd	nd	nd' }
 
@@ -85,21 +85,21 @@ describe "#make_new_peptide" do
     count_before = Peptide.count
     Peptide.make_new_peptide('ALEKAGGPPEETLSLWR', 3,  Dataline.last, 1)
 
-    Peptide.count.should == count_before  + 1
+    expect(Peptide.count).to eq(count_before  + 1)
   end
 
   it "should not add a peptide if the string has anything besides upper-case alphabetic characters" do
     count_before = Peptide.count
     Peptide.make_new_peptide('ALEKAGG_PPEE*TLSLWkR', 3,  Dataline.last, 1)
 
-    Peptide.count.should == count_before
+    expect(Peptide.count).to eq(count_before)
   end
 
   it "should not add a peptide with a modified non-Lysine, i.e. non K" do
     count_before = Peptide.count
     Peptide.make_new_peptide('ALEKAGGPPEETLSLWR', 5,  Dataline.last, 1)
 
-    Peptide.count.should == count_before
+    expect(Peptide.count).to eq(count_before)
   end
 
 

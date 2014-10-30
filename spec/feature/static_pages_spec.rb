@@ -17,7 +17,7 @@ describe "Static pages" do
 
     it "should have links to protein and peptide" do
       visit '/static_pages/home'
-      page { should have_link('Proteins', href: proteins_path) }
+      page { is_expected.to have_link('Proteins', href: proteins_path) }
     end
 
   end

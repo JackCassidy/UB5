@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "StaticPages" do
+describe "StaticPages", :type => :request do
 
   describe "Home page" do
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "infiles/new" do
+describe "infiles/new", :type => :view do
   before(:each) do
     assign(:infile, stub_model(Infile).as_new_record)
   end

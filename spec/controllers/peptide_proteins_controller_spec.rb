@@ -18,7 +18,7 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe PeptideProteinsController do
+describe PeptideProteinsController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # PeptideProtein. As you add validations to PeptideProtein, be sure to
@@ -36,7 +36,7 @@ describe PeptideProteinsController do
     it "assigns all peptide_proteins as @peptide_proteins" do
       peptide_protein = PeptideProtein.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:peptide_proteins).should eq([peptide_protein])
+      expect(assigns(:peptide_proteins)).to eq([peptide_protein])
     end
   end
 
@@ -44,14 +44,14 @@ describe PeptideProteinsController do
    it"assigns the requested peptide_protein as @peptide_protein" do
       peptide_protein = PeptideProtein.create! valid_attributes
       get :show, {:id => peptide_protein.to_param}, valid_session
-      assigns(:peptide_protein).should eq(peptide_protein)
+      expect(assigns(:peptide_protein)).to eq(peptide_protein)
     end
   end
 
   describe "GET new" do
    it"assigns a new peptide_protein as @peptide_protein" do
       get :new, {}, valid_session
-      assigns(:peptide_protein).should be_a_new(PeptideProtein)
+      expect(assigns(:peptide_protein)).to be_a_new(PeptideProtein)
     end
   end
 
@@ -59,7 +59,7 @@ describe PeptideProteinsController do
    it"assigns the requested peptide_protein as @peptide_protein" do
       peptide_protein = PeptideProtein.create! valid_attributes
       get :edit, {:id => peptide_protein.to_param}, valid_session
-      assigns(:peptide_protein).should eq(peptide_protein)
+      expect(assigns(:peptide_protein)).to eq(peptide_protein)
     end
   end
 
@@ -73,29 +73,29 @@ describe PeptideProteinsController do
 
      it"assigns a newly created peptide_protein as @peptide_protein" do
         post :create, {:peptide_protein => valid_attributes}, valid_session
-        assigns(:peptide_protein).should be_a(PeptideProtein)
-        assigns(:peptide_protein).should be_persisted
+        expect(assigns(:peptide_protein)).to be_a(PeptideProtein)
+        expect(assigns(:peptide_protein)).to be_persisted
       end
 
      it"redirects to the created peptide_protein" do
         post :create, {:peptide_protein => valid_attributes}, valid_session
-        response.should redirect_to(PeptideProtein.last)
+        expect(response).to redirect_to(PeptideProtein.last)
       end
     end
 
     describe "with invalid params" do
      it"assigns a newly created but unsaved peptide_protein as @peptide_protein" do
         # Trigger the behavior that occurs when invalid params are submitted
-        PeptideProtein.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(PeptideProtein).to receive(:save).and_return(false)
         post :create, {:peptide_protein => {"peptide_id" => "invalid value"}}, valid_session
-        assigns(:peptide_protein).should be_a_new(PeptideProtein)
+        expect(assigns(:peptide_protein)).to be_a_new(PeptideProtein)
       end
 
      it"re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        PeptideProtein.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(PeptideProtein).to receive(:save).and_return(false)
         post :create, {:peptide_protein => {"peptide_id" => "invalid value"}}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -108,20 +108,20 @@ describe PeptideProteinsController do
         # specifies that the PeptideProtein created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        PeptideProtein.any_instance.should_receive(:update_attributes).with({"peptide_id" => "1"})
+        expect_any_instance_of(PeptideProtein).to receive(:update_attributes).with({"peptide_id" => "1"})
         put :update, {:id => peptide_protein.to_param, :peptide_protein => {"peptide_id" => "1"}}, valid_session
       end
 
      it"assigns the requested peptide_protein as @peptide_protein" do
         peptide_protein = PeptideProtein.create! valid_attributes
         put :update, {:id => peptide_protein.to_param, :peptide_protein => valid_attributes}, valid_session
-        assigns(:peptide_protein).should eq(peptide_protein)
+        expect(assigns(:peptide_protein)).to eq(peptide_protein)
       end
 
      it"redirects to the peptide_protein" do
         peptide_protein = PeptideProtein.create! valid_attributes
         put :update, {:id => peptide_protein.to_param, :peptide_protein => valid_attributes}, valid_session
-        response.should redirect_to(peptide_protein)
+        expect(response).to redirect_to(peptide_protein)
       end
     end
 
@@ -129,17 +129,17 @@ describe PeptideProteinsController do
      it"assigns the peptide_protein as @peptide_protein" do
         peptide_protein = PeptideProtein.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        PeptideProtein.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(PeptideProtein).to receive(:save).and_return(false)
         put :update, {:id => peptide_protein.to_param, :peptide_protein => {"peptide_id" => "invalid value"}}, valid_session
-        assigns(:peptide_protein).should eq(peptide_protein)
+        expect(assigns(:peptide_protein)).to eq(peptide_protein)
       end
 
      it"re-renders the 'edit' template" do
         peptide_protein = PeptideProtein.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        PeptideProtein.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(PeptideProtein).to receive(:save).and_return(false)
         put :update, {:id => peptide_protein.to_param, :peptide_protein => {"peptide_id" => "invalid value"}}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -155,7 +155,7 @@ describe PeptideProteinsController do
    it"redirects to the peptide_proteins list" do
       peptide_protein = PeptideProtein.create! valid_attributes
       delete :destroy, {:id => peptide_protein.to_param}, valid_session
-      response.should redirect_to(peptide_proteins_path)
+      expect(response).to redirect_to(peptide_proteins_path)
     end
   end
 

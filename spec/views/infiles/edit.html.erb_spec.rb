@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "infiles/edit" do
+describe "infiles/edit", :type => :view do
   before(:each) do
     @infile = assign(:infile, stub_model(Infile))
   end

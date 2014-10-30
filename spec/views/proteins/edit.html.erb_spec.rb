@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "proteins/edit" do
+describe "proteins/edit", :type => :view do
   before(:each) do
     @protein = assign(:protein, stub_model(Protein,
       :sp_or_tr => "MyString",
