@@ -10,6 +10,5 @@ describe 'Load peptides from a file' do
     click_on 'Upload carr file'
 
     expect(page).to have_content('10 peptides in database')
-
   end
 end

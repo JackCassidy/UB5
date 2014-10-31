@@ -13,9 +13,12 @@ Rails.application.routes.draw do
   devise_for :users
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
+#todo clean up routes, including making naming consistent between peptides and proteins
+
   get '/proteins/select_file', to: 'proteins#select_file'
   post '/proteins/upload', to: 'proteins#upload'
   post '/proteins/delete_all', to: 'proteins#delete_all'
+  post '/proteins/select_file', to: 'proteins#select_file'
   resources :proteins #, only: [:get, :show]
 
 
