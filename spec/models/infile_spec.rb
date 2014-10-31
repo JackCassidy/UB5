@@ -1,7 +1,7 @@
 require 'spec_helper'
 include ActionDispatch::TestProcess
 
-describe '#initialize', :type => :model do
+describe '#post_initialize', :type => :model do
   let!(:up_file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny_carr.tsv', 'text/xml'),
                                                        :filename => 'tiny_carr.tsv') }
   before do

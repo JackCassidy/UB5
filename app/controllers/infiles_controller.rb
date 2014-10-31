@@ -2,7 +2,7 @@ class InfilesController < ApplicationController
 
 
   # POST new_protein_file
-  def new_protein_file
+  def select
     @infile = Infile.new()
 
     respond_to do |format|
@@ -53,7 +53,8 @@ class InfilesController < ApplicationController
   # POST /infiles
   # POST /infiles.json
   def create
-    @infile = Infile.new(params[:infile])
+    @infile = Infile.new
+    @infile.post_initialize(params[:infile])
 
     respond_to do |format|
       if @infile.save

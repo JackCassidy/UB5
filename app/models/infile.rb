@@ -5,13 +5,13 @@ class Infile < ActiveRecord::Base
   has_many :datalines
 
   validates_presence_of :file_name
+#todo get infile to work with load proteins in a robust way, eg: Load Infile, stop on error.  Use infile line to load protiens and mark infile with time of success or failure.
 
-
-  def post_initialize(up_file=nil)
-
+  def post_initialize(up_file=nil)  #todo replace this with a standard create
     if !up_file.nil?
-      self.file_name = up_file.original_filename
-      self.file_size = up_file.size
+      self.file_name = up_file.original_filename if up_file.try(:original_filename)
+      self.file_size = up_file.size if up_file.try(:size)
+      self.first_line = up_file.tempfile.readline.chomp! if up_file.try(:tempfile)
       if self.file_name =~ /carr/
         self.parse_method = :carr
         self.peptide_column = 3

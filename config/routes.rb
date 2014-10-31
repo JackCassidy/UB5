@@ -16,15 +16,18 @@ Rails.application.routes.draw do
 #todo clean up routes, including making naming consistent between peptides and proteins
 
   get '/proteins/select_file', to: 'proteins#select_file'
+  get '/infiles/select', to: 'infiles#select'
   post '/proteins/upload', to: 'proteins#upload'
   post '/proteins/delete_all', to: 'proteins#delete_all'
   post '/proteins/select_file', to: 'proteins#select_file'
+
+
   resources :proteins #, only: [:get, :show]
 
 
 
 
-  # trying to get rails_admin running
+# trying to get rails_admin running
   root to:'static_pages#home'
 
   get '/peptides/select_peptide_file', to: 'peptides#select_peptide_file'
@@ -40,7 +43,6 @@ Rails.application.routes.draw do
   resources :peptide_proteins
 
   resources :infiles
-  post '/infiles/new_protein_file', to: 'infiles#new_protein_file'
 
 
 
