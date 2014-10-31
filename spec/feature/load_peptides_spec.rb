@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Load peptides from a file' do
 
-  it 'should load proteins' do
+  it 'should load peptides' do
     visit peptides_select_peptide_file_path
 
     input_file_path = Rails.root.join('spec/fixtures/peptides_for_parsimony.tsv')

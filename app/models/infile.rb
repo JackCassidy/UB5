@@ -4,10 +4,10 @@ class Infile < ActiveRecord::Base
 
   has_many :datalines
 
-  validates_presence_of :file_name
+  validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column
 #todo get infile to work with load proteins in a robust way, eg: Load Infile, stop on error.  Use infile line to load protiens and mark infile with time of success or failure.
 
-  def post_initialize(up_file=nil)  #todo replace this with a standard create
+  def post_initialize(up_file=nil) #todo replace this with a standard create
     if !up_file.nil?
       self.file_name = up_file.original_filename if up_file.try(:original_filename)
       self.file_size = up_file.size if up_file.try(:size)
@@ -25,9 +25,11 @@ class Infile < ActiveRecord::Base
         self.peptide_column = 5
       end
 
-    end  # if up_file not nil
+    end # if up_file not nil
 
-  end   # initialize
+  end
+
+  # initialize
 
 
   #
@@ -35,20 +37,20 @@ class Infile < ActiveRecord::Base
   # to be looking at
   # This method reads in all the data files.
   #
-  def self.read_list_of_files(list_file_name)
+  def self.read_list_of_files(list_file_name)  #todo get rid of this or figure out how to use it
 
     file_list = File.new(list_file_name)
 
 
-    file_list.each_line do  |line|
+    file_list.each_line do |line|
       file_name, parse_method = line.split("\t")
-      parse_method.chomp!      # get rid of trailing line feed
+      parse_method.chomp! # get rid of trailing line feed
 
       a_file = File.new(file_name, 'r')
 
       read_data_file(a_file, parse_method)
 
-    end  # each_line
+    end # each_line
 
   end
 
@@ -86,5 +88,4 @@ class Infile < ActiveRecord::Base
   end # read_list_of_files
 
 
-
-end   # Class Infile
+end # Class Infile

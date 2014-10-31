@@ -4,6 +4,11 @@ require 'capybara/rails'
 
 describe "buttons on page", :type => :view do
 
+  it "should have 'path to infile text'" do
+    visit infiles_select_path
+    expect(page).to have_text('path to infile')
+  end
+
   it "should have a 'Read protein file' button " do
     visit '/static_pages/data_options'
     expect(page).to have_button 'Read protein file'
