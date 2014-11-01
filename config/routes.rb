@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get '/proteins/select_file', to: 'proteins#select_file'
   get '/infiles/select', to: 'infiles#select'
   get '/proteins/confirm_delete_all', to: 'proteins#confirm_delete_all'
+  get '/peptides/confirm_delete_all', to: 'peptides#confirm_delete_all'
   post '/proteins/upload', to: 'proteins#upload'
   post '/proteins/delete_all', to: 'proteins#delete_all'
   post '/proteins/select_file', to: 'proteins#select_file'

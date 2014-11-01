@@ -88,6 +88,12 @@ describe ProteinsController, :type => :controller do
     end
   end
 
+  describe "GET confirm delete all" do
+    it "redirects to the confirm page" do
+      get :confirm_delete_all, {}, valid_session
+      expect(response).to render_template('confirm_delete_all')
+    end
+  end
 
   describe "GET index" do
     it "assigns all proteins as @proteins" do

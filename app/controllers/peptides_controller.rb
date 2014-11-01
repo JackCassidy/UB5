@@ -1,9 +1,12 @@
 class PeptidesController < ApplicationController
-  # GET /peptides
-  # GET /peptides.json
 
+  def confirm_delete_all
+    render :confirm_delete_all
+  end
 
   def delete_all
+    @peptide_count = Peptide.count
+    Peptide.delete_all
     render :delete_peptides
   end
 

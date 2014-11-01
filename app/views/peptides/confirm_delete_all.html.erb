@@ -1,0 +1,7 @@
+<h1>Are you sure?</h1>
+<h2>This will delete all the peptides ever uploaded to the database.</h2>
+
+<%= form_tag({ action: :delete_all, method: 'get' }) do %>
+    <%= label_tag :delete_all, 'delete all peptides in database' %>
+    <%= submit_tag 'Delete all peptides' %>
+<% end %>

@@ -1,5 +1,5 @@
 class Peptide < ActiveRecord::Base
-  attr_accessible :aseq, :mod_loc, :nth, :searched, :dataline_id
+  attr_accessible :aseq, :mod_loc, :nth, :searched, :dataline_id #todo check out searched -- looks like it's not actually implemented
   attr_accessor :peptide_file
 
   belongs_to :dataline
