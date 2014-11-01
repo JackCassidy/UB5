@@ -24,10 +24,10 @@ describe ProteinsController, :type => :controller do
   # Protein. As you add validations to Protein, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {sp_or_tr: 'sp',
-     accession: 'some accession string',
-     description: "this can be real long and have special symbols, #'s, etc.'!",
-     aa_sequence: 'AAAA BBBB?'}
+    { sp_or_tr: 'sp',
+      accession: 'some accession string',
+      description: "this can be real long and have special symbols, #'s, etc.'!",
+      aa_sequence: 'AAAA BBBB?' }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -47,7 +47,7 @@ describe ProteinsController, :type => :controller do
 
   describe "POST load proteins page" do
     let!(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny.fasta', 'text/xml'),
-                                                        :filename => 'tiny.fasta') }
+                                                         :filename => 'tiny.fasta') }
 
     before do
       allow(Protein).to receive(:parse_fasta_file)
@@ -64,8 +64,29 @@ describe ProteinsController, :type => :controller do
     end
   end
 
+  describe "DELETE all" do
+    before do
+      create(:protein, :sp_or_tr => 'tr', :accession => 'A Number', :description => "I'm a description", :aa_sequence => 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
+      create(:protein, :sp_or_tr => 'sp', :accession => 'letters', :description => "description #2", :aa_sequence => 'A' * 22 + 'B' * 11)
+      create(:protein, :sp_or_tr => 'tr', :accession => 'A Number', :description => "I'm a description", :aa_sequence => 'A' * 220 + 'B' * 110)
+    end
 
+    it "assigns the count of proteins before deletion" do
+      delete :delete_all, {}, valid_session
+      expect(assigns(:protein_count)).to eq(3)
+    end
 
+    it "deletes all the proteins" do
+      expect {
+        delete :delete_all, {}, valid_session
+      }.to change { Protein.count }.from(3).to(0)
+    end
+
+    it "redirects to the confirmation page" do
+      delete :delete_all, {}, valid_session
+      expect(response).to render_template('delete_proteins')
+    end
+  end
 
 
   describe "GET index" do
@@ -77,44 +98,44 @@ describe ProteinsController, :type => :controller do
   end
 
   describe "GET show" do
-      it "assigns the requested protein as @protein" do
-        protein = Protein.create! valid_attributes
-        get :show, {:id => protein.to_param}, valid_session
-        expect(assigns(:protein)).to eq(protein)
-      end
+    it "assigns the requested protein as @protein" do
+      protein = Protein.create! valid_attributes
+      get :show, { :id => protein.to_param }, valid_session
+      expect(assigns(:protein)).to eq(protein)
     end
+  end
 
-    describe "GET new" do
-      it "assigns a new protein as @protein" do
-        get :new, {}, valid_session
-        expect(assigns(:protein)).to be_a_new(Protein)
-      end
+  describe "GET new" do
+    it "assigns a new protein as @protein" do
+      get :new, {}, valid_session
+      expect(assigns(:protein)).to be_a_new(Protein)
     end
+  end
 
-    describe "GET edit" do
-      it "assigns the requested protein as @protein" do
-        protein = Protein.create! valid_attributes
-        get :edit, {:id => protein.to_param}, valid_session
-        expect(assigns(:protein)).to eq(protein)
-      end
+  describe "GET edit" do
+    it "assigns the requested protein as @protein" do
+      protein = Protein.create! valid_attributes
+      get :edit, { :id => protein.to_param }, valid_session
+      expect(assigns(:protein)).to eq(protein)
+    end
   end
 
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Protein" do
         expect {
-          post :create, {:protein => valid_attributes}, valid_session
+          post :create, { :protein => valid_attributes }, valid_session
         }.to change(Protein, :count).by(1)
       end
 
       it "assigns a newly created protein as @protein" do
-        post :create, {:protein => valid_attributes}, valid_session
+        post :create, { :protein => valid_attributes }, valid_session
         expect(assigns(:protein)).to be_a(Protein)
         expect(assigns(:protein)).to be_persisted
       end
 
       it "redirects to the created protein" do
-        post :create, {:protein => valid_attributes}, valid_session
+        post :create, { :protein => valid_attributes }, valid_session
         expect(response).to redirect_to(Protein.last)
       end
     end
@@ -123,14 +144,14 @@ describe ProteinsController, :type => :controller do
       it "assigns a newly created but unsaved protein as @protein" do
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Protein).to receive(:save).and_return(false)
-        post :create, {:protein => {}}, valid_session
+        post :create, { :protein => {} }, valid_session
         expect(assigns(:protein)).to be_a_new(Protein)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Protein).to receive(:save).and_return(false)
-        post :create, {:protein => {}}, valid_session
+        post :create, { :protein => {} }, valid_session
         expect(response).to render_template("new")
       end
     end
@@ -144,19 +165,19 @@ describe ProteinsController, :type => :controller do
         # specifies that the Protein created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        expect_any_instance_of(Protein).to receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => protein.to_param, :protein => {'these' => 'params'}}, valid_session
+        expect_any_instance_of(Protein).to receive(:update_attributes).with({ 'these' => 'params' })
+        put :update, { :id => protein.to_param, :protein => { 'these' => 'params' } }, valid_session
       end
 
       it "assigns the requested protein as @protein" do
         protein = Protein.create! valid_attributes
-        put :update, {:id => protein.to_param, :protein => valid_attributes}, valid_session
+        put :update, { :id => protein.to_param, :protein => valid_attributes }, valid_session
         expect(assigns(:protein)).to eq(protein)
       end
 
       it "redirects to the protein" do
         protein = Protein.create! valid_attributes
-        put :update, {:id => protein.to_param, :protein => valid_attributes}, valid_session
+        put :update, { :id => protein.to_param, :protein => valid_attributes }, valid_session
         expect(response).to redirect_to(protein)
       end
     end
@@ -166,7 +187,7 @@ describe ProteinsController, :type => :controller do
         protein = Protein.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Protein).to receive(:save).and_return(false)
-        put :update, {:id => protein.to_param, :protein => {}}, valid_session
+        put :update, { :id => protein.to_param, :protein => {} }, valid_session
         expect(assigns(:protein)).to eq(protein)
       end
 
@@ -174,7 +195,7 @@ describe ProteinsController, :type => :controller do
         protein = Protein.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Protein).to receive(:save).and_return(false)
-        put :update, {:id => protein.to_param, :protein => {}}, valid_session
+        put :update, { :id => protein.to_param, :protein => {} }, valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -184,13 +205,13 @@ describe ProteinsController, :type => :controller do
     it "destroys the requested protein" do
       protein = Protein.create! valid_attributes
       expect {
-        delete :destroy, {:id => protein.to_param}, valid_session
+        delete :destroy, { :id => protein.to_param }, valid_session
       }.to change(Protein, :count).by(-1)
     end
 
     it "redirects to the proteins list" do
       protein = Protein.create! valid_attributes
-      delete :destroy, {:id => protein.to_param}, valid_session
+      delete :destroy, { :id => protein.to_param }, valid_session
       expect(response).to redirect_to(proteins_path)
     end
   end

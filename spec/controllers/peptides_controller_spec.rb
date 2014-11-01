@@ -59,7 +59,6 @@ describe PeptidesController, :type => :controller do
       post :upload, :peptide_file => file
       expect(Peptide.count).to eq(8)
     end
-
   end
 
 

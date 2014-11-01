@@ -9,7 +9,13 @@ class ProteinsController < ApplicationController
     render :read_file
   end
 
+  def confirm_delete_all
+    render :confirm_delete_all
+  end
+
   def delete_all
+    @protein_count = Protein.count
+    Protein.delete_all
     render :delete_proteins
   end
 
