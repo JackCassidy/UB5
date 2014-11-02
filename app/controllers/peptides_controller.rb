@@ -23,8 +23,6 @@ class PeptidesController < ApplicationController
   end
 
   def upload
-    #infile = Infile.new(params[:peptide_file])
-    #infile.read_all_lines
     peptide = Peptide.new
     peptide.peptide_file = (params[:peptide_file].tempfile)
     peptide.parse_peptide_file()

@@ -4,6 +4,11 @@ class PeptideProteinsController < ApplicationController
     render :parsimony
   end
 
+  # POST matcher
+  def matcher
+
+  end
+
   # GET /peptide_proteins
   # GET /peptide_proteins.json
   def index
