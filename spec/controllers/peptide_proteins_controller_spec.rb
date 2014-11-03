@@ -35,32 +35,14 @@ describe PeptideProteinsController, :type => :controller do
   describe "POST match" do
 
     context "when there is a single peptide, protein and match" do
-      let!(:peptide_i) { create(:peptide, :aseq => 'III') }
-      let!(:protein_1) { create(:protein, :aa_sequence => 'IIIYMMMMMMMMMYAGGGMMMM') } # one existing and one new match
+      let!(:peptide_i) { create(:peptide, :aseq => 'III', :mod_loc => 1) }
+      let!(:protein_1) { create(:protein, :aa_sequence => 'ZZIIIYMMMMMMMMMYAGGGMMMM') } # one existing and one new match
 
       it "finds the match and writes the record" do
         post :matcher, {}, valid_session
 
         expect(PeptideProtein.count).to eq(1)
-        expect(PeptideProtein.first[:protein_mod_site]).to eq(0)
-      end
-    end
-
-
-    context "when there are multiple matches" do
-      let!(:peptide_i) { create(:peptide, :aseq => 'III') }
-      let!(:peptide_v) { create(:peptide, :aseq => 'VVVVV') }
-      let!(:peptide_g) { create(:peptide, :aseq => 'GGG') } # no match
-      let!(:protein_1) { create(:protein, :aa_sequence => 'IIIYMMMMMMMMMYAGGGMMMM') } # one existing and one new match
-      let!(:protein_2) { create(:protein, :aa_sequence => 'VVVVVMMMMMMVVVVVMMMM') } # two of the same peptide in the same protein
-      let!(:protein_3) { create(:protein, :aa_sequence => 'KKKKKKKKKKKKKKKKKKKKKGGGKGGGFGFGFGKKKKK') } # two matches
-
-      before do
-        create(:peptide_protein, protein_id: protein_1.id, peptide_id: peptide_i.id, protein_mod_site: 1) #existing match that is in the current data set
-      end
-
-      it "for every peptide, finds all matches in any protein" do
-        expect { post :matcher }.to change { PeptideProtein.count }
+        expect(PeptideProtein.first[:protein_mod_site]).to eq(3)
       end
     end
 

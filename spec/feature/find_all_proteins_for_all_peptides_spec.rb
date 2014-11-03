@@ -16,7 +16,6 @@ describe 'Find all proteins for all peptides' do
 
     click_on 'Find peptides in proteins'
 
-    expect(page).to have_contents('Found 1 matches')
+    expect(page).to have_content('Found 1 matches')
   end
-
 end
