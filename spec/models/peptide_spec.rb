@@ -116,5 +116,63 @@ describe Peptide, :type => :model do
       expect(Peptide.count).to eq(count_before)
     end
   end
+
+  describe ".find_my_peptides", :type => :model do
+    context "when there are multiple proteins that match" do
+      let!(:peptide_i) { create(:peptide, :aseq => 'ABC', :mod_loc => 1) }
+      let!(:protein_1) { create(:protein, :aa_sequence => 'IIABCMMMMMYAGGGMMMM') } # one match
+      let!(:protein_2) { create(:protein, :aa_sequence => 'IIXXXXXABCMMYAGGGMMMM') } # another match
+      it "finds multiple if there are multiple matches" do
+        expect(PeptideProtein.count).to eq(0)
+
+        how_many = Peptide.first.find_my_proteins
+        expect(how_many).to eq(2)
+        expect(PeptideProtein.count).to eq(2)
+      end
+
+    end
+
+    context "when only one protein that matches" do
+      let!(:peptide_i) { create(:peptide, :aseq => 'ABC', :mod_loc => 1) }
+      let!(:protein_1) { create(:protein, :aa_sequence => 'IIABCMMMMMYAGGGMMMM') } # one match
+      it "stores a new peptide_protein in the database" do
+        expect(PeptideProtein.count).to eq(0)
+
+        how_many = Peptide.first.find_my_proteins
+        expect(how_many).to eq(1)
+
+        expect(PeptideProtein.count).to eq(1)
+        peptide_protein = PeptideProtein.first
+        expect(peptide_protein[:peptide_id]).to eq(peptide_i.id)
+        expect(peptide_protein[:protein_id]).to eq(protein_1.id)
+        expect(peptide_protein[:protein_mod_site]).to eq(3)
+      end
+
+    end
+
+    context "when no protein matches" do
+      let!(:peptide_i) { create(:peptide, :aseq => 'ABC', :mod_loc => 1) }
+      let!(:protein_1) { create(:protein, :aa_sequence => 'IIAQRSMMYAGGGMMMM') } # no match
+      it "can handle zero matches" do
+        expect(PeptideProtein.count).to eq(0)
+
+        how_many = Peptide.first.find_my_proteins
+        expect(how_many).to eq(0)
+      end
+
+    end
+
+    context "when the peptide was already searched" do
+      let!(:peptide_i) { create(:peptide, :aseq => 'ABC', :mod_loc => 1) }
+      let!(:protein_1) { create(:protein, :aa_sequence => 'IIABCMMMMMYAGGGMMMM') } # one match
+      it "searches only once" do
+        expect(peptide_i.find_my_proteins).to eq(1)
+        expect(peptide_i.find_my_proteins).to eq(-1)
+
+      end
+
+    end
+
+  end
 end
 

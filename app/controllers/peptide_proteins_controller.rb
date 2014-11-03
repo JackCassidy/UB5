@@ -4,6 +4,15 @@ class PeptideProteinsController < ApplicationController
     render :parsimony
   end
 
+  # POST matcher
+  def matcher
+    @total_found = 0
+    Peptide.all.each do |pep|
+      @total_found += pep.find_my_proteins
+    end
+
+  end
+
   # GET /peptide_proteins
   # GET /peptide_proteins.json
   def index

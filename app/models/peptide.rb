@@ -153,12 +153,11 @@ class Peptide < ActiveRecord::Base
       first_loc = pro.aa_sequence.index(self.aseq)
       @pp.protein_mod_site = first_loc + self.mod_loc
 
-      @pp.save if @pp.valid?
-
-      pro.peptide_proteins << @pp
-      self.peptide_proteins << @pp
+      @pp.save
 
     end   # each protein found
+
+    self.searched = true
 
     return pros.count
 

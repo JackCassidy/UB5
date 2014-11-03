@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   post '/proteins/upload', to: 'proteins#upload'
   post '/proteins/delete_all', to: 'proteins#delete_all'
   post '/proteins/select_file', to: 'proteins#select_file'
+  post '/peptide_proteins/matcher', to: 'peptide_proteins#matcher'
 
 
   resources :proteins #, only: [:get, :show]
