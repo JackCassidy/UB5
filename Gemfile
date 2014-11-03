@@ -7,7 +7,7 @@ gem 'sass-rails', '>= 3.2'
 gem 'autoprefixer-rails'
 
 
-gem 'protected_attributes'  #todo get rid of this by upgrading to the rails 4 way of protecting attributes
+gem 'protected_attributes'
 
 # pg is postgresql database gem
 gem 'pg'

@@ -16,7 +16,7 @@ class Dataline < ActiveRecord::Base
     elsif parse_method == 'choudhary'
       return 13       # K(1), a probability measure
     else
-      abort("** Unrecognized parse method #{parse_method} **") #todo do something better than abort here
+      abort("** Unrecognized parse method #{parse_method} **")
     end
 
   end  # look_up_peptide_column

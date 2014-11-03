@@ -2,8 +2,7 @@ require 'spec_helper'
 require 'capybara/rails'
 
 
-describe "buttons on page", :type => :view do  #todo either test the destinations  (the page the button puts you on) in this spec or have the high-level specs start on this page
-
+describe "buttons on page", :type => :view do
   it "should have 'path to infile text'" do
     visit '/static_pages/data_options'
     expect(page).to have_button 'Select infile'

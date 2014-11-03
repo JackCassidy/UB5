@@ -6,7 +6,7 @@ class Infile < ActiveRecord::Base
 
   validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column
 
-  def post_initialize(up_file=nil) #todo replace this with a standard create
+  def post_initialize(up_file=nil)
     if !up_file.nil?
       self.file_name = up_file.original_filename if up_file.try(:original_filename)
       self.file_size = up_file.size if up_file.try(:size)
@@ -36,7 +36,7 @@ class Infile < ActiveRecord::Base
   # to be looking at
   # This method reads in all the data files.
   #
-  def self.read_list_of_files(list_file_name)  #todo get rid of this or figure out how to use it
+  def self.read_list_of_files(list_file_name)
 
     file_list = File.new(list_file_name)
 

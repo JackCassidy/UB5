@@ -10,8 +10,6 @@ class Protein < ActiveRecord::Base
   validates :description, :presence => true
   validates :aa_sequence, :presence => true
 
-  #todo add lots of validations.  For instance, amino acid sequence should contain only certain, upper-case letters
-
   def parse_fasta_file(in_fast=nil)   # switch back to class method later?
     in_fast = self.fasta_file if in_fast.nil?
     @protein = Protein.new
