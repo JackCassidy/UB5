@@ -9,7 +9,10 @@ describe 'delete peptides' do
   it 'deletes all the peptides and confirms that it was done' do
     expect(Peptide.count).to eq(2)
 
-    visit peptides_confirm_delete_all_path
+    visit static_pages_data_options_path
+    click_on 'Delete peptides'
+
+    expect(page).to have_content('Are you sure')
     click_on 'Delete all peptides'
 
     expect(page).to have_content('All 2 peptides have been deleted from the database')

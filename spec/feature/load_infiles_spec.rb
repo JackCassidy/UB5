@@ -3,7 +3,8 @@ require 'spec_helper'
 describe 'Load infiles' do
 
   it 'should load a carr file successfully' do
-    visit infiles_select_path
+    visit static_pages_data_options_path
+    click_on 'Select infile'
 
     input_file_path = Rails.root.join('spec/fixtures/tiny_carr.tsv')
     attach_file('infile', input_file_path)
