@@ -1,5 +1,5 @@
 <h1>Are you sure?</h1>
-<h2>This will delete all <%= Peptide.count%> peptides in the database.</h2>
+<h2>This will delete all <%= Peptide.count%> <%= "peptide".pluralize(Peptide.count) %> in the database.</h2>
 
 <%= form_tag({ action: :delete_all, method: 'get' }) do %>
     <%= label_tag :delete_all, '    ' %>
