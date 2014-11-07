@@ -6,6 +6,15 @@ describe 'delete peptides' do
     create(:peptide, :aseq => 'SNSSNTNTSNTS', :mod_loc => 13, :nth => 5, :dataline_id => 1)
   end
 
+  it 'should tell how many are going to be deleted' do
+    expect(Peptide.count).to eq(2)
+
+    visit static_pages_data_options_path
+    click_on 'Delete peptides'
+
+    expect(page).to have_content('2 peptides')
+  end
+
   it 'deletes all the peptides and confirms that it was done' do
     expect(Peptide.count).to eq(2)
 

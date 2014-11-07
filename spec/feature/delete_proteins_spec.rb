@@ -6,6 +6,15 @@ describe 'delete proteins' do
     create(:protein, :sp_or_tr => 'tr', :accession => 'A Number', :description => "I'm a description", :aa_sequence => 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
   end
 
+  it 'should tell how many are going to be deleted' do
+    expect(Protein.count).to eq(2)
+
+    visit static_pages_data_options_path
+    click_on 'Delete proteins'
+
+    expect(page).to have_content('2 proteins')
+  end
+
   it 'deletes all the proteins and confirms that it was done' do
     expect(Protein.count).to eq(2)
 
