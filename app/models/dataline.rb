@@ -4,6 +4,8 @@ class Dataline < ActiveRecord::Base
 
   attr_accessible :tsv_string, :file_order, :infile_id
 
+  validates_presence_of :tsv_string
+
   #
   # for each parse method, where in line to look for raw peptide
   #
@@ -28,8 +30,6 @@ class Dataline < ActiveRecord::Base
   # it finds the peptide, and the location of the lysine (K) that
   # is modified with ubiquitin
   #
-  # Method may be called multiple times, to parse the first or second
-  # site.
   # Choudhary can have two sites, with a peptide that looks like VVQKLGFPAK(1)FLDFK(1)GVTIA
   # Choudhary can also have sites to ignore, if the probability is less than 1, eg
   # ATK(1)VQDIK(0.942)NNLK

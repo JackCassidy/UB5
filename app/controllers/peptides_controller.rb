@@ -25,7 +25,7 @@ class PeptidesController < ApplicationController
   def upload
     peptide = Peptide.new
     peptide.peptide_file = (params[:peptide_file].tempfile)
-    peptide.parse_peptide_file()
+    peptide.parse_peptide_file
 
     @number_of_peptides = Peptide.count
     render :upload

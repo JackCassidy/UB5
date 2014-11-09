@@ -3,15 +3,23 @@ require 'spec_helper'
 
 describe Dataline, :type => :model do
 
-  describe 'associations' do
-    it { is_expected.to have_many(:peptides) }
-    it { is_expected.to belong_to(:infile) }
-  end
+  describe 'validations' do
+    describe 'associations' do
+      it { is_expected.to have_many(:peptides) }
+      it { is_expected.to belong_to(:infile) }
+    end
 
-  describe 'mass-assignable' do
-    it { is_expected.to allow_mass_assignment_of(:tsv_string) }
-    it { is_expected.to allow_mass_assignment_of(:file_order) }
-    it { is_expected.to allow_mass_assignment_of(:infile_id) }
+    describe 'mass-assignable' do
+      it { is_expected.to allow_mass_assignment_of(:tsv_string) }
+      it { is_expected.to allow_mass_assignment_of(:file_order) }
+      it { is_expected.to allow_mass_assignment_of(:infile_id) }
+    end
+
+    it { is_expected.to validate_presence_of :tsv_string }
+
+    it { is_expected.to have_many :peptides }
+
+    it { is_expected.to belong_to :infile }
   end
 
   describe '.look_up_peptide_column' do
@@ -30,7 +38,31 @@ describe Dataline, :type => :model do
     end
   end
 
-  describe 'other methods' do
-    pending 'add spec after changing test seed file into factories'
+  describe "#parse_peptides" do
+    let(:parse_method) { 'some parse method' }
+    let!(:dataline) { create(:dataline) }
+
+    before do
+      allow(Dataline).to receive(:look_up_peptide_column).with(parse_method).and_return(1)
+    end
+
+    context "when there are enough entries in the dataline" do
+      let(:peptide_column) { 1 }
+
+      it "calls one_row_peptide with the right parameters" do
+        expect(Peptide).to receive(:one_raw_peptide).with(parse_method, 'DDD', dataline)
+
+        dataline.parse_peptides(parse_method, peptide_column)
+      end
+    end
+    context "when there are not enough entries in the dataline" do
+      let(:peptide_column) { 2 }
+
+      it "returns without calling one_raw_peptide" do
+        expect(Peptide).to_not receive(:one_raw_peptide)
+
+        dataline.parse_peptides(parse_method, peptide_column)
+      end
+    end
   end
 end
