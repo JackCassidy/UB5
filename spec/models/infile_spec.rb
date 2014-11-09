@@ -1,5 +1,6 @@
 require 'spec_helper'
 include ActionDispatch::TestProcess
+
 describe Infile do
   describe 'validations' do
     it { is_expected.to allow_mass_assignment_of(:file_name) }
@@ -18,21 +19,31 @@ describe Infile do
   end
 
   describe '#post_initialize', :type => :model do
-    let!(:up_file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny_carr.tsv', 'text/xml'),
-                                                            :filename => 'tiny_carr.tsv') }
-    before do
-      @infile = Infile.new()
-      @infile.post_initialize(up_file)
+
+    context "when the file pased in is nil" do
+      it "does not cause an error" do
+        expect{described_class.new.post_initialize}.to_not raise_error
+      end
     end
 
-    it "should set the file format (carr ...)" do
-      expect(@infile.parse_method).to eq(:carr)
-    end
+    [
+        { :name => 'carr', :peptide_column => 3 },
+        { :name => 'choudhary', :peptide_column => 13 },
+        { :name => 'bennett', :peptide_column => 5 }
+    ].each do |file_type|
+      context "when the file is of type #{file_type[:name]}" do
+        let!(:up_file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload("/tiny_#{file_type[:name]}.tsv", 'text/xml'),
+                                                                :filename => "tiny_#{file_type[:name]}.tsv") }
 
-    it "should set the column number" do
-      expect(@infile.peptide_column).to eq(3)
-    end
+        it "sets the file format and column number" do
+          infile = described_class.new
+          infile.post_initialize(up_file)
 
+          expect(infile.parse_method).to eq(file_type[:name].to_sym)
+          expect(infile.peptide_column).to eq(file_type[:peptide_column])
+        end
+      end
+    end
   end
 
   describe 'other methods' do

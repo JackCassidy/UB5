@@ -7,7 +7,6 @@ class Infile < ActiveRecord::Base
   validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column
 
   def post_initialize(up_file=nil)
-    if !up_file.nil?
       self.file_name = up_file.original_filename if up_file.try(:original_filename)
       self.file_size = up_file.size if up_file.try(:size)
       self.first_line = up_file.tempfile.readline.chomp! if up_file.try(:tempfile)
@@ -23,9 +22,6 @@ class Infile < ActiveRecord::Base
         self.parse_method = :bennett
         self.peptide_column = 5
       end
-
-    end # if up_file not nil
-
   end
 
   # initialize
