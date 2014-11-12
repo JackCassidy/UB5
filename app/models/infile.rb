@@ -26,6 +26,10 @@ class Infile < ActiveRecord::Base
 
   # initialize
 
+
+  # Note: this is all very manual. Need to have a better way
+  # to determine what type of file it is, rather than just looking
+  # at the name.
   def set_peptide_column
 
     if self.file_name =~ /carr/
@@ -38,10 +42,14 @@ class Infile < ActiveRecord::Base
       self.parse_method = :bennett
       self.peptide_column = 5
     else
-      ap(self)
-      flash[:error] = "No peptide column for unrecognized file type"
-      redirect_to welcome_page
+      # Parsimony file, which comes in with name "Rack" something, needs to be set
+      # &&& todo -- don't just set all unknown to carr!!
+      self.parse_method = :carr
+      self.peptide_column = 3
     end
+
+    # would be nice to have a test here to verify that the
+    # peptide column looks right
 
   end
 
