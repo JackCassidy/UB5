@@ -26,6 +26,25 @@ class Infile < ActiveRecord::Base
 
   # initialize
 
+  def set_peptide_column
+
+    if self.file_name =~ /carr/
+      self.parse_method = :carr
+      self.peptide_column = 3
+    elsif self.file_name =~ /choudhary/
+      self.parse_method = :choudhary
+      self.peptide_column = 13
+    elsif self.file_name =~ /bennett/
+      self.parse_method = :bennett
+      self.peptide_column = 5
+    else
+      ap(self)
+      flash[:error] = "No peptide column for unrecognized file type"
+      redirect_to welcome_page
+    end
+
+  end
+
 
   #
   # seeds.rb file gives a list of all the data files we want
@@ -57,6 +76,8 @@ class Infile < ActiveRecord::Base
     an_infile.file_size = File.size(a_file)
     an_infile.first_line = a_file.readline.chomp
 
+    an_infile.set_peptide_column
+
     # choudhary has an extra line at start "All di-Gly-lysines"
     if parse_method == 'choudhary'
       an_infile.first_line = a_file.readline.chomp
@@ -76,7 +97,7 @@ class Infile < ActiveRecord::Base
       @dataline.save
     end # while
 
-    an_infile.save
+    an_infile.save!
 
     return an_infile
 

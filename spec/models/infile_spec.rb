@@ -20,7 +20,7 @@ describe Infile do
 
   describe '#post_initialize', :type => :model do
 
-    context "when the file pased in is nil" do
+    context "when the file passed in is nil" do
       it "does not cause an error" do
         expect{described_class.new.post_initialize}.to_not raise_error
       end
