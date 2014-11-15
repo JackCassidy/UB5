@@ -20,8 +20,8 @@ Protein.parse_fasta_file(in_fast)
 #
 # Read data file and create peptides and datalines
 #
-puts "Reading experiment files"
-Infile.read_list_of_files('../fixtures/parsimony_data_list.txt')
+# puts "Reading experiment files"
+# Infile.read_list_of_files('../fixtures/parsimony_data_list.txt')
 
 #
 # Parse peptide strings out of datalines

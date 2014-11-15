@@ -46,6 +46,8 @@ describe Infile do
     end
   end
 
+
+
   describe 'other methods' do
     pending
   end
