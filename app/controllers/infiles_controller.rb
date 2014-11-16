@@ -4,6 +4,8 @@ class InfilesController < ApplicationController
   # POST new_protein_file
   def select
     @infile = Infile.new()
+    @infiles = Infile.all
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,6 +40,8 @@ class InfilesController < ApplicationController
   # GET /infiles/new.json
   def new
     @infile = Infile.new
+    @infiles = Infile.all
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -53,17 +57,23 @@ class InfilesController < ApplicationController
   # POST /infiles
   # POST /infiles.json
   def create
+    puts 'aoeu'
+    ap params
+    puts "@infile #{@infile}"
     @infile = Infile.new
-    @infile.post_initialize(params[:infile])
+
+    @infiles = Infile.all
+   # @infile.post_initialize(params[:infile])
 
     respond_to do |format|
-      if @infile.save
-        format.html { redirect_to @infile, notice: 'Infile was successfully created.' }
-        format.json { render json: @infile, status: :created, location: @infile }
-      else
+      #if @infile.save
+        #format.html { redirect_to @infile, notice: 'Infile was successfully created.' }
+        #format.json { render json: @infile, status: :created, location: @infile }
+      #else
+      puts 'snth'
         format.html { render action: "new" }
         format.json { render json: @infile.errors, status: :unprocessable_entity }
-      end
+      #end
     end
   end
 

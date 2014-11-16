@@ -1,11 +1,31 @@
 <h1>New infile</h1>
 
 
-<%= form_for @infile do |f| %>
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
 
-    <%= f.label :file_name %>:
-    <%= f.text_field :file_name %>
+  <% @infiles.each do |infile| %>
+      <tr>
+        <td><%= infile.file_name %></td>
+        <td><%= infile.parse_method %></td>
+        <td><%= link_to 'Show', infile %></td>
+        <td><%= link_to 'Edit', edit_infile_path(infile) %></td>
+        <td><%= link_to 'Destroy', infile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
+</table>
 
-    <%= f.submit %>
+<br />
+<%= form_tag( {action: :create}, multipart: true ) do %>
+    <%= label_tag :infile, 'path to infile' %> </p>
+    <%= file_field_tag :infile %> </p>
 
+    <%= text_field_tag :file_type_box %>
+    What type of file? (bennett, carr, or choudhary) </p>
+
+    <%= submit_tag 'Add file' %> </p>
 <% end %>

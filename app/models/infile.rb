@@ -59,22 +59,22 @@ class Infile < ActiveRecord::Base
   # to be looking at
   # This method reads in all the data files.
   #
-  def self.read_list_of_files(list_file_name)
-
-    file_list = File.new(list_file_name)
-
-
-    file_list.each_line do |line|
-      file_name, parse_method = line.split("\t")
-      parse_method.chomp! # get rid of trailing line feed
-
-      a_file = File.new(file_name, 'r')
-
-      read_data_file(a_file, parse_method)
-
-    end # each_line
-
-  end
+  # def self.read_list_of_files(list_file_name)
+  #
+  #   file_list = File.new(list_file_name)
+  #
+  #
+  #   file_list.each_line do |line|
+  #     file_name, parse_method = line.split("\t")
+  #     parse_method.chomp! # get rid of trailing line feed
+  #
+  #     a_file = File.new(file_name, 'r')
+  #
+  #     read_data_file(a_file, parse_method)
+  #
+  #   end # each_line
+  #
+  # end
 
   def self.read_data_file(a_file, parse_method)
     an_infile = Infile.new
