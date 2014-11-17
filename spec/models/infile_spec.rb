@@ -18,6 +18,26 @@ describe Infile do
     it { is_expected.to validate_presence_of(:peptide_column) }
   end
 
+  describe 'file_info' do
+    let(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/fake_peptide.txt', 'text/xml'),
+                                                        :filename => 'fake_peptide.txt') }
+    it "parses file name, file size and first line from the file object" do
+      file_info = Infile.file_info(file)
+      expect(file_info[:file_name]).to eq('fake_peptide.txt')
+      expect(file_info[:file_size]).to eq(25)
+      expect(file_info[:first_line]).to eq('Header1 H2 H3')
+    end
+  end
+
+  describe 'peptide_column' do
+    cases = { 'carr' => 3, 'choudary' => 13, 'bennett' => 5 }
+    cases.keys.each do |type|
+      it "returns the right peptide column for a #{type}" do
+        expect(Infile.peptide_column(type)).to eq(cases[type])
+      end
+    end
+  end
+
   describe '#post_initialize', :type => :model do
 
     context "when the file passed in is nil" do

@@ -57,23 +57,25 @@ class InfilesController < ApplicationController
   # POST /infiles
   # POST /infiles.json
   def create
-    puts 'aoeu'
-    ap params
-    puts "@infile #{@infile}"
-    @infile = Infile.new
+    file_parameters = Infile.file_info(params[:file])
+    peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']) }
+    parse_method = { :parse_method => params['parse_method'] }
+    record_parameters = parse_method.merge(file_parameters).merge(peptide_column)
+
+    infile = Infile.new(record_parameters)
+    infile.save!
+    @infile = infile
 
     @infiles = Infile.all
-   # @infile.post_initialize(params[:infile])
 
     respond_to do |format|
-      #if @infile.save
-        #format.html { redirect_to @infile, notice: 'Infile was successfully created.' }
-        #format.json { render json: @infile, status: :created, location: @infile }
-      #else
-      puts 'snth'
-        format.html { render action: "new" }
-        format.json { render json: @infile.errors, status: :unprocessable_entity }
-      #end
+         if @infile.save
+      format.html { redirect_to new_infile_path, notice: 'Infile was successfully created.' }
+           format.json { render json: @infile, status: :created, location: @infile }
+         else
+           format.html { render action: "new" }
+           format.json { render json: @infile.errors, status: :unprocessable_entity }
+         end
     end
   end
 
@@ -105,3 +107,8 @@ class InfilesController < ApplicationController
     end
   end
 end
+
+private
+
+
+

@@ -6,22 +6,32 @@ class Infile < ActiveRecord::Base
 
   validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column
 
+  def self.file_info(file)
+    { :file_name => file.original_filename,
+      :file_size => file.size,
+      :first_line => file.tempfile.readline.chomp! }
+  end
+
+  def self.peptide_column(file_type)
+    { 'carr' => 3, 'choudary' => 13, 'bennett' => 5 }[file_type]
+  end
+
   def post_initialize(up_file=nil)
-      self.file_name = up_file.original_filename if up_file.try(:original_filename)
-      self.file_size = up_file.size if up_file.try(:size)
-      self.first_line = up_file.tempfile.readline.chomp! if up_file.try(:tempfile)
-      if self.file_name =~ /carr/
-        self.parse_method = :carr
-        self.peptide_column = 3
-      end
-      if self.file_name =~ /choudhary/
-        self.parse_method = :choudhary
-        self.peptide_column = 13
-      end
-      if self.file_name =~ /bennett/
-        self.parse_method = :bennett
-        self.peptide_column = 5
-      end
+    self.file_name = up_file.original_filename if up_file.try(:original_filename)
+    self.file_size = up_file.size if up_file.try(:size)
+    self.first_line = up_file.tempfile.readline.chomp! if up_file.try(:tempfile)
+    if self.file_name =~ /carr/
+      self.parse_method = :carr
+      self.peptide_column = 3
+    end
+    if self.file_name =~ /choudhary/
+      self.parse_method = :choudhary
+      self.peptide_column = 13
+    end
+    if self.file_name =~ /bennett/
+      self.parse_method = :bennett
+      self.peptide_column = 5
+    end
   end
 
   # initialize

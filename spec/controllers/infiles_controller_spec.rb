@@ -28,68 +28,86 @@ describe InfilesController, :type => :controller do
   describe "GET show" do
     it "assigns the requested infile as @infile" do
       infile = Infile.create! valid_attributes
-      get :show, {:id => infile.to_param}, valid_session
+      get :show, { :id => infile.to_param }, valid_session
       expect(assigns(:infile)).to eq(infile)
     end
   end
 
   describe "GET new" do
-    it "assigns a new infile as @infile" do
+    before do
+      create(:infile)
+      create(:infile, :file_name => 'second file')
+    end
+
+    it "assigns a new infile as @infile, and all the existing infiles as @infiles" do
       get :new, {}, valid_session
       expect(assigns(:infile)).to be_a_new(Infile)
+      expect(assigns(:infiles)).to eq(Infile.all)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested infile as @infile" do
       infile = Infile.create! valid_attributes
-      get :edit, {:id => infile.to_param}, valid_session
+      get :edit, { :id => infile.to_param }, valid_session
       expect(assigns(:infile)).to eq(infile)
+    end
+  end
+
+  describe "GET create" do  #todo do we want or need a get for create
+    before do
+      create(:infile)
+    end
+    pending "assings the @infiles parameter" do
+      get :create
+      expect(assigns(:infile)).to eq(Infile.all)
     end
   end
 
   describe "POST create" do
     describe "with valid params" do
-      let!(:up_file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny_carr.tsv', 'text/xml'),
-                                                              :filename => 'tiny_carr.tsv') }
+      let(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/fake_peptide.txt', 'text/xml'),
+                                                          :filename => 'fake_peptide.txt') }
+      let(:parse_method) { 'carr' }
+      let(:create_parameters) { { :file => file, :parse_method => parse_method }.merge({ "controller" => "infiles", "action" => "create" }) }
 
-      it "creates a new Infile with the right values" do
+
+      it "saves the infile information in table and assigns it to an instance variable" do
         expect {
-          post :create, {infile: up_file}, valid_session
-        }.to change(Infile, :count).by(1)
+          post :create, create_parameters
+        }.to change { Infile.count }.from(0).to(1)
 
         infile = Infile.last
-        expect(infile[:file_name]).to eq('tiny_carr.tsv')
-        expect(infile[:file_size]).to eq(6547)
-        expect(infile[:parse_method]).to eq('carr')
-        expect(infile[:peptide_column]).to eq(3)
-        expect(infile[:first_line]).to eq("Unmodified peptide\tK-ε-GG Site [nd=K-ε-GG localization identifier <0.5]\tNterm_Acetylation on peptide True or False?\tModified Peptide (Sequence Input for Viewer; for peptides with >1 K-ε-GG site having a localization identifier of 0.5, the K-ε-GG site was placed on the first of the two lysine residues for the viewer; k=K-ε-GG site, m=methionine oxidation, n=asparagine deamidation)\tScan Number shown in Viewer\tCharge State of Precursor Shown in Veiwer\tm/z of Precursor Shown in Viewer\tAndromeda Score of MS/MS Scan Shown in Viewer\t\t\"Length of URLin link\"\t\tLeading Proteins\tGene Names\tProtein Names\tProtein Descriptions\tUniprot\tExperiment\tExpt1Rep1 (K-ε-GG Peptide Identified True or False?)\tExpt1Rep2 (K-ε-GG Peptide Identified True or False?)\tExpt2Rep1 (K-ε-GG Peptide Identified True or False?)\tExpt2Rep2 (K-ε-GG Peptide Identified True or False?)\tExpt1Rep1_Unfractionated (K-ε-GG Peptide Identified True or False?)\tExpt1Rep1_Fractionated (K-ε-GG Peptide Identified True or False?)\tExpt2Rep1_Unfractionated (K-ε-GG Peptide Identified True or False?) \tExpt2Rep1_Fractionated (K-ε-GG Peptide Identified True or False?)\tExpt2Rep2_Unfractionated (K-ε-GG Peptide Identified True or False?)\tExpt2Rep2_Fractionated (K-ε-GG Peptide Identified True or False?)\tRep1 SILAC Log2 Ratio 5uM MG-132/0.5% DMSO (H/L)\tRep2 SILAC Log2 Ratio 5uM MG-132/0.5% DMSO (L/M)\tRep1 SILAC Log2 Ratio 5uM PR-619/0.5% DMSO (M/L)\tRep2 SILAC Log2 Ratio 5uM PR-619/0.5% DMSO (H/M)\tRep1 SILAC Log2 Ratio 17uM PR-619/0.5% DMSO (M/L)\tRep2 SILAC Log2 Ratio 17uM PR-619/0.5% DMSO (H/M)\tRep1 SILAC Log2 Ratio 17uM PR-619 & 5uM MG-132/0.5% DMSO (H/L)\tRep2 SILAC Log2 Ratio 17uM PR-619 & 5uM MG-132/0.5% DMSO (L/M)")
+        expect(infile.file_name).to eq('fake_peptide.txt')
+        expect(infile.parse_method).to eq('carr')
+        expect(infile.peptide_column).to eq(Infile.peptide_column(parse_method))
+        expect(infile.first_line).to eq('Header1 H2 H3')
+        expect(infile.file_size).to eq(25)
+
+        expect(assigns(:infile)).to eq(infile)
       end
 
-      it "assigns a newly created infile as @infile" do
-        post :create, {:infile => up_file}, valid_session
-        expect(assigns(:infile)).to be_a(Infile)
-        expect(assigns(:infile)).to be_persisted
+
+      it "redirects to create page and assigns all the infile records to the @infile variable" do
+        post :create, create_parameters
+        expect(response).to redirect_to(new_infile_path)
       end
 
-      it "redirects to the created infile" do
-        post :create, {:infile => up_file}, valid_session
-        expect(response).to redirect_to(Infile.last)
-      end
+      pending "test the assignment of @infiles"
     end
 
-    describe "with invalid params" do
+    pending "with invalid params -- still need to define behavior" do
       it "assigns a newly created but unsaved infile as @infile" do
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Infile).to receive(:save).and_return(false)
-        post :create, {:infile => {  }}, valid_session
+        post :create, { :infile => {} }, valid_session
         expect(assigns(:infile)).to be_a_new(Infile)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Infile).to receive(:save).and_return(false)
-        post :create, {:infile => {  }}, valid_session
+        post :create, { :infile => {} }, valid_session
         expect(response).to render_template("new")
       end
     end
@@ -104,18 +122,18 @@ describe InfilesController, :type => :controller do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         expect_any_instance_of(Infile).to receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => infile.to_param, :infile => { "these" => "params" }}, valid_session
+        put :update, { :id => infile.to_param, :infile => { "these" => "params" } }, valid_session
       end
 
       it "assigns the requested infile as @infile" do
         infile = Infile.create! valid_attributes
-        put :update, {:id => infile.to_param, :infile => valid_attributes}, valid_session
+        put :update, { :id => infile.to_param, :infile => valid_attributes }, valid_session
         expect(assigns(:infile)).to eq(infile)
       end
 
       it "redirects to the infile" do
         infile = Infile.create! valid_attributes
-        put :update, {:id => infile.to_param, :infile => valid_attributes}, valid_session
+        put :update, { :id => infile.to_param, :infile => valid_attributes }, valid_session
         expect(response).to redirect_to(infile)
       end
     end
@@ -125,7 +143,7 @@ describe InfilesController, :type => :controller do
         infile = Infile.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Infile).to receive(:save).and_return(false)
-        put :update, {:id => infile.to_param, :infile => {  }}, valid_session
+        put :update, { :id => infile.to_param, :infile => {} }, valid_session
         expect(assigns(:infile)).to eq(infile)
       end
 
@@ -133,7 +151,7 @@ describe InfilesController, :type => :controller do
         infile = Infile.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         allow_any_instance_of(Infile).to receive(:save).and_return(false)
-        put :update, {:id => infile.to_param, :infile => {  }}, valid_session
+        put :update, { :id => infile.to_param, :infile => {} }, valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -143,13 +161,13 @@ describe InfilesController, :type => :controller do
     it "destroys the requested infile" do
       infile = Infile.create! valid_attributes
       expect {
-        delete :destroy, {:id => infile.to_param}, valid_session
+        delete :destroy, { :id => infile.to_param }, valid_session
       }.to change(Infile, :count).by(-1)
     end
 
     it "redirects to the infiles list" do
       infile = Infile.create! valid_attributes
-      delete :destroy, {:id => infile.to_param}, valid_session
+      delete :destroy, { :id => infile.to_param }, valid_session
       expect(response).to redirect_to(infiles_path)
     end
   end

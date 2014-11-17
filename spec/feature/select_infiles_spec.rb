@@ -21,7 +21,7 @@ describe 'Load infiles' do
     input_file_path = Rails.root.join('spec/fixtures/tiny_carr.tsv')
     attach_file('infile', input_file_path)
 
-    fill_in 'file_type_box', :with => 'carr'
+    fill_in 'parse_method', :with => 'carr'
 
     expect(page).to_not have_content('tiny_carr')
     click_on 'Add file'
