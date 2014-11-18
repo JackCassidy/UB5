@@ -58,7 +58,7 @@ describe InfilesController, :type => :controller do
     before do
       create(:infile)
     end
-    pending "assings the @infiles parameter" do
+    pending "assigns the @infiles parameter" do
       get :create
       expect(assigns(:infile)).to eq(Infile.all)
     end
@@ -83,6 +83,7 @@ describe InfilesController, :type => :controller do
         expect(infile.peptide_column).to eq(Infile.peptide_column(parse_method))
         expect(infile.first_line).to eq('Header1 H2 H3')
         expect(infile.file_size).to eq(25)
+        expect(infile.to_be_uploaded).to eq(true)
 
         expect(assigns(:infile)).to eq(infile)
       end

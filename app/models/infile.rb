@@ -1,10 +1,10 @@
 class Infile < ActiveRecord::Base
 
-  attr_accessible :file_name, :file_size, :first_line, :parse_method, :peptide_column
+  attr_accessible :file_name, :file_size, :first_line, :parse_method, :peptide_column, :to_be_uploaded
 
   has_many :datalines
 
-  validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column
+  validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column, :to_be_uploaded
 
   def self.file_info(file)
     { :file_name => file.original_filename,

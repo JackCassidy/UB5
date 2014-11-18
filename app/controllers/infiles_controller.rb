@@ -60,7 +60,9 @@ class InfilesController < ApplicationController
     file_parameters = Infile.file_info(params[:file])
     peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']) }
     parse_method = { :parse_method => params['parse_method'] }
-    record_parameters = parse_method.merge(file_parameters).merge(peptide_column)
+    to_be_uploaded = { :to_be_uploaded => true }
+    record_parameters = parse_method.merge(file_parameters).merge(peptide_column).merge(to_be_uploaded)
+
 
     infile = Infile.new(record_parameters)
     infile.save!
