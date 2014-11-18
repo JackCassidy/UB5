@@ -10,6 +10,7 @@ describe InfilesController, :type => :controller do
                              first_line: 'this is the first line',
                              parse_method: 'bennett',
                              peptide_column: 5,
+                             to_be_uploaded: true,
   } }
 
   # This should return the minimal set of values that should be in the session

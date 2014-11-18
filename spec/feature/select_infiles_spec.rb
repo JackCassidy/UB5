@@ -1,8 +1,13 @@
 require 'spec_helper'
 
 describe 'Load infiles' do
+  ap "load infiles"
 
-  let!(:existing_infile) { create(:infile) }
+
+  let(:existing_infile) { create(:infile) }
+  ap :existing_infile.to_s
+
+  #let!(:existing_infile) { create(:infile) }
 
 
   it 'should have a select file button' do
