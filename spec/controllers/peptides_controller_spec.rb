@@ -46,7 +46,8 @@ describe PeptidesController, :type => :controller do
 
   describe "POST load peptides page" do
     let!(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny_carr.tsv', 'text/xml'),
-                                                         :filename => 'tiny_carr.tsv') }
+                                                         :filename => 'tiny_carr.tsv',
+                                                         :to_be_uploaded => true) }
     before do
       allow(Peptide).to receive(:parse_peptide_file)
     end

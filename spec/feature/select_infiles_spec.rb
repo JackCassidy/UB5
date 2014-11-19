@@ -1,13 +1,8 @@
 require 'spec_helper'
 
 describe 'Load infiles' do
-  ap "load infiles"
 
-
-  let(:existing_infile) { create(:infile) }
-  ap :existing_infile.to_s
-
-  #let!(:existing_infile) { create(:infile) }
+  let!(:existing_infile) { create(:infile) }      # Nov 18, rake problem here
 
 
   it 'should have a select file button' do

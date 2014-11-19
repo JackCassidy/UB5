@@ -39,6 +39,7 @@ class InfilesController < ApplicationController
   # GET /infiles/new
   # GET /infiles/new.json
   def new
+    ap 'Inside of infile new'
     @infile = Infile.new
     @infiles = Infile.all
 
@@ -58,10 +59,13 @@ class InfilesController < ApplicationController
   # POST /infiles.json
   def create
     file_parameters = Infile.file_info(params[:file])
-    peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']) }
+    peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']),
+                        :to_be_uploaded => true }
     parse_method = { :parse_method => params['parse_method'] }
     to_be_uploaded = { :to_be_uploaded => true }
     record_parameters = parse_method.merge(file_parameters).merge(peptide_column).merge(to_be_uploaded)
+
+    ap record_parameters
 
     infile = Infile.new(record_parameters)
     infile.save!

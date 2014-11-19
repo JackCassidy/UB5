@@ -93,6 +93,7 @@ class Infile < ActiveRecord::Base
 
     an_infile.file_size = File.size(a_file)
     an_infile.first_line = a_file.readline.chomp
+    an_infile.to_be_uploaded = true
 
     an_infile.set_peptide_column
 
