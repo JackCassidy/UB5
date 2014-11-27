@@ -5,5 +5,6 @@ FactoryGirl.define do
     first_line 'Factory first line columnname1 columname2'
     parse_method 'Factory_parse'
     peptide_column 13
+    to_be_uploaded true
   end
 end

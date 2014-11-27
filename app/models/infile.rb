@@ -122,5 +122,4 @@ class Infile < ActiveRecord::Base
 
   end # read_list_of_files
 
-
 end # Class Infile
