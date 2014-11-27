@@ -6,14 +6,13 @@ class Infile < ActiveRecord::Base
 
   validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column, :to_be_uploaded
 
-  def self.file_info(file)
-    { :file_name => file.original_filename,
-      :file_size => file.size,
-      :first_line => file.tempfile.readline.chomp! }
+
+  def self.parameters_from_temp_file(file)
+    { :file_name => file.original_filename, :file_size => file.size, :first_line => file.tempfile.readline.chomp!}
   end
 
-  def self.peptide_column(file_type)
-    { 'carr' => 3, 'choudary' => 13, 'bennett' => 5 }[file_type]
+  def self.peptide_column(parse_method)
+    { 'carr' => 3, 'choudary' => 13, 'bennett' => 5 }[parse_method]
   end
 
   def post_initialize(up_file=nil)
@@ -120,6 +119,7 @@ class Infile < ActiveRecord::Base
 
     return an_infile
 
-  end # read_list_of_files
+  end
 
+  # read_list_of_files
 end # Class Infile

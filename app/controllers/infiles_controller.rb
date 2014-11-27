@@ -57,9 +57,8 @@ class InfilesController < ApplicationController
   # POST /infiles
   # POST /infiles.json
   def create
-    file_parameters = Infile.file_info(params[:file])
-    peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']),
-                        :to_be_uploaded => true }
+    file_parameters = Infile.parameters_from_temp_file(params[:file])
+    peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']) }
     parse_method = { :parse_method => params['parse_method'] }
     to_be_uploaded = { :to_be_uploaded => true }
     record_parameters = parse_method.merge(file_parameters).merge(peptide_column).merge(to_be_uploaded)
@@ -71,13 +70,13 @@ class InfilesController < ApplicationController
     @infiles = Infile.all
 
     respond_to do |format|
-         if @infile.save
-      format.html { redirect_to new_infile_path, notice: 'Infile was successfully created.' }
-           format.json { render json: @infile, status: :created, location: @infile }
-         else
-           format.html { render action: "new" }
-           format.json { render json: @infile.errors, status: :unprocessable_entity }
-         end
+      if @infile.save
+        format.html { redirect_to new_infile_path, notice: 'Infile was successfully created.' }
+        format.json { render json: @infile, status: :created, location: @infile }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @infile.errors, status: :unprocessable_entity }
+      end
     end
   end
 

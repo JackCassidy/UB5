@@ -18,14 +18,13 @@ describe Infile do
     it { is_expected.to validate_presence_of(:peptide_column) }
   end
 
-  describe 'file_info' do
+  describe 'parameters_from_temp_file' do
     let(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/fake_peptide.txt', 'text/xml'),
                                                         :filename => 'fake_peptide.txt') }
-    it "parses file name, file size and first line from the file object" do
-      file_info = Infile.file_info(file)
-      expect(file_info[:file_name]).to eq('fake_peptide.txt')
-      expect(file_info[:file_size]).to eq(25)
-      expect(file_info[:first_line]).to eq('Header1 H2 H3')
+    it 'returns parameters for infile calculated from the temp file' do
+      expect(Infile.parameters_from_temp_file(file)).to eq({:file_name => 'fake_peptide.txt',
+                                                           :file_size => 25,
+                                                           :first_line => 'Header1 H2 H3'})
     end
   end
 
@@ -42,7 +41,7 @@ describe Infile do
 
     context "when the file passed in is nil" do
       it "does not cause an error" do
-        expect{described_class.new.post_initialize}.to_not raise_error
+        expect { described_class.new.post_initialize }.to_not raise_error
       end
     end
 
@@ -65,7 +64,6 @@ describe Infile do
       end
     end
   end
-
 
 
   describe 'other methods' do
