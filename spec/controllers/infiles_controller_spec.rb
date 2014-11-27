@@ -42,7 +42,6 @@ describe InfilesController, :type => :controller do
 
     it "assigns a new infile as @infile, and all the existing infiles as @infiles" do
       get :new, {}, valid_session
-      expect(assigns(:infile)).to be_a_new(Infile)
       expect(assigns(:infiles)).to eq(Infile.all)
     end
   end
@@ -81,7 +80,7 @@ describe InfilesController, :type => :controller do
         infile = Infile.last
         expect(infile.file_name).to eq('fake_peptide.txt')
         expect(infile.parse_method).to eq('carr')
-        expect(infile.peptide_column).to eq(Infile.peptide_column(parse_method))
+        expect(infile.peptide_column).to eq(3)
         expect(infile.first_line).to eq('Header1 H2 H3')
         expect(infile.file_size).to eq(25)
         expect(infile.to_be_uploaded).to eq(true)

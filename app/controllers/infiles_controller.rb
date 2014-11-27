@@ -39,10 +39,7 @@ class InfilesController < ApplicationController
   # GET /infiles/new
   # GET /infiles/new.json
   def new
-    ap 'Inside of infile new'
-    @infile = Infile.new
     @infiles = Infile.all
-
 
     respond_to do |format|
       format.html # new.html.erb
@@ -59,13 +56,9 @@ class InfilesController < ApplicationController
   # POST /infiles.json
   def create
     file_parameters = Infile.file_info(params[:file])
-    peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']),
-                        :to_be_uploaded => true }
+    peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']) }
     parse_method = { :parse_method => params['parse_method'] }
-    to_be_uploaded = { :to_be_uploaded => true }
-    record_parameters = parse_method.merge(file_parameters).merge(peptide_column).merge(to_be_uploaded)
-
-    ap record_parameters
+    record_parameters = parse_method.merge(file_parameters).merge(peptide_column)
 
     infile = Infile.new(record_parameters)
     infile.save!
@@ -74,13 +67,13 @@ class InfilesController < ApplicationController
     @infiles = Infile.all
 
     respond_to do |format|
-         if @infile.save
-      format.html { redirect_to new_infile_path, notice: 'Infile was successfully created.' }
-           format.json { render json: @infile, status: :created, location: @infile }
-         else
-           format.html { render action: "new" }
-           format.json { render json: @infile.errors, status: :unprocessable_entity }
-         end
+      if @infile.save
+        format.html { redirect_to new_infile_path, notice: 'Infile was successfully created.' }
+        format.json { render json: @infile, status: :created, location: @infile }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @infile.errors, status: :unprocessable_entity }
+      end
     end
   end
 
