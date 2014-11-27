@@ -17,6 +17,8 @@ require 'webmock/rspec'
 #require 'codeclimate-test-reporter'
 #require 'billy/rspec'
 
+ActiveRecord::Migration.maintain_test_schema!
+
 if ENV['JENKINS_HOME']
   CodeClimate::TestReporter.start
 end
