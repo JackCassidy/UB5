@@ -47,14 +47,6 @@ describe InfilesController, :type => :controller do
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested infile as @infile" do
-      infile = Infile.create! valid_attributes
-      get :edit, { :id => infile.to_param }, valid_session
-      expect(assigns(:infile)).to eq(infile)
-    end
-  end
-
   describe "POST create" do
     describe "with valid params" do
       let(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/fake_peptide.txt', 'text/xml'),
@@ -104,64 +96,4 @@ describe InfilesController, :type => :controller do
       end
     end
   end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested infile" do
-        infile = Infile.create! valid_attributes
-        # Assuming there are no other infiles in the database, this
-        # specifies that the Infile created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        expect_any_instance_of(Infile).to receive(:update_attributes).with({ "these" => "params" })
-        put :update, { :id => infile.to_param, :infile => { "these" => "params" } }, valid_session
-      end
-
-      it "assigns the requested infile as @infile" do
-        infile = Infile.create! valid_attributes
-        put :update, { :id => infile.to_param, :infile => valid_attributes }, valid_session
-        expect(assigns(:infile)).to eq(infile)
-      end
-
-      it "redirects to the infile" do
-        infile = Infile.create! valid_attributes
-        put :update, { :id => infile.to_param, :infile => valid_attributes }, valid_session
-        expect(response).to redirect_to(infile)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the infile as @infile" do
-        infile = Infile.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        allow_any_instance_of(Infile).to receive(:save).and_return(false)
-        put :update, { :id => infile.to_param, :infile => {} }, valid_session
-        expect(assigns(:infile)).to eq(infile)
-      end
-
-      it "re-renders the 'edit' template" do
-        infile = Infile.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        allow_any_instance_of(Infile).to receive(:save).and_return(false)
-        put :update, { :id => infile.to_param, :infile => {} }, valid_session
-        expect(response).to render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE destroy" do
-    it "destroys the requested infile" do
-      infile = Infile.create! valid_attributes
-      expect {
-        delete :destroy, { :id => infile.to_param }, valid_session
-      }.to change(Infile, :count).by(-1)
-    end
-
-    it "redirects to the infiles list" do
-      infile = Infile.create! valid_attributes
-      delete :destroy, { :id => infile.to_param }, valid_session
-      expect(response).to redirect_to(infiles_path)
-    end
-  end
-
 end

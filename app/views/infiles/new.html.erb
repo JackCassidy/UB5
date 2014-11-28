@@ -1,15 +1,16 @@
 <h1>New infile</h1>
-
-
-<%= render 'index' %>
-
-<br />
-<%= form_tag( {action: :create}, multipart: true ) do %>
-    <%= label_tag :file, 'path to infile' %> </p>
+<h2>Choose infile to upload</h2>
+<%= form_tag({ action: :create }, multipart: true) do %>
+    <%= label_tag :file, 'choose path to infile' %>
     <%= file_field_tag :file %> </p>
 
+    <%= label_tag :parse_method, 'What type of file? (bennett, carr, or choudhary)' %>
     <%= text_field_tag :parse_method %>
-    What type of file? (bennett, carr, or choudhary) </p>
+     </p>
 
-    <%= submit_tag 'Add file' %> </p>
+    <%= submit_tag 'Add file' %>
 <% end %>
+
+
+<h3> Infiles that have already been uploaded:</h3>
+<%= render 'index' %>

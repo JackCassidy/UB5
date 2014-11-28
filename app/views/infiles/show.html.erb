@@ -1,6 +1,63 @@
 <p id="notice"><%= notice %></p>
- Hi, you're on the infile show page
+<table>
+
+  <tr>
+    <b>
+      file name
+    </b>
+    </br>
+    <%= @infile.file_name %>
+    </br></br>
+  </tr>
+  <tr>
+    <b>
+      upload date
+    </b>
+    </br>
+    <%= @infile.created_at %>
+    </br></br>
+  </tr>
+  <tr>
+    <b>
+      modify date
+    </b>
+    </br>
+    <%= @infile.updated_at %>
+    </br></br>
+  </tr>
+  <tr>
+    <b>
+      parse method
+    </b>
+    </br>
+    <%= @infile.parse_method %>
+    </br></br>
+  </tr>
+  <tr>
+    <b>
+      to be uploaded?
+    </b>
+    </br>
+    <%= @infile.to_be_uploaded %>
+    </br></br>
+  </tr>
+  <tr>
+    <b>
+      peptide column
+    </b>
+    </br>
+    <%= @infile.peptide_column %>
+    </br></br>
+  </tr>
+  <tr>
+    <b>
+      first line
+    </b>
+    </br>
+    <%= @infile.first_line%>
+    </br></br>
+  </tr>
+</table>
 
 
-<%= link_to 'Edit', edit_infile_path(@infile) %> |
 <%= link_to 'Back', infiles_path %>
