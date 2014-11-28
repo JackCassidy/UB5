@@ -55,16 +55,6 @@ describe InfilesController, :type => :controller do
     end
   end
 
-  describe "GET create" do  #todo do we want or need a get for create
-    before do
-      create(:infile)
-    end
-    pending "assigns the @infiles parameter" do
-      get :create
-      expect(assigns(:infile)).to eq(Infile.all)
-    end
-  end
-
   describe "POST create" do
     describe "with valid params" do
       let(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/fake_peptide.txt', 'text/xml'),

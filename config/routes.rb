@@ -1,14 +1,11 @@
 Rails.application.routes.draw do
 
+  get '/', to: 'static_pages#data_options', as: 'static_pages_data_options'
 
   resources :peptide_proteins
 
 
-  get "static_pages/home", :as => 'welcome_page'
 
-  get "static_pages/help"
-
-  get "static_pages/data_options"
 
   devise_for :users
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
