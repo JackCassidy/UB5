@@ -1,10 +1,12 @@
 <footer class="footer">
   </br></br>
   <nav>
-    <ul>
-      <li><%= link_to "PeptideSources", '/peptide_sources' %></li>
-      <li><%= link_to "Peptides", '/peptides' %></li>
-      <li><%= link_to "Proteins", '/proteins' %></li>
-    </ul>
+    <table>
+      <tr>
+        <td><%= link_to 'View and edit data', pages_view_edit_data_path %></td><td>&nbsp;&nbsp;</td>
+        <td><%= link_to 'Process bulk data', pages_data_options_path %></td><td>&nbsp;&nbsp;</td>
+      </tr>
+    </table>
   </nav>
+
 </footer>

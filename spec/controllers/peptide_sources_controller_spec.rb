@@ -80,24 +80,6 @@ describe PeptideSourcesController, :type => :controller do
         post :create, create_parameters
         expect(response).to redirect_to(new_peptide_source_path)
       end
-
-      pending "test the assignment of @peptide_sources"
-    end
-
-    pending "with invalid params -- still need to define behavior" do
-      it "assigns a newly created but unsaved peptide_source as @peptide_source" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        allow_any_instance_of(PeptideSource).to receive(:save).and_return(false)
-        post :create, { :peptide_source => {} }
-        expect(assigns(:peptide_source)).to be_a_new(PeptideSource)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        allow_any_instance_of(PeptideSource).to receive(:save).and_return(false)
-        post :create, { :peptide_source => {} }
-        expect(response).to render_template("new")
-      end
     end
   end
 end

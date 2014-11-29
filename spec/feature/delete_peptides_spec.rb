@@ -9,7 +9,7 @@ describe 'delete peptides' do
   it 'should tell how many are going to be deleted' do
     expect(Peptide.count).to eq(2)
 
-    visit static_pages_data_options_path
+    visit pages_data_options_path
     click_on 'Delete peptides'
 
     expect(page).to have_content('2 peptides')
@@ -18,7 +18,7 @@ describe 'delete peptides' do
   it 'deletes all the peptides and confirms that it was done' do
     expect(Peptide.count).to eq(2)
 
-    visit static_pages_data_options_path
+    visit pages_data_options_path
     click_on 'Delete peptides'
 
     expect(page).to have_content('Are you sure')

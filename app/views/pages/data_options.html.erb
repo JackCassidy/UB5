@@ -1,10 +1,17 @@
-<h1>Data options</h1>
+<h1>Data Processing Page</h1>
 
+<h2>Upload or delete peptide information</h2>
 <%= button_to "Select peptide_source", new_peptide_source_path, { :method => 'get' } %>
-<%= button_to "Read protein file", proteins_select_file_path %>
-<%= button_to "Delete proteins", proteins_confirm_delete_all_path, { :method => 'get'} %>
 <%= button_to "Read peptide file", peptides_select_peptide_file_path, { :method => 'get' } %>
 <%= button_to "Delete peptides", peptides_confirm_delete_all_path, { :method => 'get' } %>
+</p>
+
+<h2>Upload or delete protein information</h2>
+<%= button_to "Read protein file", proteins_select_file_path %>
+<%= button_to "Delete proteins", proteins_confirm_delete_all_path, { :method => 'get'} %>
+</p>
+
+<h2>Process uploaded information</h2>
 <%= button_to "Find peptides in proteins", peptide_proteins_matcher_path %>
 <%= button_to "Apply parsimony", peptide_protein_parsimony_path %>
 

@@ -9,7 +9,7 @@ describe 'delete proteins' do
   it 'should tell how many are going to be deleted' do
     expect(Protein.count).to eq(2)
 
-    visit static_pages_data_options_path
+    visit pages_data_options_path
     click_on 'Delete proteins'
 
     expect(page).to have_content('2 proteins')
@@ -18,7 +18,7 @@ describe 'delete proteins' do
   it 'deletes all the proteins and confirms that it was done' do
     expect(Protein.count).to eq(2)
 
-    visit static_pages_data_options_path
+    visit pages_data_options_path
     click_on 'Delete proteins'
 
     expect(page).to have_content('Are you sure')

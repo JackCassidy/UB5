@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
 
-  get '/', to: 'static_pages#data_options', as: 'static_pages_data_options'
+  get '/', to: 'pages#home'
+
 
   resources :peptide_proteins
 
-
+  get '/pages/home', to: 'pages#home'
+  get '/pages/view_edit_data', to: 'pages#view_edit_data'
+  get '/pages/data_options', to: 'pages#data_options'
 
 
   devise_for :users
@@ -23,10 +26,8 @@ Rails.application.routes.draw do
   resources :proteins #, only: [:get, :show]
 
 
-
-
 # trying to get rails_admin running
-  root to:'static_pages#home'
+  root to: 'static_pages#home'
 
   get '/peptides/select_peptide_file', to: 'peptides#select_peptide_file'
   post '/peptides/load', to: 'peptides#select_peptide_file'
@@ -41,7 +42,6 @@ Rails.application.routes.draw do
   resources :peptide_proteins
 
   resources :peptide_sources
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.

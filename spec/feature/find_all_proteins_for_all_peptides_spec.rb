@@ -12,7 +12,7 @@ describe 'Find all proteins for all peptides' do
 
   it 'finds the proteins for the peptides' do
 
-    visit static_pages_data_options_path
+    visit pages_data_options_path
 
     click_on 'Find peptides in proteins'
 
