@@ -1,4 +1,4 @@
-class Infile < ActiveRecord::Base
+class PeptideSource < ActiveRecord::Base
 
   attr_accessible :file_name, :file_size, :first_line, :parse_method, :peptide_column, :to_be_uploaded
 
@@ -12,7 +12,7 @@ class Infile < ActiveRecord::Base
   end
 
   def self.peptide_column(parse_method)
-    { 'carr' => 3, 'choudary' => 13, 'bennett' => 5 }[parse_method]
+    { 'carr' => 3, 'choudhary' => 13, 'bennett' => 5 }[parse_method]
   end
 
   def post_initialize(up_file=nil)
@@ -86,40 +86,40 @@ class Infile < ActiveRecord::Base
   # end
 
   def self.read_data_file(a_file, parse_method)
-    an_infile = Infile.new
-    an_infile.parse_method = parse_method
-    an_infile.file_name = File.basename(a_file.path)
+    peptide_source = PeptideSource.new
+    peptide_source.parse_method = parse_method
+    peptide_source.file_name = File.basename(a_file.path)
 
-    an_infile.file_size = File.size(a_file)
-    an_infile.first_line = a_file.readline.chomp
-    an_infile.to_be_uploaded = true
+    peptide_source.file_size = File.size(a_file)
+    peptide_source.first_line = a_file.readline.chomp
+    peptide_source.to_be_uploaded = true
 
-    an_infile.set_peptide_column
+    peptide_source.set_peptide_column
 
     # choudhary has an extra line at start "All di-Gly-lysines"
     if parse_method == 'choudhary'
-      an_infile.first_line = a_file.readline.chomp
+      peptide_source.first_line = a_file.readline.chomp
     end
 
-    an_infile.save
+    peptide_source.save
 
     file_order = 0
 
     while !a_file.eof?
       @dataline = Dataline.new
       @dataline.tsv_string = a_file.readline.chomp
-      @dataline.infile_id = an_infile.id
+      @dataline.peptide_source_id = peptide_source.id
       file_order += 1
       @dataline.file_order = file_order
-      an_infile.datalines << @dataline
+      peptide_source.datalines << @dataline
       @dataline.save
     end # while
 
-    an_infile.save!
+    peptide_source.save!
 
-    return an_infile
+    return peptide_source
 
   end
 
   # read_list_of_files
-end # Class Infile
+end # Class PeptideSource

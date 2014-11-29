@@ -65,7 +65,7 @@ RSpec.configure do |config|
   #InstantinkSpecHelpers::TextFixtureLoading.fixture_path = File.expand_path('../fixtures', __FILE__)
 
   config.before(:suite) do
-    #DatabaseCleaner.clean_with :truncation
+    DatabaseCleaner.clean_with :truncation
     #load Rails.root.join('db', 'app_setting_seeds.rb')
   end
 

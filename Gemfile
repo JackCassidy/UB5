@@ -28,6 +28,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'rspec-activemodel-mocks'
   gem 'timecop'
+  gem 'database_cleaner'
 end
 
 group :development do

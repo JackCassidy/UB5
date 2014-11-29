@@ -1,7 +1,7 @@
 require 'spec_helper'
 include ActionDispatch::TestProcess
 
-describe Infile do
+describe PeptideSource do
   describe 'validations' do
     it { is_expected.to allow_mass_assignment_of(:file_name) }
     it { is_expected.to allow_mass_assignment_of(:file_size) }
@@ -21,18 +21,18 @@ describe Infile do
   describe 'parameters_from_temp_file' do
     let(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/fake_peptide.txt', 'text/xml'),
                                                         :filename => 'fake_peptide.txt') }
-    it 'returns parameters for infile calculated from the temp file' do
-      expect(Infile.parameters_from_temp_file(file)).to eq({:file_name => 'fake_peptide.txt',
+    it 'returns parameters for peptide_source calculated from the temp file' do
+      expect(PeptideSource.parameters_from_temp_file(file)).to eq({:file_name => 'fake_peptide.txt',
                                                            :file_size => 25,
                                                            :first_line => 'Header1 H2 H3'})
     end
   end
 
   describe 'peptide_column' do
-    cases = { 'carr' => 3, 'choudary' => 13, 'bennett' => 5 }
+    cases = { 'carr' => 3, 'choudhary' => 13, 'bennett' => 5 }
     cases.keys.each do |type|
       it "returns the right peptide column for a #{type}" do
-        expect(Infile.peptide_column(type)).to eq(cases[type])
+        expect(PeptideSource.peptide_column(type)).to eq(cases[type])
       end
     end
   end
@@ -55,11 +55,11 @@ describe Infile do
                                                                 :filename => "tiny_#{file_type[:name]}.tsv") }
 
         it "sets the file format and column number" do
-          infile = described_class.new
-          infile.post_initialize(up_file)
+          peptide_source = described_class.new
+          peptide_source.post_initialize(up_file)
 
-          expect(infile.parse_method).to eq(file_type[:name].to_sym)
-          expect(infile.peptide_column).to eq(file_type[:peptide_column])
+          expect(peptide_source.parse_method).to eq(file_type[:name].to_sym)
+          expect(peptide_source.peptide_column).to eq(file_type[:peptide_column])
         end
       end
     end

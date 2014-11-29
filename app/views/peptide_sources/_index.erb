@@ -1,0 +1,17 @@
+<table>
+  <tr>
+    <td>file name &nbsp; &nbsp; </td>
+    <td>file parse method &nbsp; &nbsp; </td>
+    <td>to be uploaded? &nbsp; &nbsp; </td>
+    <td>date uploaded &nbsp; &nbsp; </td>
+  </tr>
+  <% @peptide_sources.each do |peptide_source| %>
+      <tr>
+        <td> <%= peptide_source.file_name %> &nbsp; &nbsp;  </td>
+        <td> <%= peptide_source.parse_method %> &nbsp; &nbsp; </td>
+        <td> <%= peptide_source.to_be_uploaded %> &nbsp; &nbsp; </td>
+        <td> <%= peptide_source.created_at %> &nbsp; &nbsp; </td>
+        <td> &nbsp; <%= link_to 'Show', peptide_source %> &nbsp; </td>
+      </tr>
+  <% end %>
+</table>

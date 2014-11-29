@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory(:infile) do
+  factory(:peptide_source) do
     file_name 'FactoryFileName'
     file_size 1234
     first_line 'Factory first line columnname1 columname2'

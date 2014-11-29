@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "infiles/show", :type => :view do
+describe "peptide_sources/show", :type => :view do
   before(:each) do
-    @infile = assign(:infile, stub_model(Infile))
+    @peptide_source = assign(:peptide_source, stub_model(PeptideSource))
   end
 
   it "renders attributes in <p>" do

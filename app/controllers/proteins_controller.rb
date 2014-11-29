@@ -5,7 +5,7 @@ class ProteinsController < ApplicationController
   end
 
   def read_file
-    @infile = Infile.new
+    @peptide_source = PeptideSource.new
     render :read_file
   end
 

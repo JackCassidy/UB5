@@ -20,10 +20,10 @@ class Peptide < ActiveRecord::Base
     peptide_file = self.peptide_file if peptide_file.nil?
     format = 'carr' if format.nil?
 
-    pep_infile = Infile.read_data_file(peptide_file, format)
+    peptide_source = PeptideSource.read_data_file(peptide_file, format)
 
     peptide_col =  Dataline.look_up_peptide_column(format)
-    pep_infile.datalines.each do |dat|
+    peptide_source.datalines.each do |dat|
       dat.parse_peptides(format, peptide_col)
     end
 
@@ -176,7 +176,7 @@ class Peptide < ActiveRecord::Base
   #
   def self.unaffiliated_peptides
 
-    infile_names = ['bennett', 'carr', 'choudhary']
+    peptide_source_names = ['bennett', 'carr', 'choudhary']
 
     @unaffiliated = []
     Peptide.all.each do |pep|
@@ -184,13 +184,13 @@ class Peptide < ActiveRecord::Base
       if pep.proteins.count == 0
         if pep.dataline_id
           @dat = Dataline.find(pep.dataline_id)
-          in_index = @dat.infile_id - 1
-          in_name = infile_names[in_index]
+          ps_index = @dat.infile_id - 1
+          ps_name = peptide_source_names[ps_index]
           full_string = @dat.tsv_string
           first_ipi_at = full_string.index('IPI')
           suffix = full_string[first_ipi_at..-1]
           ipi_string = suffix.split[0]
-          triple = [in_name, ipi_string, pep.aseq]
+          triple = [ps_name, ipi_string, pep.aseq]
         else
           triple = ['unk', 'unk', pep.aseq]
         end   # if dataline

@@ -1,8 +1,8 @@
 class Dataline < ActiveRecord::Base
-  belongs_to :infile
+  belongs_to :peptide_source
   has_many :peptides
 
-  attr_accessible :tsv_string, :file_order, :infile_id
+  attr_accessible :tsv_string, :file_order, :peptide_source_id
 
   validates_presence_of :tsv_string
 

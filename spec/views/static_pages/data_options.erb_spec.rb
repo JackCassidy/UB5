@@ -3,10 +3,10 @@ require 'capybara/rails'
 
 
 describe "buttons on page", :type => :view do
-  it "should have 'path to infile text'" do
+  it "should have 'path to peptide_source text'" do
     visit '/'
-    expect(page).to have_button 'Select infile'
-    click_button('Select infile')
+    expect(page).to have_button 'Select peptide_source'
+    click_button('Select peptide_source')
   end
 
   it "should have a 'Read protein file' button " do

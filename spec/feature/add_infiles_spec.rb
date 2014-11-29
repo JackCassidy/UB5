@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 def upload_file
-  click_on 'Select infile'
-  attach_file('infile', input_file_path)
+  click_on 'Select peptide_source'
+  attach_file('peptide_source', input_file_path)
   fill_in 'parse_method', :with => parse_method
   click_on 'Add file'
 end
 
-describe 'Uploading infiles' do
+describe 'Uploading peptide_sources' do
 
-  #let!(:existing_infile) { create(:infile) }
+  #let!(:existing_peptide_source) { create(:peptide_source) }
   let(:input_file_path) { Rails.root.join('spec/fixtures/tiny_carr.tsv') }
   let(:parse_method) { 'carr' }
   let(:file_name) { 'tiny_carr.tsv' }
@@ -37,17 +37,17 @@ describe 'Uploading infiles' do
     expect(page).to have_content(regexp)
   end
 
-  it 'should save an entry in the infiles table' do
+  it 'should save an entry in the peptide_sources table' do
     Timecop.freeze
     time = Time.now.utc
 
     visit static_pages_data_options_path
-    expect(Infile.count).to eq(0)
+    expect(PeptideSource.count).to eq(0)
 
     upload_file
 
-    infile = Infile.last
-    expect(infile.file_name).to eq(file_name)
+    peptide_source = PeptideSource.last
+    expect(peptide_source.file_name).to eq(file_name)
   end
 
   after(:each) do
@@ -59,7 +59,7 @@ describe 'Uploading infiles' do
     end
   end
 
-  pending it "should show the existing infiles" do
-    expect(page).to have_content(existing_infile.file_name)
+  pending it "should show the existing peptide_sources" do
+    expect(page).to have_content(existing_peptide_source.file_name)
   end
 end

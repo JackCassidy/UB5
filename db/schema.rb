@@ -11,28 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118211315) do
+ActiveRecord::Schema.define(version: 20141129182044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "datalines", force: true do |t|
     t.text     "tsv_string"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "infile_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "peptide_source_id"
     t.integer  "file_order"
-  end
-
-  create_table "infiles", force: true do |t|
-    t.string   "file_name"
-    t.string   "parse_method"
-    t.integer  "file_size"
-    t.text     "first_line"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "peptide_column"
-    t.boolean  "to_be_uploaded"
   end
 
   create_table "peptide_proteins", force: true do |t|
@@ -45,6 +34,17 @@ ActiveRecord::Schema.define(version: 20141118211315) do
 
   add_index "peptide_proteins", ["peptide_id"], name: "index_peptide_proteins_on_peptide_id", using: :btree
   add_index "peptide_proteins", ["protein_id"], name: "index_peptide_proteins_on_protein_id", using: :btree
+
+  create_table "peptide_sources", force: true do |t|
+    t.string   "file_name"
+    t.string   "parse_method"
+    t.integer  "file_size"
+    t.text     "first_line"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "peptide_column"
+    t.boolean  "to_be_uploaded"
+  end
 
   create_table "peptides", force: true do |t|
     t.string   "aseq"

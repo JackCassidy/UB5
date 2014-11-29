@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   get '/proteins/select_file', to: 'proteins#select_file'
-  get '/infiles/select', to: 'infiles#select'
+  get '/peptide_sources/select', to: 'peptide_sources#select'
   get '/proteins/confirm_delete_all', to: 'proteins#confirm_delete_all'
   get '/peptides/confirm_delete_all', to: 'peptides#confirm_delete_all'
   post '/proteins/upload', to: 'proteins#upload'
@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   post '/peptide_protein/parsimony', to: 'peptide_proteins#parsimony'
   resources :peptide_proteins
 
-  resources :infiles
+  resources :peptide_sources
 
 
 
@@ -140,8 +140,8 @@ UB5::Application.routes.draw do
   post '/peptide_protein/parsimony', to: 'peptide_proteins#parsimony'
   resources :peptide_proteins
 
-  resources :infiles
-  post '/infiles/new_protein_file', to: 'infiles#new_protein_file'
+  resources :peptide_sources
+  post '/peptide_sources/new_protein_file', to: 'peptide_sources#new_protein_file'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

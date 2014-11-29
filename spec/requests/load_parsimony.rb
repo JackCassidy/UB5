@@ -21,13 +21,13 @@ Protein.parse_fasta_file(in_fast)
 # Read data file and create peptides and datalines
 #
 # puts "Reading experiment files"
-# Infile.read_list_of_files('../fixtures/parsimony_data_list.txt')
+# PeptideSource.read_list_of_files('../fixtures/parsimony_data_list.txt')
 
 #
 # Parse peptide strings out of datalines
 #
 puts "Parsing peptides"
-Infile.all.each do |inf|
+PeptideSource.all.each do |inf|
   @parse_method = inf.parse_method
   @pep_col = Dataline.look_up_peptide_column(@parse_method)
   inf.datalines.all.each do |dat|

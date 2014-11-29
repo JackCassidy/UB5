@@ -6,20 +6,20 @@ describe Dataline, :type => :model do
   describe 'validations' do
     describe 'associations' do
       it { is_expected.to have_many(:peptides) }
-      it { is_expected.to belong_to(:infile) }
+      it { is_expected.to belong_to(:peptide_source) }
     end
 
     describe 'mass-assignable' do
       it { is_expected.to allow_mass_assignment_of(:tsv_string) }
       it { is_expected.to allow_mass_assignment_of(:file_order) }
-      it { is_expected.to allow_mass_assignment_of(:infile_id) }
+      it { is_expected.to allow_mass_assignment_of(:peptide_source_id) }
     end
 
     it { is_expected.to validate_presence_of :tsv_string }
 
     it { is_expected.to have_many :peptides }
 
-    it { is_expected.to belong_to :infile }
+    it { is_expected.to belong_to :peptide_source }
   end
 
   describe '.look_up_peptide_column' do

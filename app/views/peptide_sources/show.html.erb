@@ -6,7 +6,7 @@
       file name
     </b>
     </br>
-    <%= @infile.file_name %>
+    <%= @peptide_source.file_name %>
     </br></br>
   </tr>
   <tr>
@@ -14,7 +14,7 @@
       upload date
     </b>
     </br>
-    <%= @infile.created_at %>
+    <%= @peptide_source.created_at %>
     </br></br>
   </tr>
   <tr>
@@ -22,7 +22,7 @@
       modify date
     </b>
     </br>
-    <%= @infile.updated_at %>
+    <%= @peptide_source.updated_at %>
     </br></br>
   </tr>
   <tr>
@@ -30,7 +30,7 @@
       parse method
     </b>
     </br>
-    <%= @infile.parse_method %>
+    <%= @peptide_source.parse_method %>
     </br></br>
   </tr>
   <tr>
@@ -38,7 +38,7 @@
       to be uploaded?
     </b>
     </br>
-    <%= @infile.to_be_uploaded %>
+    <%= @peptide_source.to_be_uploaded %>
     </br></br>
   </tr>
   <tr>
@@ -46,7 +46,7 @@
       peptide column
     </b>
     </br>
-    <%= @infile.peptide_column %>
+    <%= @peptide_source.peptide_column %>
     </br></br>
   </tr>
   <tr>
@@ -54,10 +54,10 @@
       first line
     </b>
     </br>
-    <%= @infile.first_line%>
+    <%= @peptide_source.first_line%>
     </br></br>
   </tr>
 </table>
 
 
-<%= link_to 'Back', infiles_path %>
+<%= link_to 'Back', peptide_sources_path %>
