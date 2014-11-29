@@ -36,6 +36,14 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 end
 
+module UB5
+  class Application < Rails::Application
+
+    # The location for saving peptide source files
+    config.peptide_source_path =File.join(Dir.home, 'UB5_peptide_sources')
+  end
+end
+
 __END__
 UB5::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb

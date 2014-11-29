@@ -38,6 +38,8 @@ class InfilesController < ApplicationController
   # POST /infiles
   # POST /infiles.json
   def create
+    save_file
+
     file_parameters = Infile.parameters_from_temp_file(params[:file])
     peptide_column = { :peptide_column => Infile.peptide_column(params['parse_method']) }
     parse_method = { :parse_method => params['parse_method'] }
@@ -64,5 +66,12 @@ end
 
 private
 
+def save_file
+  save_path = UB5::Application.config.peptide_source_path
+  file = params[:file]
+  file_name = File.join(save_path, file.original_filename)
+
+  FileUtils.mv file.tempfile.path, file_name
+end
 
 

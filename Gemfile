@@ -27,6 +27,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'awesome_print'
   gem 'rspec-activemodel-mocks'
+  gem 'timecop'
 end
 
 group :development do

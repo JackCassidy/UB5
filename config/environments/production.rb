@@ -77,6 +77,14 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 end
 
+module UB5
+  class Application < Rails::Application
+    # Supply the location for saving peptide source files for this environment
+    # Uncomment and modify the following line
+    #config.peptide_source_path =File.join(Dir.home, 'UB5_peptide_sources', 'test')
+  end
+end
+
 __END__
 UB5::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb

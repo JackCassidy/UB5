@@ -71,6 +71,11 @@ describe InfilesController, :type => :controller do
         expect(assigns(:infile)).to eq(infile)
       end
 
+      it "saves the file locally" do
+        expect_any_instance_of(InfilesController).to receive(:save_file)
+        post :create, create_parameters
+      end
+
 
       it "redirects to create page and assigns all the infile records to the @infile variable" do
         post :create, create_parameters
