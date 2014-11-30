@@ -1,0 +1,8 @@
+<h1>Load experimental peptide data from a file</h1>
+<%= form_tag( {action: :extract_peptides_from_source}, multipart: true ) do %>
+    <%= label_tag :file_name, 'file to load peptide data from' %>
+    <%= select_tag "file_name", options_from_collection_for_select(@peptide_sources, "file_name", "file_name") %> </p>
+    <%= submit_tag 'Upload carr file' %> </p>
+<% end %>
+
+#todo change this form to send the record id, rather than the file name itself

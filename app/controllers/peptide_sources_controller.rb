@@ -62,6 +62,21 @@ class PeptideSourcesController < ApplicationController
       end
     end
   end
+
+  def select_file_to_parse
+    @peptide_sources = PeptideSource.all
+  end
+
+   def extract_peptides_from_source
+     @file_name = params['file_name']
+     @peptides_before = Peptide.count
+
+     PeptideSource.read_data_file(params['file_name'])
+
+     @peptides_after = Peptide.count
+   end
+
+
 end
 
 private

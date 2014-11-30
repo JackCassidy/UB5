@@ -18,12 +18,12 @@ describe 'Load peptides from a file' do
     expect(PeptideSource.count).to eq(1)
 
     visit pages_data_options_path
-    click_on 'Read peptide file'
+    click_on "Parse peptides from source"
 
-    select file_name, from: 'peptide_sources'
+    select file_name, from: 'file_name'
 
     click_on 'Upload carr file'
 
-    expect(page).to have_content('10 peptides in database')
+    expect(page).to have_content('8 Peptides uploaded from tiny_carr.tsv')
   end
 end

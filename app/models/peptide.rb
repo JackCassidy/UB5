@@ -12,26 +12,6 @@ class Peptide < ActiveRecord::Base
 
 
   #
-  # parse_peptide_file
-  # We have a file and a parse method.
-  # Read the file's datalines, and parse those datalines
-  #
-  def parse_peptide_file(peptide_file=nil, format=nil)
-    peptide_file = self.peptide_file if peptide_file.nil?
-    format = 'carr' if format.nil?
-
-    peptide_source = PeptideSource.read_data_file(peptide_file, format)
-
-    peptide_col =  Dataline.look_up_peptide_column(format)
-    peptide_source.datalines.each do |dat|
-      dat.parse_peptides(format, peptide_col)
-    end
-
-
-  end
-
-
-  #
   # make_new_peptide
   # We've parsed out the modified lysine, and converted the peptide
   # string into all capital letter aa's.
@@ -66,7 +46,7 @@ class Peptide < ActiveRecord::Base
     # carr string has a lowercase k, like ABCDkEFG, but sometimes nothing
     if parse_method == 'carr'
       @ml = raw_pep.index('k')
-      return -1, 'INVALID_PEPTIDE_CARR' if @ml.nil?
+      return if @ml.nil?
       @final_pep = raw_pep.upcase
       Peptide.make_new_peptide(@final_pep, @ml, dataline, 1)
 
@@ -75,10 +55,10 @@ class Peptide < ActiveRecord::Base
     # but might have leading or trailing x's
     elsif parse_method == 'bennett'
       @ml = raw_pep.length / 2
-      return -1, 'INVALID_PEPTIDE_BENNETT' if raw_pep[@ml] != 'K'
+      return  if raw_pep[@ml] != 'K'  #todo test this line
       @final_pep = raw_pep
 
-      # get rid of x's at beginning, if any
+      # get rid of x's at beginning, if any   #todo test this funtionality
       while @final_pep[0] == 'x' do
         @final_pep = @final_pep[1..-1]
         @ml = @ml - 1
@@ -92,7 +72,7 @@ class Peptide < ActiveRecord::Base
     # choudhary has zero or more K(1)'s
     # may have some less than 1's to ignore
     # example: ABCK(1)DEF(0.947)HIJK(1)LMN
-    elsif parse_method == 'choudhary'
+    elsif parse_method == 'choudhary'  #todo this one really, really, really needs to be tested!
 
       # remove non-certainty, less than 1 items
       @work_pep = raw_pep.gsub(/\(0.*?\)/, '')

@@ -82,4 +82,36 @@ describe PeptideSourcesController, :type => :controller do
       end
     end
   end
+
+  describe "select_file_to_parse" do
+    it "assigns the peptide sources instance variable" do
+      get :select_file_to_parse
+      expect(assigns(:peptide_sources)).to eq(PeptideSource.all)
+    end
+  end
+
+
+  describe "POST extract_peptides_from_source" do
+    let(:file_name) { 'tiny_carr.tsv' }
+
+    before do
+      allow(PeptideSource).to receive(:read_data_file)
+      create(:peptide)
+    end
+
+    it "assigns the variables and renders the template" do
+      post :extract_peptides_from_source, :file_name => file_name
+      expect(assigns(:peptides_before)).to eq(1)
+      expect(assigns(:peptides_after)).to eq(1)
+      expect(assigns(:file_name)).to eq('tiny_carr.tsv')
+      expect(response).to render_template('extract_peptides_from_source')
+    end
+
+    it "passes the file name to read_data_file" do
+      expect(PeptideSource).to receive(:read_data_file).with(file_name)
+
+      post :extract_peptides_from_source, :file_name => file_name
+    end
+
+  end
 end

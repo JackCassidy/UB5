@@ -22,29 +22,10 @@ describe Dataline, :type => :model do
     it { is_expected.to belong_to :peptide_source }
   end
 
-  describe '.look_up_peptide_column' do
-
-    parse_method = { 'carr' => 3, 'bennett' => 5, 'choudhary' => 13 }
-    parse_method.keys.each do |method|
-      it "returns a peptide line position of #{parse_method[method]} for #{method}" do
-        expect(described_class.look_up_peptide_column(method)).to eq(parse_method[method])
-      end
-    end
-
-    it "aborts with the right message when there is an unrecognized parse method" do
-      expect(lambda { described_class.look_up_peptide_column('foo') }).to raise_error(
-                                                                              error = SystemExit,
-                                                                              message = "** Unrecognized parse method foo **")
-    end
-  end
 
   describe "#parse_peptides" do
     let(:parse_method) { 'some parse method' }
     let!(:dataline) { create(:dataline) }
-
-    before do
-      allow(Dataline).to receive(:look_up_peptide_column).with(parse_method).and_return(1)
-    end
 
     context "when there are enough entries in the dataline" do
       let(:peptide_column) { 1 }

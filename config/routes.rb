@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   get '/proteins/select_file', to: 'proteins#select_file'
   get '/peptide_sources/select', to: 'peptide_sources#select'
+  get '/peptide_sources/select_file_to_parse', to: 'peptide_sources#select_file_to_parse'
+  post '/peptide_sources/extract_peptides_from_source', to: 'peptide_sources#extract_peptides_from_source'
   get '/proteins/confirm_delete_all', to: 'proteins#confirm_delete_all'
   get '/peptides/confirm_delete_all', to: 'peptides#confirm_delete_all'
   post '/proteins/upload', to: 'proteins#upload'

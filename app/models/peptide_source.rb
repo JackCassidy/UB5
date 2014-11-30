@@ -5,35 +5,20 @@ class PeptideSource < ActiveRecord::Base
   has_many :datalines
 
   validates_presence_of :file_name, :file_size, :first_line, :parse_method, :peptide_column, :to_be_uploaded
+  validates_uniqueness_of :file_name
 
 
   def self.parameters_from_temp_file(file)
-    { :file_name => file.original_filename, :file_size => file.size, :first_line => file.tempfile.readline.chomp!}
+    { :file_name => file.original_filename, :file_size => file.size, :first_line => file.tempfile.readline.chomp! }
   end
 
   def self.peptide_column(parse_method)
     { 'carr' => 3, 'choudhary' => 13, 'bennett' => 5 }[parse_method]
   end
 
-  def post_initialize(up_file=nil)
-    self.file_name = up_file.original_filename if up_file.try(:original_filename)
-    self.file_size = up_file.size if up_file.try(:size)
-    self.first_line = up_file.tempfile.readline.chomp! if up_file.try(:tempfile)
-    if self.file_name =~ /carr/
-      self.parse_method = :carr
-      self.peptide_column = 3
-    end
-    if self.file_name =~ /choudhary/
-      self.parse_method = :choudhary
-      self.peptide_column = 13
-    end
-    if self.file_name =~ /bennett/
-      self.parse_method = :bennett
-      self.peptide_column = 5
-    end
+  def self.data_starts_at_line(parse_method)
+    { 'carr' => 2, 'choudhary' => 3, 'bennett' => 2 }[parse_method]
   end
-
-  # initialize
 
 
   # Note: this is all very manual. Need to have a better way
@@ -63,63 +48,27 @@ class PeptideSource < ActiveRecord::Base
   end
 
 
-  #
-  # seeds.rb file gives a list of all the data files we want
-  # to be looking at
-  # This method reads in all the data files.
-  #
-  # def self.read_list_of_files(list_file_name)
-  #
-  #   file_list = File.new(list_file_name)
-  #
-  #
-  #   file_list.each_line do |line|
-  #     file_name, parse_method = line.split("\t")
-  #     parse_method.chomp! # get rid of trailing line feed
-  #
-  #     a_file = File.new(file_name, 'r')
-  #
-  #     read_data_file(a_file, parse_method)
-  #
-  #   end # each_line
-  #
-  # end
 
-  def self.read_data_file(a_file, parse_method)
-    peptide_source = PeptideSource.new
-    peptide_source.parse_method = parse_method
-    peptide_source.file_name = File.basename(a_file.path)
+  def self.read_data_file(file_name)  #todo refactor to use as PeptideSource.new(file_name)
+    peptide_source = PeptideSource.where(:file_name => file_name).first
+    full_file_path = File.join(UB5::Application.config.peptide_source_path, file_name)
+    counter = 0
+    parse_method = peptide_source.parse_method
+    peptide_column = peptide_source.peptide_column
+    data_start_line = self.data_starts_at_line(parse_method)
+    peptide_source_id = peptide_source.id
 
-    peptide_source.file_size = File.size(a_file)
-    peptide_source.first_line = a_file.readline.chomp
-    peptide_source.to_be_uploaded = true
-
-    peptide_source.set_peptide_column
-
-    # choudhary has an extra line at start "All di-Gly-lysines"
-    if parse_method == 'choudhary'
-      peptide_source.first_line = a_file.readline.chomp
+    File.open(full_file_path, 'r') do |file|
+      file.each_line do |line|
+        counter += 1
+        if counter >= data_start_line && line.present?
+          dataline = Dataline.create!(peptide_source_id: peptide_source_id,
+                           file_order: counter,
+                           tsv_string: line)  # if we used chomp, it would remove the entire last line of the bennett file!?
+          dataline.parse_peptides(parse_method, peptide_column)
+        end
+      end
     end
-
-    peptide_source.save
-
-    file_order = 0
-
-    while !a_file.eof?
-      @dataline = Dataline.new
-      @dataline.tsv_string = a_file.readline.chomp
-      @dataline.peptide_source_id = peptide_source.id
-      file_order += 1
-      @dataline.file_order = file_order
-      peptide_source.datalines << @dataline
-      @dataline.save
-    end # while
-
-    peptide_source.save!
-
-    return peptide_source
-
   end
 
-  # read_list_of_files
 end # Class PeptideSource

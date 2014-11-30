@@ -6,23 +6,6 @@ class Dataline < ActiveRecord::Base
 
   validates_presence_of :tsv_string
 
-  #
-  # for each parse method, where in line to look for raw peptide
-  #
-  def self.look_up_peptide_column(parse_method)
-
-    if parse_method == 'carr'
-      return 3        # lower case k
-    elsif parse_method == 'bennett'
-      return 5        # middle character K
-    elsif parse_method == 'choudhary'
-      return 13       # K(1), a probability measure
-    else
-      abort("** Unrecognized parse method #{parse_method} **")
-    end
-
-  end  # look_up_peptide_column
-
 
   # parse_peptides
   #
@@ -39,7 +22,7 @@ class Dataline < ActiveRecord::Base
   def parse_peptides(parse_method, pep_col)
 
     @sp = self.tsv_string.split("\t")
-    if @sp.length < pep_col + 1    # invalid line
+    if @sp.length < pep_col + 1    # invalid line  #todo test this or get rid of it
       return  # no peptides here
     else
       @raw_pep = @sp[pep_col]

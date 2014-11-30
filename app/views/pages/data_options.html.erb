@@ -2,7 +2,7 @@
 
 <h2>Upload or delete peptide information</h2>
 <%= button_to "Select peptide_source", new_peptide_source_path, { :method => 'get' } %>
-<%= button_to "Read peptide file", peptides_select_peptide_file_path, { :method => 'get' } %>
+<%= button_to "Parse peptides from source", peptide_sources_select_file_to_parse_path, { :method => 'get' } %>
 <%= button_to "Delete peptides", peptides_confirm_delete_all_path, { :method => 'get' } %>
 </p>
 

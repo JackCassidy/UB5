@@ -1,5 +1,5 @@
 
-# Little test - try out some things
+# Little test - try out some things  #todo delete this file
 
 # first set up the rails environment
 
@@ -29,7 +29,7 @@ Protein.parse_fasta_file(in_fast)
 puts "Parsing peptides"
 PeptideSource.all.each do |inf|
   @parse_method = inf.parse_method
-  @pep_col = Dataline.look_up_peptide_column(@parse_method)
+  @pep_col =PeptideSource.peptide_column(@parse_method)
   inf.datalines.all.each do |dat|
     dat.parse_peptides(@parse_method, @pep_col)
   end

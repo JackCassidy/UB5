@@ -23,8 +23,8 @@ describe "buttons on page", :type => :view do
 
   it "should have a 'Read peptide file' button " do
     visit pages_data_options_path
-    expect(page).to have_button 'Read peptide file'
-    click_button('Read peptide file')
+    expect(page).to have_button 'Parse peptides from source'
+    click_button('Parse peptides from source')
   end
 
   it "should have a 'Delete peptides' button " do

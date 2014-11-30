@@ -22,14 +22,6 @@ class PeptidesController < ApplicationController
     @peptide_sources = PeptideSource.all
   end
 
-  def upload
-    peptide = Peptide.new
-    peptide.peptide_file = (params[:peptide_file].tempfile)
-    peptide.parse_peptide_file
-
-    @number_of_peptides = Peptide.count
-    render :upload
-  end
 
   def index
     @peptides = Peptide.all

@@ -35,33 +35,6 @@ describe PeptidesController, :type => :controller do
     {}
   end
 
-
-  describe "GET load peptides page" do
-    it "renders the load peptides template" do
-      get :select_peptide_file
-      expect(response.status).to eq(200)
-      expect(response).to render_template('select_peptide_file')
-    end
-  end
-
-  describe "POST load peptides page" do
-    let!(:file) { ActionDispatch::Http::UploadedFile.new(:tempfile => fixture_file_upload('/tiny_carr.tsv', 'text/xml'),
-                                                         :filename => 'tiny_carr.tsv',
-                                                         :to_be_uploaded => true) }
-    before do
-      allow(Peptide).to receive(:parse_peptide_file)
-    end
-    it "calls parse_protein_file with the contents of the file" do
-      post :upload, :peptide_file => file
-      expect(response).to render_template('upload')
-    end
-    it "updates the database with the peptides from the uploaded file" do
-      expect(Peptide.count).to eq(0)
-      post :upload, :peptide_file => file
-      expect(Peptide.count).to eq(8)
-    end
-  end
-
   describe "GET confirm delete all" do
     it "redirects to the confirm page" do
       get :confirm_delete_all, {}, valid_session
