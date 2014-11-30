@@ -19,7 +19,7 @@ class PeptidesController < ApplicationController
   end
 
   def select_peptide_file
-    # don't need anything here, oddly
+    @peptide_sources = PeptideSource.all
   end
 
   def upload
